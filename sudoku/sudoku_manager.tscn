@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://dnpthpt8hqbdh"]
+
+[ext_resource type="Script" uid="uid://ceo2moi2m6l1f" path="res://sudoku/sudoku_game_manager.gd" id="1_a6d7c"]
+[ext_resource type="Script" uid="uid://bt28kuqbfd32" path="res://mouse_helper.gd" id="2_h8avn"]
+[ext_resource type="Resource" uid="uid://cqvtcmpq8ncnl" path="res://sudoku/sizes/4_4__2_2_e.tres" id="2_i3iam"]
+[ext_resource type="Script" uid="uid://d4md4d6abwu6t" path="res://sudoku/sudoku_game_grid.gd" id="3_i3iam"]
+[ext_resource type="Script" uid="uid://bfwig7xni6idm" path="res://sudoku/sudoku_grid_button_00.gd" id="4_h8avn"]
+
+[node name="SudokuManager" type="Control" unique_id=1420314699]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a6d7c")
+_sudoku = ExtResource("2_i3iam")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=574532039]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=805326788]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer" unique_id=682771680]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer/CenterContainer" unique_id=392429355]
+layout_mode = 2
+
+[node name="SudokuGameGrid" type="GridContainer" parent="CenterContainer/VBoxContainer/CenterContainer/PanelContainer" unique_id=1589902374]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 9
+script = ExtResource("3_i3iam")
+
+[node name="SelectedNumber" type="SpinBox" parent="CenterContainer/VBoxContainer" unique_id=182974711]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SudokuButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1835836877]
+layout_mode = 2
+disabled = true
+text = "x"
+script = ExtResource("4_h8avn")
+metadata/_custom_type_script = "uid://bfwig7xni6idm"
+
+[node name="SudokuButton2" type="Button" parent="CenterContainer/VBoxContainer" unique_id=255614154]
+layout_mode = 2
+text = "y"
+script = ExtResource("4_h8avn")
+metadata/_custom_type_script = "uid://bfwig7xni6idm"
+
+[node name="MouseHelper" type="Control" parent="." unique_id=2125405624 node_paths=PackedStringArray("number_selector")]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("2_h8avn")
+number_selector = NodePath("../CenterContainer/VBoxContainer/SelectedNumber")
+
+[node name="MouseLable" type="Label" parent="MouseHelper" unique_id=823334762]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+x"
