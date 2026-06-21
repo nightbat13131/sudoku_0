@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Sudoku" format=3 uid="uid://bqkkm35aii3ai"]
+
+[ext_resource type="Script" uid="uid://cjpw4cre8kdn8" path="res://sudoku.gd" id="1_e4i46"]
+
+[resource]
+script = ExtResource("1_e4i46")
+_grid_size = Vector2i(4, 4)
+_subgrid_size = Vector2i(2, 2)
+_difficulty = 2
+metadata/_custom_type_script = "uid://cjpw4cre8kdn8"

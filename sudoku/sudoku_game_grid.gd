@@ -5,8 +5,10 @@ var _sudoku: Sudoku
 func set_sudoku(sudoku: Sudoku) -> void: 
 	_sudoku = sudoku
 	_sudoku.puzzle_generated.connect(_on_puzzle_generated)
+	_sudoku.cell_changed.connect(_on_cell_changed)
 
 func apply_grid(grid: Array[Array]) -> void:
+	@warning_ignore("narrowing_conversion")
 	set_columns(_get_grid_size().x / _get_subgrid_size().x)
 	var sub_index := 0
 	for row: int in grid.size():
@@ -38,11 +40,13 @@ func _get_subgrid_size() -> Vector2i:
 
 func _pos_to_sub_index(pos: Vector2i) -> int:
 	@warning_ignore("integer_division")
-	var out : Vector2i = pos / _get_subgrid_size() # Prints (3, -4)
-	prints(pos, _get_subgrid_size(), out)
+	var out : Vector2i = pos / _get_subgrid_size()
 	return (get_columns() * out.y) + out.x
 
 func _vector_to_index(pos: Vector2i) -> int: return get_columns() * (pos.y) + pos.x
 
 func _on_puzzle_generated() -> void:
 	apply_grid(_sudoku.get_player_grid())
+
+func _on_cell_changed(pos: Vector2i, num: int,) -> void:
+	apply_cell(pos, num)
