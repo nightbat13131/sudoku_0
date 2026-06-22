@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cwlruoarbv14"]
+
+[ext_resource type="Script" uid="uid://crjj8ved1bh5f" path="res://suduko_cell.gd" id="1_1iypq"]
+[ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku_cell_themes/test_theme_0.tres" id="2_y8sa4"]
+[ext_resource type="Texture2D" uid="uid://d3vg5grol3vld" path="res://assets/images/icon_no_face.svg" id="3_ey3vt"]
+[ext_resource type="Script" uid="uid://bfwig7xni6idm" path="res://sudoku/sudoku_grid_button.gd" id="4_ey3vt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
+atlas = ExtResource("3_ey3vt")
+region = Rect2(32, 32, 32, 32)
+
+[node name="SudukoCell" type="MarginContainer" unique_id=805913617]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_1iypq")
+_sudoku_cell_theme = ExtResource("2_y8sa4")
+
+[node name="TextureBack" type="TextureRect" parent="." unique_id=324746869]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_861x4")
+
+[node name="SudokuButton" type="Button" parent="." unique_id=315895146]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+script = ExtResource("4_ey3vt")
+metadata/_custom_type_script = "uid://bfwig7xni6idm"

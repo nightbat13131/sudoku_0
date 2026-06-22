@@ -1,0 +1,24 @@
+[gd_resource type="Theme" format=3 uid="uid://cb6w4oqqjew2i"]
+
+[ext_resource type="Texture2D" uid="uid://c0r6hqxiphclx" path="res://assets/images/icon_frame.svg" id="1_1r3ch"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1r3ch"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ww8xv"]
+texture = ExtResource("1_1r3ch")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[resource]
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 10
+Button/styles/normal = SubResource("StyleBoxEmpty_1r3ch")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_ww8xv")

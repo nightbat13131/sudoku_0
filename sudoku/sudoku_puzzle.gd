@@ -13,12 +13,11 @@ var _solution_grid : Array[Array]
 var _guess_grid : Array[Array]
 
 ## Generate a new game state.
-func _new_game(grid_size: Vector2i, subgrid_size: Vector2i, difficlty : Utilties.Difficulty) -> bool:
+func _new_game(grid_size: Vector2i, subgrid_size: Vector2i, difficlty : Utilties.Difficulty) -> void:
 	_set_grid_size(grid_size)
 	assert(0 == grid_size.x % subgrid_size.x)
 	assert(0 == grid_size.y % subgrid_size.y)
 	_generate_professional_sudoku(_get_difficulty_count(difficlty), [true, false].pick_random())
-	return true
 
 ## set the Sudoku puzzle size
 func _set_grid_size(grid_size: Vector2i, ) -> void: 

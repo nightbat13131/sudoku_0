@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SudokuCellTheme" format=3 uid="uid://drsoaatfi1m6p"]
+
+[ext_resource type="Texture2D" uid="uid://dm213fl4kj27k" path="res://assets/images/icon.svg" id="1_861x4"]
+[ext_resource type="Script" uid="uid://byxijqmtiyn7r" path="res://sudoku_cell_themes/sudoku_cell_themes.gd" id="1_x020x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
+atlas = ExtResource("1_861x4")
+region = Rect2(32, 32, 64, 64)
+
+[resource]
+script = ExtResource("1_x020x")
+cell_background = SubResource("AtlasTexture_861x4")
+metadata/_custom_type_script = "uid://byxijqmtiyn7r"

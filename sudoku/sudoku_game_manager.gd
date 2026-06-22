@@ -1,7 +1,8 @@
 class_name SudokuGame extends Control
 
-
 @export var _sudoku : Sudoku
+@export var _sudoku_cell_theme : SudokuCellTheme
+
 @onready var sudoku_game_grid: SudokuGrid = %SudokuGameGrid
 @onready var mouse_helper: MouseHelper = %MouseHelper
 @onready var selected_number: SpinBox = %SelectedNumber
@@ -18,6 +19,7 @@ func _ready() -> void:
 	button_new.pressed.connect(_on_request_new)
 	button_undo.pressed.connect(_on_undo)
 	button_redo.pressed.connect(_on_redo)
+	sudoku_game_grid.set_sudoku_cell_theme(_sudoku_cell_theme)
 	#sudoku_game_grid.child_entered_tree.connect(_on_sudoku_game_grid_child_entered_tree)
 	#sudoku.new_game(Vector2i(4,4), Vector2i(2,2), Utilties.Difficulty.HARD)
 	#await get_tree().process_frame
@@ -28,6 +30,12 @@ func _ready() -> void:
 	#_a.print_1()
 	#print(_a.domains)
 	_start_game()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(Utilties.INPUT_UNDO):
+		_on_undo()
+	elif event.is_action_pressed(Utilties.INPUT_REDO):
+		_on_redo()
 
 func _start_game() -> void:
 	_sudoku.generate_next_puzzle()
