@@ -4,4 +4,11 @@ class_name SudokuCellTheme extends Resource
 
 @export var cell_blank : Texture2D
 
-@export var num_textures : Array[Texture2D]
+@export var num_textures : Array[Texture2D] = [null, null, null, null]
+
+func get_index_texture(index: int ) -> Texture: 
+	if index == 0:
+		return cell_blank
+	index -= 1
+	assert(index < num_textures.size() )
+	return num_textures.get(index)

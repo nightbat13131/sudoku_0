@@ -1,22 +1,41 @@
 [gd_resource type="Theme" format=3 uid="uid://cb6w4oqqjew2i"]
 
-[ext_resource type="Texture2D" uid="uid://c0r6hqxiphclx" path="res://assets/images/icon_frame.svg" id="1_1r3ch"]
+[ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="1_1r3ch"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1r3ch"]
+atlas = ExtResource("1_1r3ch")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_671ct"]
+texture = SubResource("AtlasTexture_1r3ch")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+draw_center = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1r3ch"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ww8xv"]
+atlas = ExtResource("1_1r3ch")
+region = Rect2(16, 64, 16, 16)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ww8xv"]
-texture = ExtResource("1_1r3ch")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture = SubResource("AtlasTexture_ww8xv")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [resource]
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/font_disabled_color = Color(1, 1, 1, 1)
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/constants/outline_size = 10
+Button/styles/hover = SubResource("StyleBoxTexture_671ct")
 Button/styles/normal = SubResource("StyleBoxEmpty_1r3ch")
+GridContainer/constants/h_separation = 1
+GridContainer/constants/v_separation = 1
 MarginContainer/constants/margin_bottom = 4
 MarginContainer/constants/margin_left = 4
 MarginContainer/constants/margin_right = 4

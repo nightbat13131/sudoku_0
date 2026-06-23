@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku_ui_theme.tres" id="1_p50wf"]
 [ext_resource type="Resource" uid="uid://bwccdb1lvevby" path="res://sudoku/sizes/9_9__3_3_e.tres" id="2_eebj6"]
 [ext_resource type="Script" uid="uid://bt28kuqbfd32" path="res://mouse_helper.gd" id="2_h8avn"]
+[ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku_cell_themes/test_theme_0.tres" id="3_g0gfh"]
 [ext_resource type="Script" uid="uid://d4md4d6abwu6t" path="res://sudoku/sudoku_game_grid.gd" id="3_i3iam"]
 [ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://button_enhanced.gd" id="4_odnly"]
 [ext_resource type="PackedScene" uid="uid://djfo0b2615fwj" path="res://sudoku_subgrid.tscn" id="5_g0gfh"]
@@ -15,8 +16,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_a6d7c")
 _sudoku = ExtResource("2_eebj6")
+_sudoku_cell_theme = ExtResource("3_g0gfh")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=574532039]
 layout_mode = 1
@@ -25,21 +28,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=1218738041]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer" unique_id=682771680]
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_p50wf")
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer/CenterContainer" unique_id=392429355]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="SudokuGameGrid" type="GridContainer" parent="CenterContainer/VBoxContainer/CenterContainer/PanelContainer" unique_id=1589902374]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
+mouse_filter = 2
 columns = 9
 script = ExtResource("3_i3iam")
 _subgrid_theme_scene = ExtResource("5_g0gfh")

@@ -6,6 +6,7 @@ var _sudoku: Sudoku
 var _sudoku_cell_theme : SudokuCellTheme : set = set_sudoku_cell_theme
 
 
+
 func set_sudoku(sudoku: Sudoku) -> void: 
 	_sudoku = sudoku
 	_sudoku.puzzle_generated.connect(_on_puzzle_generated)

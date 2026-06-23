@@ -1,13 +1,34 @@
 [gd_resource type="Resource" script_class="SudokuCellTheme" format=3 uid="uid://drsoaatfi1m6p"]
 
-[ext_resource type="Texture2D" uid="uid://dm213fl4kj27k" path="res://assets/images/icon.svg" id="1_861x4"]
 [ext_resource type="Script" uid="uid://byxijqmtiyn7r" path="res://sudoku_cell_themes/sudoku_cell_themes.gd" id="1_x020x"]
+[ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="2_vy803"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
-atlas = ExtResource("1_861x4")
-region = Rect2(32, 32, 64, 64)
+atlas = ExtResource("2_vy803")
+region = Rect2(80, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vy803"]
+atlas = ExtResource("2_vy803")
+region = Rect2(96, 464, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lhew"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7hqq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5nmt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fogkq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isypy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_176kg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htr81"]
+
+[sub_resource type="MeshTexture" id="MeshTexture_jyfaq"]
 
 [resource]
 script = ExtResource("1_x020x")
 cell_background = SubResource("AtlasTexture_861x4")
+num_textures = Array[Texture2D]([SubResource("AtlasTexture_vy803"), SubResource("AtlasTexture_4lhew"), SubResource("AtlasTexture_j7hqq"), SubResource("AtlasTexture_y5nmt"), SubResource("AtlasTexture_fogkq"), SubResource("AtlasTexture_isypy"), SubResource("AtlasTexture_176kg"), SubResource("AtlasTexture_htr81"), SubResource("MeshTexture_jyfaq")])
 metadata/_custom_type_script = "uid://byxijqmtiyn7r"

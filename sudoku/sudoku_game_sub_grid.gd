@@ -3,7 +3,8 @@ class_name SudokuSubgrid extends Control
 var _nw_zero: Vector2i
 var _grid_size: Vector2i
 var _sudoku_cell_theme : SudokuCellTheme
-@onready var grid_container: GridContainer = %GridContainer
+@onready var cell_holder: GridContainer = %CellHolder
+
 
 @export var _cell_holder : Control
 @export var _cell_scene : PackedScene
@@ -11,7 +12,7 @@ var _sudoku_cell_theme : SudokuCellTheme
 func configure(nw_corner: Vector2i, grid_size: Vector2i) -> void:
 	_nw_zero = nw_corner
 	_grid_size = grid_size
-	grid_container.set_columns(_grid_size.x)
+	cell_holder.set_columns(_grid_size.x)
 	var child_dif := _get_cells().size() - (_grid_size.x * _grid_size.y)
 	var holder: SudokuCell # SudokuButton
 	if child_dif < 0: ## add children
@@ -43,8 +44,8 @@ func _get_cell(index: int) -> SudokuCell:
 
 func set_sudoku_cell_theme(cell_theme: SudokuCellTheme) -> void:
 	_sudoku_cell_theme = cell_theme
-	for each_child in get_children():
-		if each_child is SudokuButton:
+	for each_child in _get_cells():
+		if each_child is SudokuCell:
 			each_child.set_sudoku_cell_theme(_sudoku_cell_theme)
 
 func apply_cell(global_pos: Vector2i, num: int, do_lock := false) -> void: 

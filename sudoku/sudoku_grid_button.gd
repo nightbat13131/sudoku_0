@@ -5,6 +5,7 @@ enum PressMode {NA = 0, LEFT = 1, RIGHT = 2}
 var _last_pressed := PressMode.NA
 
 var _pos: Vector2
+var _value : Variant
 
 var _sudoku_cell_theme : SudokuCellTheme : set = set_sudoku_cell_theme
 
@@ -27,10 +28,14 @@ func _try_set_icon() -> void:
 
 func set_value(pos: Vector2, value: Variant, do_lock:= false) -> void: 
 	_pos = pos
-	if value == Utilties.Sudoku_Cell_Alts.EMPTY:
-		value = "  "
-	set_text(str(value))
+	_value = value
+	if _value == Utilties.Sudoku_Cell_Alts.EMPTY:
+		set_text(" ")
+	else: 
+		set_text(str(value))
 	set_disabled(do_lock)
+	_update_icon.call_deferred()
+	
 
 func _on_pressed() -> void: 
 	if _last_pressed == PressMode.LEFT:
@@ -48,3 +53,8 @@ func _on_buton_down() -> void:
 		_last_pressed = PressMode.RIGHT
 	else:
 		_last_pressed = PressMode.NA
+
+func _update_icon() -> void: 
+	if is_inside_tree():
+		if _sudoku_cell_theme:
+			set_button_icon(_sudoku_cell_theme.get_index_texture(_value))
