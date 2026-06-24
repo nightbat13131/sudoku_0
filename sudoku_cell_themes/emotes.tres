@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="SudokuCellTheme" format=3 uid="uid://qgupe62wscg0"]
+
+[ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="1_67oao"]
+[ext_resource type="Script" uid="uid://byxijqmtiyn7r" path="res://sudoku_cell_themes/sudoku_cell_themes.gd" id="2_g4emw"]
+[ext_resource type="Texture2D" uid="uid://cehl63riiuxc" path="res://assets/images/UI_thinking_emotes_animation.png" id="2_pqerr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
+atlas = ExtResource("1_67oao")
+region = Rect2(48, 568, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nofyq"]
+atlas = ExtResource("2_pqerr")
+region = Rect2(256, 128, 28, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g4emw"]
+load_path = "res://.godot/imported/UI_thinking_emotes_animation.png-4d7face1509042bc21091d04483958e9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqerr"]
+atlas = SubResource("CompressedTexture2D_g4emw")
+region = Rect2(160, 128, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nofyq"]
+load_path = "res://.godot/imported/UI_thinking_emotes_animation.png-4d7face1509042bc21091d04483958e9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x86n8"]
+atlas = SubResource("CompressedTexture2D_nofyq")
+region = Rect2(192, 160, 32, 32)
+
+[resource]
+script = ExtResource("2_g4emw")
+cell_background = SubResource("AtlasTexture_861x4")
+num_textures = Array[Texture2D]([SubResource("AtlasTexture_nofyq"), SubResource("AtlasTexture_pqerr"), SubResource("AtlasTexture_x86n8"), null, null, null, null, null, null])
+metadata/_custom_type_script = "uid://byxijqmtiyn7r"

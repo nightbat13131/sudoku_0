@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cehl63riiuxc"
-path="res://.godot/imported/UI_thinking_emotes_animation_16x16.png-bc5144e2d0673e9d91e503e4d98352ce.ctex"
+path="res://.godot/imported/UI_thinking_emotes_animation.png-4d7face1509042bc21091d04483958e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/UI_thinking_emotes_animation_16x16.png"
-dest_files=["res://.godot/imported/UI_thinking_emotes_animation_16x16.png-bc5144e2d0673e9d91e503e4d98352ce.ctex"]
+source_file="res://assets/images/UI_thinking_emotes_animation.png"
+dest_files=["res://.godot/imported/UI_thinking_emotes_animation.png-4d7face1509042bc21091d04483958e9.ctex"]
 
 [params]
 
