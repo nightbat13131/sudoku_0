@@ -1,8 +1,9 @@
+@tool
 class_name SudokuButton extends ButtonEnhanced
 
-enum PressMode {NA = 0, LEFT = 1, RIGHT = 2}
+#enum PressMode {NA = 0, LEFT = 1, RIGHT = 2, MID = 3}
 
-var _last_pressed := PressMode.NA
+var _last_pressed : int # := PressMode.NA
 
 var _pos: Vector2
 var _value : Variant
@@ -14,7 +15,7 @@ func _ready() -> void:
 	button_down.connect(_on_buton_down)
 	set_text_alignment(HORIZONTAL_ALIGNMENT_CENTER)
 	set_icon_alignment(HORIZONTAL_ALIGNMENT_CENTER)
-	set_button_mask(MOUSE_BUTTON_MASK_LEFT | MOUSE_BUTTON_MASK_RIGHT)
+	set_button_mask(MOUSE_BUTTON_MASK_LEFT | MOUSE_BUTTON_MASK_MIDDLE | MOUSE_BUTTON_MASK_RIGHT )
 	_try_set_icon()
 
 func set_sudoku_cell_theme(cell_theme: SudokuCellTheme) -> void:
@@ -35,24 +36,26 @@ func set_value(pos: Vector2, value: Variant, do_lock:= false) -> void:
 		set_text(str(value))
 	set_disabled(do_lock)
 	_update_icon.call_deferred()
-	
 
 func _on_pressed() -> void: 
-	if _last_pressed == PressMode.LEFT:
-	#sudoku_pressed.emit(_pos)
-		SudokuGame.sudoku_cell_pressed(_pos)
-	elif _last_pressed == PressMode.RIGHT:
-	#sudoku_pressed.emit(_pos)
-		SudokuGame.sudoku_cell_clear(_pos)
-	_last_pressed = PressMode.NA
+	match _last_pressed:
+		MOUSE_BUTTON_LEFT: #  PressMode.LEFT:
+			SudokuGame.sudoku_cell_pressed(_pos)
+		MOUSE_BUTTON_RIGHT: #  PressMode.RIGHT:
+			SudokuGame.sudoku_cell_hint(_pos)
+		MOUSE_BUTTON_MIDDLE: 
+			SudokuGame.sudoku_cell_clear(_pos)
+	_last_pressed = -1 # PressMode.NA
 
 func _on_buton_down() -> void: 
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		_last_pressed = PressMode.LEFT
+		_last_pressed = MOUSE_BUTTON_LEFT # PressMode.LEFT
 	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		_last_pressed = PressMode.RIGHT
-	else:
-		_last_pressed = PressMode.NA
+		_last_pressed = MOUSE_BUTTON_RIGHT # PressMode.RIGHT
+	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
+		_last_pressed = MOUSE_BUTTON_MIDDLE
+	else: 
+		_last_pressed = -1 # PressMode.NA
 
 func _update_icon() -> void: 
 	if is_inside_tree():

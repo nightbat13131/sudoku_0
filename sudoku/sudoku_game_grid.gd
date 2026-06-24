@@ -11,6 +11,7 @@ func set_sudoku(sudoku: Sudoku) -> void:
 	_sudoku = sudoku
 	_sudoku.puzzle_generated.connect(_on_puzzle_generated)
 	_sudoku.cell_changed.connect(_on_cell_changed)
+	_sudoku.hint_changed.connect(_on_cell_hint_changed)
 
 func set_sudoku_cell_theme(cell_theme: SudokuCellTheme) -> void:
 	_sudoku_cell_theme = cell_theme
@@ -35,12 +36,19 @@ func apply_grid(grid: Array[Array]) -> void:
 	var child_dif = sub_index - get_child_count()
 	## TODO: delete subgrids if I have too many.
 
-func _apply_cell(pos: Vector2i, num: int, do_lock := false) -> void: 
-	var index : int = _pos_to_sub_index(pos)
+func _apply_cell(global_pos: Vector2i, num: int, do_lock := false) -> void: 
+	var index : int = _pos_to_sub_index(global_pos)
 	assert(index < get_child_count())
 	var child = get_child(index) as SudokuSubgrid
 	assert(child != null)
-	child.apply_cell(pos, num, do_lock)
+	child.apply_cell(global_pos, num, do_lock)
+
+func _apply_hint(global_pos: Vector2, hints: Array, shape: Vector2) -> void:
+	var index : int = _pos_to_sub_index(global_pos)
+	assert(index < get_child_count())
+	var child = get_child(index) as SudokuSubgrid
+	assert(child != null)
+	child.apply_hint(global_pos, hints, shape)
 
 func _get_grid_size() -> Vector2:
 	if _sudoku:
@@ -64,3 +72,6 @@ func _on_puzzle_generated() -> void:
 
 func _on_cell_changed(pos: Vector2i, num: int,) -> void:
 	_apply_cell(pos, num)
+
+func _on_cell_hint_changed(pos: Vector2, hints: Array, shape: Vector2) -> void:
+	_apply_hint(pos, hints, shape)

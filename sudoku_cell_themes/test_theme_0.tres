@@ -5,30 +5,70 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
 atlas = ExtResource("2_vy803")
-region = Rect2(80, 112, 16, 16)
+region = Rect2(48, 568, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vy803"]
 atlas = ExtResource("2_vy803")
-region = Rect2(96, 464, 16, 48)
+region = Rect2(80, 80, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_861x4"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4lhew"]
+atlas = SubResource("CompressedTexture2D_861x4")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j7hqq"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j7hqq"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5nmt"]
+atlas = SubResource("CompressedTexture2D_j7hqq")
+region = Rect2(16, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fogkq"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fogkq"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_isypy"]
+atlas = SubResource("CompressedTexture2D_fogkq")
+region = Rect2(96, 96, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_176kg"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_176kg"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_htr81"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyfaq"]
+atlas = SubResource("CompressedTexture2D_176kg")
+region = Rect2(32, 32, 16, 16)
 
-[sub_resource type="MeshTexture" id="MeshTexture_jyfaq"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3xoqw"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqyhs"]
+atlas = SubResource("CompressedTexture2D_3xoqw")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dmn54"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ij7io"]
+atlas = SubResource("CompressedTexture2D_dmn54")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vy803"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7hqq"]
+atlas = SubResource("CompressedTexture2D_vy803")
+region = Rect2(112, 112, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y5nmt"]
+load_path = "res://.godot/imported/misc_squares.png-e7fc449f06d00ea97215e8db21453a3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fogkq"]
+atlas = SubResource("CompressedTexture2D_y5nmt")
+region = Rect2(128, 128, 16, 16)
 
 [resource]
 script = ExtResource("1_x020x")
 cell_background = SubResource("AtlasTexture_861x4")
-num_textures = Array[Texture2D]([SubResource("AtlasTexture_vy803"), SubResource("AtlasTexture_4lhew"), SubResource("AtlasTexture_j7hqq"), SubResource("AtlasTexture_y5nmt"), SubResource("AtlasTexture_fogkq"), SubResource("AtlasTexture_isypy"), SubResource("AtlasTexture_176kg"), SubResource("AtlasTexture_htr81"), SubResource("MeshTexture_jyfaq")])
+num_textures = Array[Texture2D]([SubResource("AtlasTexture_vy803"), SubResource("AtlasTexture_4lhew"), SubResource("AtlasTexture_y5nmt"), SubResource("AtlasTexture_isypy"), SubResource("AtlasTexture_jyfaq"), SubResource("AtlasTexture_pqyhs"), SubResource("AtlasTexture_ij7io"), SubResource("AtlasTexture_j7hqq"), SubResource("AtlasTexture_fogkq")])
 metadata/_custom_type_script = "uid://byxijqmtiyn7r"

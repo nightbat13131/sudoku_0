@@ -54,6 +54,13 @@ static func sudoku_cell_clear(pos: Vector2i) -> void:
 func _sudoku_cell_clear(pos: Vector2i) -> void:
 	_sudoku.request_player_guess(pos, Utilties.Sudoku_Cell_Alts.EMPTY as int )
 
+static func sudoku_cell_hint(pos: Vector2) -> void:
+	if _instance:
+		_instance._sudoku_cell_hint(pos)
+
+func _sudoku_cell_hint(pos: Vector2) -> void:
+	_sudoku.request_player_hint(pos, selected_number.get_value() as int )
+
 func _on_puzzle_generated() -> void: 
 	selected_number.set_max(_sudoku.get_domain_max())
 
