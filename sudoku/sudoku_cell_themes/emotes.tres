@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="SudokuCellTheme" format=3 uid="uid://qgupe62wscg0"]
 
 [ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="1_67oao"]
-[ext_resource type="Script" uid="uid://byxijqmtiyn7r" path="res://sudoku_cell_themes/sudoku_cell_themes.gd" id="2_g4emw"]
+[ext_resource type="Script" uid="uid://byxijqmtiyn7r" path="res://sudoku/sudoku_cell_themes/sudoku_cell_themes.gd" id="2_g4emw"]
 [ext_resource type="Texture2D" uid="uid://cehl63riiuxc" path="res://assets/images/UI_thinking_emotes_animation.png" id="2_pqerr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]

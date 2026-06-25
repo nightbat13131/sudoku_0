@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cwlruoarbv14"]
 
-[ext_resource type="Script" uid="uid://crjj8ved1bh5f" path="res://suduko_cell.gd" id="1_1iypq"]
-[ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku_ui_theme.tres" id="1_cd7b7"]
-[ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku_cell_themes/test_theme_0.tres" id="2_ey3vt"]
+[ext_resource type="Script" uid="uid://crjj8ved1bh5f" path="res://sudoku/suduko_cell.gd" id="1_1iypq"]
+[ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku/sudoku_ui_theme.tres" id="1_cd7b7"]
+[ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku/sudoku_cell_themes/test_theme_0.tres" id="2_ey3vt"]
 [ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="2_y8sa4"]
 [ext_resource type="Script" uid="uid://bfwig7xni6idm" path="res://sudoku/sudoku_grid_button.gd" id="4_ey3vt"]
 

@@ -4,7 +4,7 @@ class_name SudokuGame extends Control
 @export var _sudoku_cell_theme : SudokuCellTheme
 
 @onready var sudoku_game_grid: SudokuGrid = %SudokuGameGrid
-@onready var mouse_helper: MouseHelper = %MouseHelper
+@onready var mouse_helper: SudokuMouseHelper = %MouseHelper
 @onready var selected_number: SpinBox = %SelectedNumber
 @onready var button_undo: ButtonEnhanced = %ButtonUndo
 @onready var button_redo: ButtonEnhanced = %ButtonRedo

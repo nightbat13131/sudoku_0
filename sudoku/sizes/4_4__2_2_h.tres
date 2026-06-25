@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Sudoku" format=3 uid="uid://bqkkm35aii3ai"]
 
-[ext_resource type="Script" uid="uid://cjpw4cre8kdn8" path="res://sudoku.gd" id="1_e4i46"]
+[ext_resource type="Script" uid="uid://cjpw4cre8kdn8" path="res://sudoku/sudoku.gd" id="1_e4i46"]
 
 [resource]
 script = ExtResource("1_e4i46")

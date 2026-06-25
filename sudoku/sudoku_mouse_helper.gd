@@ -1,4 +1,4 @@
-class_name MouseHelper extends Control
+class_name SudokuMouseHelper extends Control
 
 @export var number_selector: SpinBox
 @onready var mouse_lable: Label = %MouseLable

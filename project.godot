@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="sudoku_0"
+config/name="puzzle_pack_0"
 config/tags=PackedStringArray("2d", "haynie")
 run/main_scene="uid://dnpthpt8hqbdh"
 config/features=PackedStringArray("4.6", "GL Compatibility")

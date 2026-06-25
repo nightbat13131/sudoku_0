@@ -1,6 +1,7 @@
 class_name SpinBox_Enhanced extends SpinBox
 
-@export var looping := true
+@export var looping := false
+@export var use_mouse_scroll := false
 
 func _ready() -> void:
 	_setup_looping()
