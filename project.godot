@@ -16,6 +16,10 @@ run/main_scene="uid://dnpthpt8hqbdh"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/images/icon.svg"
 
+[autoload]
+
+GUIDE="*uid://p2jwrgjcbexr"
+
 [display]
 
 window/size/viewport_width=1200
@@ -27,6 +31,10 @@ window/stretch/aspect="keep_height"
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/guide/plugin.cfg")
 
 [input]
 
