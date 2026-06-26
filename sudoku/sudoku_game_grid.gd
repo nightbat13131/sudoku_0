@@ -5,8 +5,6 @@ class_name SudokuGrid extends GridContainer
 var _sudoku: Sudoku
 var _sudoku_cell_theme : SudokuCellTheme : set = set_sudoku_cell_theme
 
-
-
 func set_sudoku(sudoku: Sudoku) -> void: 
 	_sudoku = sudoku
 	_sudoku.puzzle_generated.connect(_on_puzzle_generated)
@@ -33,7 +31,7 @@ func apply_grid(grid: Array[Array]) -> void:
 				new_subgrid.configure(Vector2i(col, row), _get_subgrid_size())
 				new_subgrid.set_sudoku_cell_theme(_sudoku_cell_theme)
 			_apply_cell.call_deferred(Vector2i(col, row), grid[row][col], grid[row][col] != 0)
-	var child_dif = sub_index - get_child_count()
+	#var child_dif = sub_index - get_child_count()
 	## TODO: delete subgrids if I have too many.
 
 func _apply_cell(global_pos: Vector2i, num: int, do_lock := false) -> void: 

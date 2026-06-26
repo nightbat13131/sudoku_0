@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku/sudoku_ui_theme.tres" id="1_8m731"]
 [ext_resource type="Script" uid="uid://cneottb7t7cwl" path="res://sudoku/sudoku_game_sub_grid.gd" id="1_t087e"]
-[ext_resource type="PackedScene" uid="uid://cwlruoarbv14" path="res://sudoku/sudoku_cell_themes/suduko_cell.tscn" id="2_81p75"]
+[ext_resource type="PackedScene" uid="uid://cwlruoarbv14" path="res://sudoku/suduko_cell.tscn" id="2_81p75"]
 
 [sub_resource type="Gradient" id="Gradient_8m731"]
 offsets = PackedFloat32Array(1)

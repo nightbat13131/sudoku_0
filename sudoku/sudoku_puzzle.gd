@@ -6,6 +6,7 @@ class_name _SudokuPuzzle extends Resource
 
 @export var _grid_size: Vector2i #: get = get_grid_size , set = _set_grid_size
 @export var _subgrid_size : Vector2i # : set = _set_subgrid_size
+@warning_ignore("unused_private_class_variable")
 @export var _difficulty := Utilties.Difficulty.EASY
 var _initial_domain : Array # Range does not return a type array
 var _player_grid : Array[Array]

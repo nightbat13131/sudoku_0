@@ -1,8 +1,6 @@
 @tool
 class_name SudokuButton extends ButtonEnhanced
 
-#enum PressMode {NA = 0, LEFT = 1, RIGHT = 2, MID = 3}
-
 var _last_pressed : int # := PressMode.NA
 
 var _pos: Vector2
@@ -11,8 +9,8 @@ var _value : Variant
 var _sudoku_cell_theme : SudokuCellTheme : set = set_sudoku_cell_theme
 
 func _ready() -> void:
-	super._ready()
-	button_down.connect(_on_buton_down)
+	#super._ready()
+	#button_down.connect(_on_buton_down)
 	set_text_alignment(HORIZONTAL_ALIGNMENT_CENTER)
 	set_icon_alignment(HORIZONTAL_ALIGNMENT_CENTER)
 	set_button_mask(MOUSE_BUTTON_MASK_LEFT | MOUSE_BUTTON_MASK_MIDDLE | MOUSE_BUTTON_MASK_RIGHT )

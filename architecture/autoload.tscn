@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ds0oobphclf66"]
+
+[ext_resource type="Script" uid="uid://cy3qvxsj7frh7" path="res://architecture/auto_load.gd" id="1_6gj0w"]
+[ext_resource type="Resource" uid="uid://c1p0h5e5hxkn8" path="res://guide/mapping_context_general.tres" id="2_v3ko5"]
+
+[node name="AutoLoad" type="Node" unique_id=972770045]
+script = ExtResource("1_6gj0w")
+general_mapping = ExtResource("2_v3ko5")

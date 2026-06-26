@@ -5,6 +5,9 @@
 [ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku/sudoku_cell_themes/test_theme_0.tres" id="2_ey3vt"]
 [ext_resource type="Texture2D" uid="uid://cvbq044dp02vv" path="res://assets/images/misc_squares.png" id="2_y8sa4"]
 [ext_resource type="Script" uid="uid://bfwig7xni6idm" path="res://sudoku/sudoku_grid_button.gd" id="4_ey3vt"]
+[ext_resource type="Resource" uid="uid://bfoxitueavjg8" path="res://sudoku/guide/eraser.tres" id="5_3xf02"]
+[ext_resource type="Resource" uid="uid://6wlbq1vfjiol" path="res://sudoku/guide/pencil.tres" id="6_5pm4f"]
+[ext_resource type="Resource" uid="uid://dtnfabalt3o26" path="res://sudoku/guide/pen.tres" id="6_wnot8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_861x4"]
 atlas = ExtResource("2_y8sa4")
@@ -29,6 +32,9 @@ theme = ExtResource("1_cd7b7")
 theme_type_variation = &"PanelContainer_Cell"
 script = ExtResource("1_1iypq")
 _sudoku_cell_theme = ExtResource("2_ey3vt")
+action_pen = ExtResource("6_wnot8")
+action_erase = ExtResource("5_3xf02")
+action_pencil = ExtResource("6_5pm4f")
 
 [node name="TextureBack" type="TextureRect" parent="." unique_id=324746869]
 unique_name_in_owner = true
@@ -39,7 +45,7 @@ texture = SubResource("AtlasTexture_861x4")
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
-button_mask = 3
+button_mask = 7
 text = "0"
 icon = SubResource("AtlasTexture_861x4")
 icon_alignment = 1

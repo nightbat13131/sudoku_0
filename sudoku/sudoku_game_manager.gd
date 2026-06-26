@@ -3,6 +3,11 @@ class_name SudokuGame extends Control
 @export var _sudoku : Sudoku
 @export var _sudoku_cell_theme : SudokuCellTheme
 
+@export_category("G.U.I.D.E.")
+@export var puzzle_context: GUIDEMappingContext
+@export var action_undo: GUIDEAction
+@export var action_redo : GUIDEAction
+
 @onready var sudoku_game_grid: SudokuGrid = %SudokuGameGrid
 @onready var mouse_helper: SudokuMouseHelper = %MouseHelper
 @onready var selected_number: SpinBox = %SelectedNumber
@@ -20,22 +25,14 @@ func _ready() -> void:
 	button_undo.pressed.connect(_on_undo)
 	button_redo.pressed.connect(_on_redo)
 	sudoku_game_grid.set_sudoku_cell_theme(_sudoku_cell_theme)
-	#sudoku_game_grid.child_entered_tree.connect(_on_sudoku_game_grid_child_entered_tree)
-	#sudoku.new_game(Vector2i(4,4), Vector2i(2,2), Utilties.Difficulty.HARD)
-	#await get_tree().process_frame
-	#_a.display_grid(_a._solution_grid, "Solution")
-	#_a.display_grid(_a.get_player_grid(), "player")
-	#sudoku_game_grid.apply_grid( sudoku.get_player_grid())
-#	_a.gen(Utilties.Difficulty.EASY)
-	#_a.print_1()
-	#print(_a.domains)
+	if puzzle_context:
+		GUIDE.enable_mapping_context(puzzle_context)
+		tree_exiting.connect(GUIDE.disable_mapping_context.bind(puzzle_context))
+	if action_redo:
+		action_redo.triggered.connect(_on_redo)
+	if action_undo:
+		action_undo.triggered.connect(_on_undo)
 	_start_game()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(Utilties.INPUT_UNDO):
-		_on_undo()
-	elif event.is_action_pressed(Utilties.INPUT_REDO):
-		_on_redo()
 
 func _start_game() -> void:
 	_sudoku.generate_next_puzzle()

@@ -6,9 +6,12 @@
 [ext_resource type="Script" uid="uid://bt28kuqbfd32" path="res://sudoku/sudoku_mouse_helper.gd" id="2_h8avn"]
 [ext_resource type="Script" uid="uid://d4md4d6abwu6t" path="res://sudoku/sudoku_game_grid.gd" id="3_i3iam"]
 [ext_resource type="Resource" uid="uid://qgupe62wscg0" path="res://sudoku/sudoku_cell_themes/emotes.tres" id="3_p50wf"]
-[ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://button_enhanced.gd" id="4_odnly"]
+[ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="4_odnly"]
+[ext_resource type="Resource" uid="uid://51rh7qxlbxpb" path="res://guide/undo.tres" id="4_pksoe"]
+[ext_resource type="Resource" uid="uid://b5sv3wwj8eft0" path="res://sudoku/guide/context_sudoku.tres" id="4_qdueo"]
 [ext_resource type="PackedScene" uid="uid://djfo0b2615fwj" path="res://sudoku/sudoku_subgrid.tscn" id="5_g0gfh"]
-[ext_resource type="Script" uid="uid://mv7lr4wyfa3i" path="res://spinbox_enhanced.gd" id="7_p50wf"]
+[ext_resource type="Resource" uid="uid://d136ew5omr8l0" path="res://guide/redo.tres" id="5_qdueo"]
+[ext_resource type="Script" uid="uid://mv7lr4wyfa3i" path="res://architecture/spinbox_enhanced.gd" id="7_p50wf"]
 
 [node name="SudokuManager" type="Control" unique_id=1420314699]
 layout_mode = 3
@@ -21,6 +24,9 @@ mouse_filter = 2
 script = ExtResource("1_a6d7c")
 _sudoku = ExtResource("2_eebj6")
 _sudoku_cell_theme = ExtResource("3_p50wf")
+puzzle_context = ExtResource("4_qdueo")
+action_undo = ExtResource("4_pksoe")
+action_redo = ExtResource("5_qdueo")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=574532039]
 layout_mode = 1
