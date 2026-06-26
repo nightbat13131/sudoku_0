@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://34leyt1psolw"]
+
+[ext_resource type="Script" uid="uid://b6mh8rkolb8po" path="res://minesweeper/mine_sweeper_manager.gd" id="1_iaifd"]
+[ext_resource type="Script" uid="uid://bbau84go6qqgr" path="res://minesweeper/mine_sweeper_grid.gd" id="1_oqqyb"]
+[ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="1_vy6pu"]
+[ext_resource type="Resource" uid="uid://bmoxxobt8ivmb" path="res://minesweeper/sizes/minesweep_10_10_e.tres" id="2_0sit7"]
+[ext_resource type="Resource" uid="uid://bnii8skw87r10" path="res://minesweeper/guide/minesweeper_context.tres" id="2_oidns"]
+[ext_resource type="Resource" uid="uid://cyr800n1svh2h" path="res://minesweeper/guide/single.tres" id="3_0sit7"]
+[ext_resource type="Resource" uid="uid://clg7dy3bvpgpk" path="res://minesweeper/guide/flag.tres" id="4_4fdyw"]
+[ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="4_ar2bo"]
+[ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide.tres" id="5_r03xs"]
+[ext_resource type="PackedScene" uid="uid://cgjwfgc2yrek3" path="res://minesweeper/mine_sweeper_cell.tscn" id="9_0sit7"]
+
+[node name="MineSweeperManager" type="Control" unique_id=178976677]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_iaifd")
+_minesweeper = ExtResource("2_0sit7")
+_puzzle_context = ExtResource("2_oidns")
+_action_single = ExtResource("3_0sit7")
+_action_flag = ExtResource("4_4fdyw")
+_action_wide = ExtResource("5_r03xs")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1044073659]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -68.0
+offset_right = 45.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=592940936]
+layout_mode = 2
+
+[node name="MineSweeperGrid" type="GridContainer" parent="CenterContainer/HBoxContainer" unique_id=1133889145]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_vy6pu")
+script = ExtResource("1_oqqyb")
+_cell_scene = ExtResource("9_0sit7")
+
+[node name="MineSweeperCell" parent="CenterContainer/HBoxContainer/MineSweeperGrid" unique_id=792062094 instance=ExtResource("9_0sit7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=147833717]
+layout_mode = 2
+
+[node name="ButtonUndo" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=588990739]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Undo"
+script = ExtResource("4_ar2bo")
+metadata/_custom_type_script = "uid://dchtvrsl1jion"
+
+[node name="ButtonRedo" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=623935183]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Redo"
+script = ExtResource("4_ar2bo")
+metadata/_custom_type_script = "uid://dchtvrsl1jion"
+
+[node name="ButtonNew" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=1432014774]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"
+script = ExtResource("4_ar2bo")
+metadata/_custom_type_script = "uid://dchtvrsl1jion"

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="puzzle_pack_0"
 config/tags=PackedStringArray("2d", "haynie")
-run/main_scene="uid://dnpthpt8hqbdh"
+run/main_scene="uid://34leyt1psolw"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/images/icon.svg"
 
@@ -41,7 +41,10 @@ enabled=PackedStringArray("res://addons/guide/plugin.cfg")
 
 folder_colors={
 "res://guide/": "blue",
-"res://sudoku/guide/": "blue"
+"res://minesweeper/guide/": "blue",
+"res://minesweeper/sizes/": "gray",
+"res://sudoku/guide/": "blue",
+"res://sudoku/sizes/": "gray"
 }
 
 [physics]

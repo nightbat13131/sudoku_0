@@ -35,26 +35,6 @@ func set_value(pos: Vector2, value: Variant, do_lock:= false) -> void:
 	set_disabled(do_lock)
 	_update_icon.call_deferred()
 
-func _on_pressed() -> void: 
-	match _last_pressed:
-		MOUSE_BUTTON_LEFT: #  PressMode.LEFT:
-			SudokuGame.sudoku_cell_pressed(_pos)
-		MOUSE_BUTTON_RIGHT: #  PressMode.RIGHT:
-			SudokuGame.sudoku_cell_hint(_pos)
-		MOUSE_BUTTON_MIDDLE: 
-			SudokuGame.sudoku_cell_clear(_pos)
-	_last_pressed = -1 # PressMode.NA
-
-func _on_buton_down() -> void: 
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		_last_pressed = MOUSE_BUTTON_LEFT # PressMode.LEFT
-	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		_last_pressed = MOUSE_BUTTON_RIGHT # PressMode.RIGHT
-	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
-		_last_pressed = MOUSE_BUTTON_MIDDLE
-	else: 
-		_last_pressed = -1 # PressMode.NA
-
 func _update_icon() -> void: 
 	if is_inside_tree():
 		if _sudoku_cell_theme:

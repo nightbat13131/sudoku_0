@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MineSweeper" format=3 uid="uid://bae2x4me5mxvp"]
+
+[ext_resource type="Script" uid="uid://cedpwxie0nc8n" path="res://minesweeper/minesweeper.gd" id="1_es7gg"]
+
+[resource]
+script = ExtResource("1_es7gg")
+_grid_size = Vector2i(10, 10)
+_bomb_count = 30
+_max_bomb_neighbors = 5
+metadata/_custom_type_script = "uid://cedpwxie0nc8n"

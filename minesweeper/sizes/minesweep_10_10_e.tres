@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MineSweeper" format=3 uid="uid://bmoxxobt8ivmb"]
+
+[ext_resource type="Script" uid="uid://cedpwxie0nc8n" path="res://minesweeper/minesweeper.gd" id="1_8wl2x"]
+
+[resource]
+script = ExtResource("1_8wl2x")
+_grid_size = Vector2i(10, 10)
+metadata/_custom_type_script = "uid://cedpwxie0nc8n"

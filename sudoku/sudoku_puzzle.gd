@@ -54,7 +54,6 @@ func _generate_professional_sudoku(min_clues := 30, symmetry := false) -> void:
 		# `min_clues` is treated as a target lower bound; the achieved count may
 		# be higher when uniqueness-preserving removal cannot continue. Symmetric
 		# removal in particular often settles well above the target.
-	#display_grid(_player_grid, "Player")
 
 func _solve(grid, count, cap) -> void:
 	if count[0] >= cap:
