@@ -1,11 +1,8 @@
 class_name Sudoku extends _SudokuPuzzle
 ## https://www.youtube.com/watch?v=ZTDTRz-TV3U&list=PL19FbkLnqUDiT9-aBYiauxviYSxh9FQDx
 
-signal puzzle_generated
-signal cell_changed(pos: Vector2i, num: int)
 signal hint_changed(pos: Vector2i, hint: Array, shape: Vector2i)
 
-var _undo_redo : UndoRedo
 var _hints : Dictionary[Vector2i, Array]
 func get_player_grid() -> Array[Array] : return _player_grid
 
@@ -47,14 +44,6 @@ func request_player_hint(pos: Vector2i, num: int) -> void:
 	_undo_redo.add_undo_method(__set_hint_value_ur.bind(pos, prevoius_hint) )
 	_undo_redo.commit_action()
 
-func generate_next_puzzle() -> bool: 
-	if _undo_redo:
-		_undo_redo.clear_history()
-	else: 
-		_undo_redo = UndoRedo.new()
-	_new_game(_grid_size, _subgrid_size, _difficulty)
-	puzzle_generated.emit()
-	return true
 
 ## function for UndoRedo to call
 func __set_guess_value_ur(pos: Vector2i, num: int) -> void:
@@ -64,7 +53,7 @@ func __set_guess_value_ur(pos: Vector2i, num: int) -> void:
 	cell_changed.emit(pos, num)
 	if is_guess_complete():
 		print("guess complete")
-		if is_guess_correct():
+		if is_solved():
 			print("puzzle solved")
 
 ## function for UndoRedo to call
@@ -74,7 +63,3 @@ func __set_hint_value_ur(pos: Vector2i, hint: Array) -> void:
 	else: 
 		_hints[pos] = hint
 	hint_changed.emit(pos, hint, _subgrid_size)
-
-func request_undo() -> void: _undo_redo.undo()
-
-func request_redo() -> void: _undo_redo.redo()

@@ -2,7 +2,7 @@
 # MIT licence 
 # https://github.com/alicommit-malp/sudoku/blob/main/puzzle_generator.py
 
-class_name _SudokuPuzzle extends Resource
+class_name _SudokuPuzzle extends PuzzleFoundation
 
 @export var _grid_size: Vector2i #: get = get_grid_size , set = _set_grid_size
 @export var _subgrid_size : Vector2i # : set = _set_subgrid_size
@@ -13,17 +13,12 @@ var _player_grid : Array[Array]
 var _solution_grid : Array[Array]
 var _guess_grid : Array[Array]
 
-## Generate a new game state.
-func _new_game(grid_size: Vector2i, subgrid_size: Vector2i, difficlty : Utilties.Difficulty) -> void:
-	_set_grid_size(grid_size)
-	assert(0 == grid_size.x % subgrid_size.x)
-	assert(0 == grid_size.y % subgrid_size.y)
-	_generate_professional_sudoku(_get_difficulty_count(difficlty), [true, false].pick_random())
-
-## set the Sudoku puzzle size
-func _set_grid_size(grid_size: Vector2i, ) -> void: 
-	_grid_size = grid_size
+## Puzzle specific Generation
+func _new_puzzle() -> void:
+	assert(0 == _grid_size.x % _subgrid_size.x)
+	assert(0 == _grid_size.y % _subgrid_size.y)
 	_initial_domain = range(1,max(_grid_size.x, _grid_size.y)+1)
+	_generate_professional_sudoku(_get_difficulty_count(_difficulty), [true, false].pick_random())
 
 func get_grid_size() -> Vector2i: return _grid_size
 
@@ -166,7 +161,7 @@ func is_guess_complete() -> bool:
 	return true
 
 ## Currently built assiming the "only 1 solution" algo is working. 
-func is_guess_correct() -> bool: 
+func is_solved() -> bool: 
 	var guess: int
 	for row: int in _grid_size.y:
 		for col: int in _grid_size.x:

@@ -1,6 +1,4 @@
-class_name MineSweeper_Inner extends Resource
-
-signal puzzle_generated
+class_name MineSweeper_Inner extends PuzzleFoundation
 
 @export var _grid_size : Vector2i : get = get_grid_size
 @export var _bomb_count: int = 10
@@ -10,10 +8,9 @@ var _solution_grid : Array[Array]
 var _player_grid : Array[Array]
 var _starting_pos : Vector2i
 
-func new_puzzle() -> void:
+func _new_puzzle() -> void:
 	_clear_grids()
 	_populate_grids()
-	puzzle_generated.emit()
 
 func get_grid_size() -> Vector2i: return _grid_size
 

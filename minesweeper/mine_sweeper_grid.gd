@@ -7,9 +7,10 @@ var _minesweeper : MineSweeper
 func set_minesweeper(minesweeper: MineSweeper) -> void: 
 	_minesweeper = minesweeper
 	_minesweeper.puzzle_generated.connect(_on_new_puzzle)
+	_minesweeper.cell_changed.connect(_apply_cell)
 
 func _on_new_puzzle() -> void:
-	_populate_grid(_minesweeper.get_solution_grid())
+	_populate_grid(_minesweeper.get_player_grid())
 	print("Thing")
 
 func _populate_grid(grid: Array) -> void:

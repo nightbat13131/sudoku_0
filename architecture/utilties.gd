@@ -2,8 +2,7 @@ class_name Utilties extends RefCounted
 
 const SODOKU_GUESS = &"Sudoku Guess"
 const SUDOKU_HINT = &"Sudoku Hint"
-const INPUT_UNDO = &"input_undo"
-const INPUT_REDO = &"input_redo"
+const MINESWEEPER_POKE = &"MineSweeper"
 
 const COLOR_SUBGRID_HIGHLIGHT : Color = Color(1, 1, 1)
 const COLOR_SUBGRID_LOWLIGHT : Color = Color(.7, .7, .7,)

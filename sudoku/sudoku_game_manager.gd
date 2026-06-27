@@ -28,45 +28,28 @@ func _ready() -> void:
 	if puzzle_context:
 		GUIDE.enable_mapping_context(puzzle_context)
 		tree_exiting.connect(GUIDE.disable_mapping_context.bind(puzzle_context))
-	if action_redo:
-		action_redo.triggered.connect(_on_redo)
-	if action_undo:
-		action_undo.triggered.connect(_on_undo)
-	_start_game()
+		if action_redo:
+			action_redo.triggered.connect(_on_redo)
+		if action_undo:
+			action_undo.triggered.connect(_on_undo)
+	_on_request_new()
 
-func _start_game() -> void:
-	_sudoku.generate_next_puzzle()
+static func sudoku_cell_pressed(pos: Vector2i) -> void: if _instance: _instance._sudoku_cell_pressed(pos)
 
-static func sudoku_cell_pressed(pos: Vector2i) -> void:
-	if _instance:
-		_instance._sudoku_cell_pressed(pos)
+func _sudoku_cell_pressed(pos: Vector2i) -> void: _sudoku.request_player_guess(pos, selected_number.get_value() as int )
 
-func _sudoku_cell_pressed(pos: Vector2i) -> void:
-	_sudoku.request_player_guess(pos, selected_number.get_value() as int )
+static func sudoku_cell_clear(pos: Vector2i) -> void: if _instance:	_instance._sudoku_cell_clear(pos)
 
-static func sudoku_cell_clear(pos: Vector2i) -> void:
-	if _instance:
-		_instance._sudoku_cell_clear(pos)
+func _sudoku_cell_clear(pos: Vector2i) -> void: _sudoku.request_player_guess(pos, Utilties.Sudoku_Cell_Alts.EMPTY as int )
 
-func _sudoku_cell_clear(pos: Vector2i) -> void:
-	_sudoku.request_player_guess(pos, Utilties.Sudoku_Cell_Alts.EMPTY as int )
+static func sudoku_cell_hint(pos: Vector2) -> void: if _instance: _instance._sudoku_cell_hint(pos)
 
-static func sudoku_cell_hint(pos: Vector2) -> void:
-	if _instance:
-		_instance._sudoku_cell_hint(pos)
+func _sudoku_cell_hint(pos: Vector2) -> void: _sudoku.request_player_hint(pos, selected_number.get_value() as int )
 
-func _sudoku_cell_hint(pos: Vector2) -> void:
-	_sudoku.request_player_hint(pos, selected_number.get_value() as int )
+func _on_puzzle_generated() -> void: selected_number.set_max(_sudoku.get_domain_max())
 
-func _on_puzzle_generated() -> void: 
-	selected_number.set_max(_sudoku.get_domain_max())
+func _on_undo() -> void: if _sudoku: _sudoku.request_undo()
 
-func _on_undo() -> void: 
-	if _sudoku:
-		_sudoku.request_undo()
+func _on_redo() -> void: if _sudoku: _sudoku.request_redo()
 
-func _on_redo() -> void:
-	if _sudoku:
-		_sudoku.request_redo()
-
-func _on_request_new() -> void: _sudoku.generate_next_puzzle()
+func _on_request_new() -> void: _sudoku.new_puzzle()

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ceo2moi2m6l1f" path="res://sudoku/sudoku_game_manager.gd" id="1_a6d7c"]
 [ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku/sudoku_ui_theme.tres" id="1_p50wf"]
-[ext_resource type="Resource" uid="uid://bwccdb1lvevby" path="res://sudoku/sizes/9_9__3_3_e.tres" id="2_eebj6"]
 [ext_resource type="Script" uid="uid://bt28kuqbfd32" path="res://sudoku/sudoku_mouse_helper.gd" id="2_h8avn"]
+[ext_resource type="Resource" uid="uid://bqkkm35aii3ai" path="res://sudoku/sizes/4_4__2_2_h.tres" id="2_qdueo"]
 [ext_resource type="Script" uid="uid://d4md4d6abwu6t" path="res://sudoku/sudoku_game_grid.gd" id="3_i3iam"]
 [ext_resource type="Resource" uid="uid://qgupe62wscg0" path="res://sudoku/sudoku_cell_themes/emotes.tres" id="3_p50wf"]
 [ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="4_odnly"]
@@ -22,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_a6d7c")
-_sudoku = ExtResource("2_eebj6")
+_sudoku = ExtResource("2_qdueo")
 _sudoku_cell_theme = ExtResource("3_p50wf")
 puzzle_context = ExtResource("4_qdueo")
 action_undo = ExtResource("4_pksoe")
