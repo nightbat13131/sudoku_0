@@ -10,12 +10,14 @@ const COLOR_SUBGRID_LOWLIGHT : Color = Color(.7, .7, .7,)
 
 enum Difficulty {EASY = 0, MEDIUM = 1, HARD = 2}
 
+enum Results {INPROGRESS = 0, WIN = 1, LOSS = 2}
+
 ## valid SUDOCU cell values are 1+. Map out the meaing of alternate values.
 enum Sudoku_Cell_Alts {EMPTY = 0, GUESS_BLOCKED = -1 }
 
 enum SudokuMode {NUMBERS = 0, ICONS = 1}
 
-enum MineSweeper_Cells_Alts {EMPTY = 0, BOMB = -12, FLAG = -13, NO_GUESS = -14}
+enum MineSweeper_Cells_Alts {EMPTY = 0, BOMB = -12, FLAG = -13, NO_GUESS = -14, PRESS = -15}
 
 ## Display the grid with row and column numbers.
 static func display_grid(grid : Array[Array], title="Grid"):

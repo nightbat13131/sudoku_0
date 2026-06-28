@@ -6,10 +6,11 @@
 [ext_resource type="Script" uid="uid://mtx1unc2aqn7" path="res://addons/guide/guide_input_mapping.gd" id="3_cmt7k"]
 [ext_resource type="Resource" uid="uid://clg7dy3bvpgpk" path="res://minesweeper/guide/flag.tres" id="4_m50vw"]
 [ext_resource type="Script" uid="uid://vgjlx6p007lp" path="res://addons/guide/inputs/guide_input_mouse_button.gd" id="4_skca8"]
-[ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide.tres" id="5_i35xe"]
 [ext_resource type="Script" uid="uid://bl8rjl4oaldje" path="res://addons/guide/modifiers/guide_modifier.gd" id="5_whk4h"]
 [ext_resource type="Script" uid="uid://x74mnwgr08a7" path="res://addons/guide/triggers/guide_trigger.gd" id="6_qw6am"]
 [ext_resource type="Script" uid="uid://b52rqq28tuqpg" path="res://addons/guide/triggers/guide_trigger_pressed.gd" id="7_i2ga3"]
+[ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide_start.tres" id="9_qw6am"]
+[ext_resource type="Resource" uid="uid://5i31u3wm6c81" path="res://minesweeper/guide/wide_end.tres" id="10_i2ga3"]
 [ext_resource type="Script" uid="uid://biiggjw6tv4uq" path="res://addons/guide/triggers/guide_trigger_released.gd" id="10_whk4h"]
 
 [sub_resource type="Resource" id="Resource_epjdf"]
@@ -53,22 +54,36 @@ button = 3
 [sub_resource type="Resource" id="Resource_el0f7"]
 script = ExtResource("7_i2ga3")
 
-[sub_resource type="Resource" id="Resource_76i0v"]
-script = ExtResource("10_whk4h")
-
 [sub_resource type="Resource" id="Resource_q5j62"]
 script = ExtResource("3_cmt7k")
 input = SubResource("Resource_7c2i8")
-triggers = Array[ExtResource("6_qw6am")]([SubResource("Resource_el0f7"), SubResource("Resource_76i0v")])
+triggers = Array[ExtResource("6_qw6am")]([SubResource("Resource_el0f7")])
 metadata/_guide_triggers_collapsed = false
 
 [sub_resource type="Resource" id="Resource_qw6am"]
 script = ExtResource("1_bnjjs")
-action = ExtResource("5_i35xe")
+action = ExtResource("9_qw6am")
 input_mappings = Array[ExtResource("3_cmt7k")]([SubResource("Resource_q5j62")])
 metadata/_guide_input_mappings_collapsed = false
 
+[sub_resource type="Resource" id="Resource_76i0v"]
+script = ExtResource("4_skca8")
+button = 3
+
+[sub_resource type="Resource" id="Resource_gksyq"]
+script = ExtResource("10_whk4h")
+
+[sub_resource type="Resource" id="Resource_g1g4k"]
+script = ExtResource("3_cmt7k")
+input = SubResource("Resource_76i0v")
+triggers = Array[ExtResource("6_qw6am")]([SubResource("Resource_gksyq")])
+
+[sub_resource type="Resource" id="Resource_frit6"]
+script = ExtResource("1_bnjjs")
+action = ExtResource("10_i2ga3")
+input_mappings = Array[ExtResource("3_cmt7k")]([SubResource("Resource_g1g4k")])
+
 [resource]
 script = ExtResource("2_1g7gv")
-mappings = Array[ExtResource("1_bnjjs")]([SubResource("Resource_skca8"), SubResource("Resource_whk4h"), SubResource("Resource_qw6am")])
+mappings = Array[ExtResource("1_bnjjs")]([SubResource("Resource_skca8"), SubResource("Resource_whk4h"), SubResource("Resource_qw6am"), SubResource("Resource_frit6")])
 metadata/_custom_type_script = "uid://dsa1dnifd6w32"

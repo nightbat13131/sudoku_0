@@ -8,7 +8,8 @@
 [ext_resource type="Resource" uid="uid://cyr800n1svh2h" path="res://minesweeper/guide/single.tres" id="3_0sit7"]
 [ext_resource type="Resource" uid="uid://clg7dy3bvpgpk" path="res://minesweeper/guide/flag.tres" id="4_4fdyw"]
 [ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="4_ar2bo"]
-[ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide.tres" id="5_r03xs"]
+[ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide_start.tres" id="5_r03xs"]
+[ext_resource type="Resource" uid="uid://5i31u3wm6c81" path="res://minesweeper/guide/wide_end.tres" id="7_4fdyw"]
 [ext_resource type="PackedScene" uid="uid://cgjwfgc2yrek3" path="res://minesweeper/mine_sweeper_cell.tscn" id="9_0sit7"]
 
 [node name="MineSweeperManager" type="Control" unique_id=178976677]
@@ -24,7 +25,8 @@ _minesweeper = ExtResource("2_0sit7")
 _puzzle_context = ExtResource("2_oidns")
 _action_single = ExtResource("3_0sit7")
 _action_flag = ExtResource("4_4fdyw")
-_action_wide = ExtResource("5_r03xs")
+_action_wide_start = ExtResource("5_r03xs")
+_action_wide_end = ExtResource("7_4fdyw")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1044073659]
 layout_mode = 1

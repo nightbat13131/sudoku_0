@@ -33,3 +33,10 @@ func _set_value(thing: int) -> void:
 	button_enhanced.set_text(text)
 
 func _on_mouse_in(is_entering: bool) -> void: MineSweeperManager.mouse_in_pos(_pos, is_entering)
+
+func remote_hold(_is_pressed: bool) -> void:
+	## When to igore the remote press
+	if _value != Utilties.MineSweeper_Cells_Alts.NO_GUESS:
+		return
+	button_enhanced.set_toggle_mode(_is_pressed)
+	button_enhanced.set_pressed(_is_pressed)

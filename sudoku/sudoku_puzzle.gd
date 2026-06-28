@@ -9,8 +9,6 @@ class_name _SudokuPuzzle extends PuzzleFoundation
 @warning_ignore("unused_private_class_variable")
 @export var _difficulty := Utilties.Difficulty.EASY
 var _initial_domain : Array # Range does not return a type array
-var _player_grid : Array[Array]
-var _solution_grid : Array[Array]
 var _guess_grid : Array[Array]
 
 ## Puzzle specific Generation
@@ -153,23 +151,17 @@ func _remove_numbers_with_symmetry(num_clues: int) -> void:
 
 func _has_unique_solution(grid) -> bool: return _count_solutions(grid) == 1
 
-func is_guess_complete() -> bool:
-	for row: Array[int] in _guess_grid:
-		for col: int in row:
-			if col == Utilties.Sudoku_Cell_Alts.EMPTY:
-				return false
-	return true
-
 ## Currently built assiming the "only 1 solution" algo is working. 
-func is_solved() -> bool: 
-	var guess: int
+func _get_results() -> Utilties.Results:
+	var _player: int
 	for row: int in _grid_size.y:
 		for col: int in _grid_size.x:
-			guess = _guess_grid[row][col]
-			if guess != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED:
-				if guess != _solution_grid[row][col]:
-					return false
-	return true
+			_player = _guess_grid[row][col]
+			if _player != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED:
+				if _player != _solution_grid[row][col]:
+					return Utilties.Results.INPROGRESS
+	puzzle_complete.emit(Utilties.Results.WIN)
+	return Utilties.Results.WIN
 
 ## "is this unique" helper
 func _count_solutions(grid, cap=2) -> int:

@@ -44,17 +44,15 @@ func request_player_hint(pos: Vector2i, num: int) -> void:
 	_undo_redo.add_undo_method(__set_hint_value_ur.bind(pos, prevoius_hint) )
 	_undo_redo.commit_action()
 
-
 ## function for UndoRedo to call
 func __set_guess_value_ur(pos: Vector2i, num: int) -> void:
 	assert(num != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED)
 	assert(_guess_grid[pos.y][pos.x] != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED)
 	_guess_grid[pos.y][pos.x] = num
 	cell_changed.emit(pos, num)
-	if is_guess_complete():
-		print("guess complete")
-		if is_solved():
-			print("puzzle solved")
+	if _get_results() == Utilties.Results.WIN:
+		print("puzzle solved")
+		_undo_redo.clear_history()
 
 ## function for UndoRedo to call
 func __set_hint_value_ur(pos: Vector2i, hint: Array) -> void:
