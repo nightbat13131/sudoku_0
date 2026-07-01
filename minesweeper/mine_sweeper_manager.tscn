@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b6mh8rkolb8po" path="res://minesweeper/mine_sweeper_manager.gd" id="1_iaifd"]
 [ext_resource type="Script" uid="uid://bbau84go6qqgr" path="res://minesweeper/mine_sweeper_grid.gd" id="1_oqqyb"]
 [ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="1_vy6pu"]
-[ext_resource type="Resource" uid="uid://bmoxxobt8ivmb" path="res://minesweeper/sizes/minesweep_10_10_e.tres" id="2_0sit7"]
+[ext_resource type="Resource" uid="uid://c53yfb4uhqim" path="res://minesweeper/sizes/minesweep_10_10_m.tres" id="2_4fdyw"]
 [ext_resource type="Resource" uid="uid://bnii8skw87r10" path="res://minesweeper/guide/minesweeper_context.tres" id="2_oidns"]
 [ext_resource type="Resource" uid="uid://cyr800n1svh2h" path="res://minesweeper/guide/single.tres" id="3_0sit7"]
 [ext_resource type="Resource" uid="uid://clg7dy3bvpgpk" path="res://minesweeper/guide/flag.tres" id="4_4fdyw"]
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_iaifd")
-_minesweeper = ExtResource("2_0sit7")
+_minesweeper = ExtResource("2_4fdyw")
 _puzzle_context = ExtResource("2_oidns")
 _action_single = ExtResource("3_0sit7")
 _action_flag = ExtResource("4_4fdyw")

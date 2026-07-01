@@ -1,11 +1,6 @@
 class_name MineSweeperManager extends Control
 
-#enum PressType {NA = -1, SINGLE = 0,  FLAG = 1, WIDE_PRESS = 2}
-
 const NO_POS = Vector2i(-9, -7)
-#const EVENT_TO_WAIT = "wait"
-#const EVENT_WIDE_START = "wide_start"
-#const EVENT_WIDE_STOP = "wide_stop"
 
 @onready var mine_sweeper_grid: MineSweeperGrid = %MineSweeperGrid
 @onready var button_undo: ButtonEnhanced = %ButtonUndo
@@ -109,4 +104,3 @@ func _on_puzzle_complete(result: Utilties.Results) -> void:
 	elif result == Utilties.Results.LOSS:
 		_puzzle_active = false
 		print("loss")
-		

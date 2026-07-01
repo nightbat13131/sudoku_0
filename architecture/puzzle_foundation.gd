@@ -8,8 +8,10 @@ signal cell_changed(pos: Vector2i, num: int)
 signal puzzle_complete(result: Utilties.Results)
 
 
-var _solution_grid : Array[Array]
-var _player_grid : Array[Array]
+#var _solution_grid : Array[Array]
+#var _player_grid : Array[Array]
+var _cells_grid : Array[Array]
+
 
 var _undo_redo : UndoRedo
 
@@ -31,6 +33,10 @@ func new_puzzle() -> void:
 #func is_solved() -> bool: return false
 @abstract func _get_results() -> Utilties.Results
 
-func get_solution_grid() -> Array[Array] : return _solution_grid
+func get_cells_grid() -> Array[Array] : return _cells_grid
 
-func get_player_grid() -> Array[Array]: return _player_grid
+
+
+#func get_solution_grid() -> Array[Array] : return _solution_grid
+
+#func get_player_grid() -> Array[Array]: return _player_grid

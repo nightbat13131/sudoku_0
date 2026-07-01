@@ -7,17 +7,19 @@ var _minesweeper : MineSweeper
 func set_minesweeper(minesweeper: MineSweeper) -> void: 
 	_minesweeper = minesweeper
 	_minesweeper.puzzle_generated.connect(_on_new_puzzle)
-	_minesweeper.cell_changed.connect(_apply_cell)
 
-func _on_new_puzzle() -> void: _populate_grid(_minesweeper.get_player_grid())
+func _on_new_puzzle() -> void: _populate_grid(_minesweeper.get_cells_grid())
 
 func _populate_grid(grid: Array) -> void:
 	set_columns(grid[0].size())
+	var cell: MinesweeperCellInfo
 	for y : int in grid.size():
 		for x: int in grid[y].size():
+			cell = grid[y][x]
+			assert(cell.is_pos(Vector2i(x,y)))
 			_apply_cell(Vector2i(x, y), grid[y][x])
 
-func _apply_cell(pos: Vector2i, value: int) -> void:
+func _apply_cell(pos, cell) -> void:
 	var index := _pos_to_index(pos)
 	## Assumes that only children are the MineSweeper cells.
 	var holder : MineSweeperCell
@@ -26,14 +28,14 @@ func _apply_cell(pos: Vector2i, value: int) -> void:
 		add_child(holder)
 	else:
 		holder = get_child(index)
-	holder.apply_cell(pos, value)
+	holder.apply_cell(pos, cell)
 
 func _pos_to_index(pos: Vector2i) -> int: return get_columns() * (pos.y) + pos.x
 
-func remote_hold(center_pos, is_pressed : bool) -> void:
+func remote_hold(center_pos: Vector2i, is_pressed : bool) -> void:
 	var _index : int
-	var _cell : MineSweeperCell
-	for cell_pos in _minesweeper.get_nine_grid(center_pos):
+	var _cell_show : MineSweeperCell
+	for cell_pos in _minesweeper.get_nine_grid_vectors(center_pos):
 		_index = _pos_to_index(cell_pos)
-		_cell = get_child(_index)
-		_cell.remote_hold(is_pressed)
+		_cell_show = get_child(_index)
+		_cell_show.remote_hold(is_pressed)

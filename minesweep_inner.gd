@@ -1,81 +1,94 @@
 class_name MineSweeper_Inner extends PuzzleFoundation
+## if I ever desicde to make a no guess board https://minesweeperblast.com/minesweeper-board-generation/
 
 @export var _grid_size : Vector2i : get = get_grid_size
 @export var _bomb_count: int = 10
 @export var _max_bomb_neighbors := 2
-var _bomb_spots : Array[Vector2i]
+var _bomb_cells : Array[MinesweeperCellInfo]
 
-#var _starting_pos : Vector2i
+var _first_cell : MinesweeperCellInfo 
+
+func _set_first_cell(pos: Vector2i) -> void: _first_cell = get_cell_from_pos(pos)
 
 func _new_puzzle() -> void:
 	_clear_grids()
-	_populate_grids()
+	_first_cell = null 
 
 func get_grid_size() -> Vector2i: return _grid_size
 
 func _clear_grids() -> void:
-	_solution_grid.clear()
-	_player_grid.clear()
-
-func _populate_grids() -> void:
-	var _pool : Array[Vector2i] = []
-	_bomb_spots.clear()
+	_cells_grid.clear()
 	for r in _grid_size.y: 
-		_solution_grid.append([])
-		_player_grid.append([])
+		_cells_grid.append([])
 		for c in _grid_size.x: 
-			_solution_grid[r].append(Utilties.MineSweeper_Cells_Alts.EMPTY)
-			_player_grid[r].append(Utilties.MineSweeper_Cells_Alts.NO_GUESS)
-			_pool.append(Vector2i(c,r))
-	_pool.shuffle()
-	var bomb_pos : Vector2i 
-	while _bomb_spots.size() < _bomb_count and !_pool.is_empty():
-		bomb_pos = _pool.pop_back()
-		if _try_place_bomb(bomb_pos):
-			_bomb_spots.append(bomb_pos)
-	Utilties.display_grid(_solution_grid)
+			_cells_grid[r].append(MinesweeperCellInfo.new(Vector2i(c,r)))
 
-func _try_place_bomb(pos: Vector2i) -> bool:
-	var _neighbors := get_nine_grid(pos) #  Array[Vector2i] = []
-	_neighbors.erase(pos)
+func _populate_solution() -> void:
+	var _pool : Array[MinesweeperCellInfo] = []
+	_bomb_cells.clear()
+	for r in _grid_size.y: 
+		for c in _grid_size.x: 
+			_pool.append(get_cell_from_pos(Vector2i(c,r)))
+	for each_cell in get_nine_grid_cells(_first_cell):
+		_pool.erase(each_cell)
+	_pool.shuffle()
+	var _bomb_option : MinesweeperCellInfo
+	while _bomb_cells.size() < _bomb_count and !_pool.is_empty():
+		_bomb_option = _pool.pop_back()
+		if _try_place_bomb(_bomb_option): 
+			_bomb_cells.append(_bomb_option)
+
+func _try_place_bomb(cell: MinesweeperCellInfo) -> bool:
+	var _neighbors := get_nine_grid_cells(cell)
+	_neighbors.erase(cell) #pos)
 	for each_0 in _neighbors:
-		if _solution_grid[each_0.y][each_0.x] >= _max_bomb_neighbors:
+		if each_0.get_bomb_count() >= _max_bomb_neighbors:
 			return false
-	_solution_grid[pos.y][pos.x] = Utilties.MineSweeper_Cells_Alts.BOMB
-	for n_pos in _neighbors:
-		if _solution_grid[n_pos.y][n_pos.x] != Utilties.MineSweeper_Cells_Alts.BOMB:
-			_solution_grid[n_pos.y][n_pos.x] += 1
+	cell.set_is_bomb(true)
+	for each_1 in _neighbors:
+		each_1.incrament_bomb_count()
 	return true
 
-func get_nine_grid(center: Vector2i) -> Array[Vector2i]:
-	var _neighbors : Array[Vector2i] = []
+func get_nine_grid_cells(center: MinesweeperCellInfo) -> Array[MinesweeperCellInfo]: 
+	var  _neighbors : Array[MinesweeperCellInfo] = []
+	for _point: Vector2i in get_nine_grid_vectors(center.get_pos()):
+			_neighbors.append(get_cell_from_pos(_point))
+	return _neighbors
+
+func get_nine_grid_vectors(center_pos: Vector2i) -> Array[Vector2i]:
+	var out : Array[Vector2i] = []
 	var _point : Vector2i
 	for dy in [-1,0,1]:
 		for dx in [-1,0,1]:
-			_point = center + Vector2i(dx, dy)
+			_point = center_pos + Vector2i(dx, dy)
 			if _point.x < 0 or _point.y < 0:
 				continue
 			elif _point.x >= _grid_size.x or _point.y >= _grid_size.y:
 				continue
-			_neighbors.append(_point)
-	return _neighbors
+			out.append(_point)
+	return out
 
 func _get_results() -> Utilties.Results:
-	var _player : int
-	var _solution : int
-	for bomb_pos in _bomb_spots:
-		if _player_grid[bomb_pos.y][bomb_pos.x] == Utilties.MineSweeper_Cells_Alts.BOMB:
-			puzzle_complete.emit(Utilties.Results.LOSS)
+	for bomb_cell in _bomb_cells:
+		assert(bomb_cell._is_bomb)
+		if bomb_cell.is_pressed():
 			return Utilties.Results.LOSS
-	for y in _grid_size.y:
-		for x in _grid_size.x:
-			_player = _player_grid[y][x]
-			if _player == Utilties.MineSweeper_Cells_Alts.NO_GUESS:
+	for row in _cells_grid:
+		for cell : MinesweeperCellInfo in row:
+			if _bomb_cells.has(cell):
+				continue ## already checked
+			elif cell.is_flagged(): # non-bomb flagged
+			#if !cell.is_flagged_correct(): 
 				return Utilties.Results.INPROGRESS
-			#_solution = _solution_grid[y][x]
-			#if _solution == Utilties.MineSweeper_Cells_Alts.BOMB:
-				#if _player != Utilties.MineSweeper_Cells_Alts.FLAG:
-					#puzzle_complete.emit(Utilties.Results.LOSS)
-					#return Utilties.Results.LOSS
-	puzzle_complete.emit(Utilties.Results.WIN)
+			elif !cell.is_pressed():
+				return Utilties.Results.INPROGRESS
 	return Utilties.Results.WIN
+
+func get_cell_from_pos(pos: Vector2i) -> MinesweeperCellInfo:
+	if pos.x < 0 or pos.y < 0:
+		return null
+	if pos.y >= _cells_grid.size():
+		return null
+	if pos.x >= _cells_grid[pos.y].size():
+		return null
+	return get_cells_grid()[pos.y][pos.x]

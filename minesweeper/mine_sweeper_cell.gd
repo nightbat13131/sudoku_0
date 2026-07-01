@@ -2,41 +2,51 @@ class_name MineSweeperCell extends PanelContainer
 
 @onready var back_texture: TextureRect = %BackTexture
 @onready var button_enhanced: ButtonEnhanced = %ButtonEnhanced
+var _resource : MinesweeperCellInfo
 
 var _pos : Vector2i
-var _value : int : set = _set_value
+#var _text : String : set = _set_text
 
 func _ready() -> void:
 	button_enhanced.pressed.connect(_on_button_press)
 	button_enhanced.mouse_entered.connect(_on_mouse_in.bind(true))
 	button_enhanced.mouse_exited.connect(_on_mouse_in.bind(false))
+	#_set_info(_resource)
 
 func _on_button_press() -> void: MineSweeperManager.cell_pressed(_pos)
 
-func apply_cell(pos: Vector2i, value: int) -> void:
+#func apply_cell(pos: Vector2i, value: int) -> void:
+func apply_cell(pos: Vector2i, info: MinesweeperCellInfo) -> void:
 	_pos = pos
-	_set_value(value)
-
-func _set_value(thing: int) -> void:
-	_value = thing
-	var text : String = str(thing)
-	button_enhanced.set_disabled( ![Utilties.MineSweeper_Cells_Alts.NO_GUESS, Utilties.MineSweeper_Cells_Alts.FLAG].has(thing))
-	match thing:
-		Utilties.MineSweeper_Cells_Alts.NO_GUESS: 
-			text = "_"
-		Utilties.MineSweeper_Cells_Alts.BOMB:
-			text = "X"
-		Utilties.MineSweeper_Cells_Alts.FLAG:
-			text = "M"
-		Utilties.MineSweeper_Cells_Alts.EMPTY:
-			text = " "
-	button_enhanced.set_text(text)
+	_set_info(info)
 
 func _on_mouse_in(is_entering: bool) -> void: MineSweeperManager.mouse_in_pos(_pos, is_entering)
 
 func remote_hold(_is_pressed: bool) -> void:
 	## When to igore the remote press
-	if _value != Utilties.MineSweeper_Cells_Alts.NO_GUESS:
-		return
+	if _resource:
+		if _resource.is_pressed():
+	#if _value != Utilties.MineSweeper_Cells_Alts.NO_GUESS:
+			return
 	button_enhanced.set_toggle_mode(_is_pressed)
 	button_enhanced.set_pressed(_is_pressed)
+
+func _set_info(info: MinesweeperCellInfo) -> void:
+	if _resource:
+		_resource.changed.disconnect(_on_info_change)
+	_resource = info
+	if _resource:
+		_resource.changed.connect(_on_info_change)
+	_on_info_change()
+
+func _on_info_change() -> void:
+	var _text := "^"
+	if _resource:
+		_text = _resource.get_show_text()
+		button_enhanced.set_disabled(_resource.get_disable_button())
+		#button_enhanced.set_disabled( false) #_resource.is_game_over())
+	else:
+		_text = "?"
+		button_enhanced.set_disabled(false)
+	button_enhanced.set_text(_text)
+	#button_enhanced.set_disabled(_resource.is_pressed()) # ![Utilties.MineSweeper_Cells_Alts.NO_GUESS, Utilties.MineSweeper_Cells_Alts.FLAG].has(thing))
