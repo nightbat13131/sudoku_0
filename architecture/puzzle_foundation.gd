@@ -12,6 +12,14 @@ var _cells_grid : Array[Array]
 
 var _undo_redo : UndoRedo
 
+## Puzzle specific Generation
+@abstract func _new_puzzle() -> void
+
+@abstract func _get_results() -> Utilties.Results
+
+@abstract func _restart() -> void
+
+
 func request_undo() -> void: _undo_redo.undo()
 
 func request_redo() -> void: _undo_redo.redo()
@@ -24,11 +32,10 @@ func new_puzzle() -> void:
 	_new_puzzle()
 	puzzle_generated.emit()
 
-## Puzzle specific Generation
-@abstract func _new_puzzle() -> void
-
-#func is_solved() -> bool: return false
-@abstract func _get_results() -> Utilties.Results
+func request_restart() -> void: 
+	assert(_undo_redo != null)
+	_undo_redo = UndoRedo.new()
+	_restart()
 
 func get_cells_grid() -> Array[Array] : return _cells_grid
 

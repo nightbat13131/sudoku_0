@@ -8,7 +8,7 @@ const COLOR_SUBGRID_HIGHLIGHT : Color = Color(1, 1, 1)
 const COLOR_SUBGRID_LOWLIGHT : Color = Color(.7, .7, .7,)
 
 
-enum Difficulty {EASY = 0, MEDIUM = 1, HARD = 2}
+enum Difficulty {EASY = 0, MEDIUM = 1, HARD = 2, DEBUG = -1}
 
 enum Results {INPROGRESS = 0, WIN = 1, LOSS = 2}
 

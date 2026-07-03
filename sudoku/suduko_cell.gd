@@ -1,8 +1,6 @@
 @tool
 class_name SudokuCell extends PanelContainer
 
-var _mode := Utilties.SudokuMode.ICONS
-
 enum PressTypes {NA = 0, PEN = 1, ERASE = 2, PENCIL = 3}
 
 static var _press_type := PressTypes.NA ## static because only the first object in the tree catches the action, after that it's counting as handled. 
@@ -17,7 +15,6 @@ static var _press_type := PressTypes.NA ## static because only the first object 
 @export var action_pencil: GUIDEAction
 
 var _info : SudokuCellInfo
-
 
 func _ready() -> void:
 	_try_set_icon.call_deferred()
@@ -45,9 +42,10 @@ func _try_set_icon() -> void:
 
 func set_cell_info(info: SudokuCellInfo) -> void: 
 	_info = info
+	_info.note_changed.connect(_on_note_change)
 	sudoku_button.set_cell_info(info)
 
-func _on_note_change(note_text) -> void: pencil.set_text(note_text)
+func _on_note_change(note_text: String) -> void: pencil.set_text(note_text)
 
 func _set_press_type(thing: PressTypes) -> void: _press_type = thing
 

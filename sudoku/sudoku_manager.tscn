@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ceo2moi2m6l1f" path="res://sudoku/sudoku_game_manager.gd" id="1_a6d7c"]
 [ext_resource type="Theme" uid="uid://cb6w4oqqjew2i" path="res://sudoku/sudoku_ui_theme.tres" id="1_p50wf"]
 [ext_resource type="Script" uid="uid://bt28kuqbfd32" path="res://sudoku/sudoku_mouse_helper.gd" id="2_h8avn"]
-[ext_resource type="Resource" uid="uid://bqkkm35aii3ai" path="res://sudoku/sizes/4_4__2_2_h.tres" id="2_qdueo"]
+[ext_resource type="Script" uid="uid://cjpw4cre8kdn8" path="res://sudoku/sudoku.gd" id="2_pksoe"]
 [ext_resource type="Script" uid="uid://d4md4d6abwu6t" path="res://sudoku/sudoku_game_grid.gd" id="3_i3iam"]
 [ext_resource type="Resource" uid="uid://drsoaatfi1m6p" path="res://sudoku/sudoku_cell_themes/test_theme_0.tres" id="3_pksoe"]
 [ext_resource type="Resource" uid="uid://51rh7qxlbxpb" path="res://guide/undo.tres" id="4_pksoe"]
@@ -11,6 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://djfo0b2615fwj" path="res://sudoku/sudoku_subgrid.tscn" id="5_g0gfh"]
 [ext_resource type="Resource" uid="uid://d136ew5omr8l0" path="res://guide/redo.tres" id="5_qdueo"]
 [ext_resource type="Script" uid="uid://mv7lr4wyfa3i" path="res://architecture/spinbox_enhanced.gd" id="7_p50wf"]
+
+[sub_resource type="Resource" id="Resource_pksoe"]
+script = ExtResource("2_pksoe")
+_grid_size = Vector2i(4, 4)
+_subgrid_size = Vector2i(2, 2)
+_difficulty = -1
+metadata/_custom_type_script = "uid://cjpw4cre8kdn8"
 
 [node name="SudokuManager" type="Control" unique_id=1420314699]
 layout_mode = 3
@@ -21,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_a6d7c")
-_sudoku = ExtResource("2_qdueo")
+_sudoku = SubResource("Resource_pksoe")
 _sudoku_cell_theme = ExtResource("3_pksoe")
 puzzle_context = ExtResource("4_qdueo")
 action_undo = ExtResource("4_pksoe")
@@ -84,6 +91,11 @@ text = "Redo"
 unique_name_in_owner = true
 layout_mode = 2
 text = "New"
+
+[node name="ButtonRestart" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=762987294]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Restart"
 
 [node name="MouseHelper" type="Control" parent="." unique_id=2125405624 node_paths=PackedStringArray("number_selector")]
 unique_name_in_owner = true

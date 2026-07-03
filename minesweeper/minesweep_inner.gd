@@ -18,10 +18,13 @@ func get_grid_size() -> Vector2i: return _grid_size
 
 func _clear_grids() -> void:
 	_cells_grid.clear()
+	var cell : MinesweeperCellInfo
 	for r in _grid_size.y: 
 		_cells_grid.append([])
 		for c in _grid_size.x: 
-			_cells_grid[r].append(MinesweeperCellInfo.new(Vector2i(c,r)))
+			cell = MinesweeperCellInfo.new()
+			cell.set_position(Vector2i(c,r))
+			_cells_grid[r].append(cell)
 
 func _populate_solution() -> void:
 	var _pool : Array[MinesweeperCellInfo] = []
@@ -92,3 +95,7 @@ func _get_results() -> Utilties.Results:
 	#if pos.x >= _cells_grid[pos.y].size():
 		#return null
 	#return get_cells_grid()[pos.y][pos.x]
+
+func request_restart() -> void: pass
+
+func _restart() -> void: pass

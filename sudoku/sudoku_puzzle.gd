@@ -18,6 +18,12 @@ func _new_puzzle() -> void:
 	_initial_domain = range(1,max(_grid_size.x, _grid_size.y)+1)
 	_generate_professional_sudoku(_get_difficulty_count(_difficulty), [true, false].pick_random())
 
+func _restart() -> void:
+	for row in get_cells_grid():
+		for cell: SudokuCellInfo in row:
+			cell.clear_guess()
+			cell.clear_notes()
+
 func get_grid_size() -> Vector2i: return _grid_size
 
 func get_subgrid_size() -> Vector2: return _subgrid_size
@@ -37,7 +43,6 @@ func _generate_professional_sudoku(min_clues := 30, symmetry := false) -> void:
 
 	if symmetry:
 		_remove_numbers_with_symmetry(min_clues)
-		pass
 	else:
 		_remove_numbers_exact_clues(min_clues)
 
@@ -48,28 +53,6 @@ func _generate_professional_sudoku(min_clues := 30, symmetry := false) -> void:
 		# be higher when uniqueness-preserving removal cannot continue. Symmetric
 		# removal in particular often settles well above the target.
 
-func _solve(grid: Array, count: Array, cap: int) -> void:
-	# count is a single int array so that the counter can incrament regardless of position in flow
-	#var focus_cell : SudokuCellInfo
-	if count[0] >= cap:
-		return
-	for row: Array in grid:
-	#for irow : range in range(_grid_size.y):
-		for cell : SudokuCellInfo in row:
-		#for jcol in range(_grid_size.x):
-			if !cell.has_guess():
-			#if grid[irow][jcol] == 0:
-				for num in _initial_domain:
-					#focus_cell = _cells_grid[irow][icol]
-					if _is_valid(grid, cell, num):
-						cell.set_guess_value(num)
-						#grid[irow][jcol] = num
-						_solve(grid, count, cap) ## This floating function and it's incramenting the count is what gets the multi solution magic 
-						cell.clear_guess() #  grid[irow][jcol] = 
-						if count[0] >= cap:
-							return
-				return
-	count[0] += 1
 
 ## Recursive backtracking to fill the grid
 func _fill_solution() -> bool:
@@ -81,7 +64,7 @@ func _fill_solution() -> bool:
 				num_list.shuffle()
 				for num: int in num_list:
 					#if _is_valid(_solution_grid, row, col, num):
-					if _is_valid(_cells_grid, cell, num):
+					if _is_valid(cell, num):
 						cell.set_solution_value(num) # _solution_grid[row][col] = num
 						if _fill_solution():
 							return true
@@ -180,62 +163,57 @@ func _has_unique_solution() -> bool: return _count_solutions() == 1
 
 ## Currently built assiming the "only 1 solution" algo is working. 
 func _get_results() -> Utilties.Results:
-	var _player: int
-	#for row: int in _grid_size.y:
 	for row : Array in _cells_grid:
-		#for col: int in _grid_size.x:
 		for cell : SudokuCellInfo in row: 
-			#_player = _guess_grid[row][col]
-			if cell.is_solved():
-			#if _player != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED:
-			#	if _player != _solution_grid[row][col]:
-					return Utilties.Results.INPROGRESS
+			if !cell.is_solved():
+				return Utilties.Results.INPROGRESS
 	puzzle_complete.emit(Utilties.Results.WIN)
 	return Utilties.Results.WIN
 
-## "is this unique" helper
-func _count_solutions(cap=2) -> int:
-#func _count_solutions(grid, cap=2) -> int:
-	var count = [0]
-	_solve(_cells_grid.duplicate_deep(1), count, cap)
-	return count[0]
-
-
 ## Helper to check whether a number can be placed in a given cell. 
-## Needs board flexablity for solution checker
-func _is_valid(board: Array[Array], cell: SudokuCellInfo, num: int) -> bool:
-#func _is_valid(board, row, col, num) -> bool:
-
+func _is_valid(cell: SudokuCellInfo, num: int, for_solver := false) -> bool:
 	var col_i: int = cell.get_position().x
 	var row_i: int = cell.get_position().y
 	var focus_cell : SudokuCellInfo
 	## check all cells left and right
-	for _col: int in range(board[row_i].size()):
+	for _col: int in range(get_cells_grid()[row_i].size()):
 		if _col != col_i:
-			focus_cell = board[row_i][_col]
-			if focus_cell.get_solution_value() == num:
-			#if board[row][_col] == num:
-				return false
+			focus_cell = get_cells_grid()[row_i][_col]
+			if for_solver: 
+				if focus_cell.get_button_value() == num:
+					return false
+			else:
+				if focus_cell.get_solution_value() == num:
+					return false
 	## check all cells up and down
-	for _row: int in range(board.size()):
+	for _row: int in range(get_cells_grid().size()):
 		if _row != row_i:
-			focus_cell = board[_row][col_i]
-			#if _cells_grid[_row][col] == num:
-			if focus_cell.get_solution_value() == num:
-				return false
+			focus_cell = get_cells_grid()[_row][col_i]
+			if for_solver: 
+				if focus_cell.get_button_value() == num:
+					return false
+			else:
+				if focus_cell.get_solution_value() == num:
+					return false
 	var box_row_start: int = row_i - (row_i % _subgrid_size.y)
 	var box_col_start: int = col_i - (col_i % _subgrid_size.x)
 	for __row in range(_subgrid_size.y):
 		for __col in range(_subgrid_size.x):
-			focus_cell = board[__row + box_row_start][__col + box_col_start]
-			if focus_cell.get_solution_value() == num: #  board[__row + box_row_start][__col + box_col_start] == num:
-				return false
+			focus_cell = get_cells_grid()[__row + box_row_start][__col + box_col_start]
+			if for_solver: 
+				if focus_cell.get_button_value() == num:
+					return false
+			else:
+				if focus_cell.get_solution_value() == num:
+					return false
 	return true
 
-## Select the difficulty level and return the number of blanks.
+## Select the difficulty level and return the number of FILLED in values.
 func _get_difficulty_count(difficulty: Utilties.Difficulty) -> int:
 	var cell_count : int = _grid_size.x * _grid_size.y
 	match difficulty:
+		Utilties.Difficulty.DEBUG:
+			return cell_count - 1
 		Utilties.Difficulty.EASY:
 			@warning_ignore("integer_division")
 			return ceili(cell_count * .45) # 40
@@ -245,3 +223,41 @@ func _get_difficulty_count(difficulty: Utilties.Difficulty) -> int:
 		_: 
 			@warning_ignore("integer_division")
 			return ceili(cell_count * .30) # 30
+
+func print_cells() -> void:
+	var text : String 
+	for row: Array in _cells_grid:
+		text = "|"
+		for cell: SudokuCellInfo in row: 
+			text += str( cell._solution_value)
+			text += "|"
+		print(text)
+	#var text : String 
+	for row: Array in _cells_grid:
+		text = "|"
+		for cell: SudokuCellInfo in row: 
+			text += str( cell.get_button_text())
+			text += "|"
+		print(text)
+
+func _solver(count: Array, cap: int) -> void:
+	if count[0] >= cap:
+		return
+	for row: Array in get_cells_grid():
+		for cell : SudokuCellInfo in row:
+			if !cell.has_guess():
+				for num in _initial_domain:
+					if _is_valid(cell, num, true):
+						cell.set_guess_value(num)
+						_solver(count, cap) ## This floating function and it's incramenting the count is what gets the multi solution magic 
+						cell.clear_guess()
+						if count[0] >= cap:
+							return
+				return
+	count[0] += 1
+
+## "is this unique" helper
+func _count_solutions(cap=2) -> int:
+	var count = [0]
+	_solver(count, cap)
+	return count[0]

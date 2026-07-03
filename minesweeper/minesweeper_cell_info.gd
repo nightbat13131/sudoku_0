@@ -7,8 +7,6 @@ var _is_flag := false
 var _is_pressed := false
 var _neighbor_bomb_count := 0
 
-var _game_over := false
-
 func get_show_text() -> String:
 	# No guess
 	if _is_flag and !_game_over:
@@ -43,18 +41,11 @@ func set_flag(is_flag) -> void:
 
 func is_flagged() -> bool: return _is_flag
 
-
 func is_pos(pos: Vector2i) -> bool: return pos == _pos
 
 func set_is_bomb(is_bomb_: bool) -> void: _is_bomb = is_bomb_
 
 func is_bomb() -> bool: return _is_bomb
-
-func game_over() -> void: 
-	_game_over = true
-	changed.emit()
-
-func is_game_over() -> bool: return _game_over
 
 func incrament_bomb_count() -> void: _neighbor_bomb_count += 1
 

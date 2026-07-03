@@ -14,6 +14,7 @@ class_name SudokuGame extends Control
 @onready var button_undo: Button = %ButtonUndo
 @onready var button_redo: Button = %ButtonRedo
 @onready var button_new: Button= %ButtonNew
+@onready var button_restart: Button = %ButtonRestart
 
 static var _instance : SudokuGame
 var _puzzle_active := false
@@ -26,6 +27,7 @@ func _ready() -> void:
 	button_new.pressed.connect(_on_request_new)
 	button_undo.pressed.connect(_on_undo)
 	button_redo.pressed.connect(_on_redo)
+	button_restart.pressed.connect(_on_restart)
 	sudoku_game_grid.set_sudoku_cell_theme(_sudoku_cell_theme)
 	if puzzle_context:
 		GUIDE.enable_mapping_context(puzzle_context)
@@ -60,9 +62,11 @@ func _on_undo() -> void: if _sudoku: _sudoku.request_undo()
 
 func _on_redo() -> void: if _sudoku: _sudoku.request_redo()
 
+func _on_restart() -> void: if _sudoku: _sudoku.request_restart()
+
 func _on_request_new() -> void: 
 	_sudoku.new_puzzle()
 	_puzzle_active = true
 
 func _on_complete(result: Utilties.Results) -> void:
-	_puzzle_active = result != Utilties.Results.WIN
+	_puzzle_active = (result != Utilties.Results.WIN)
