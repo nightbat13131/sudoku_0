@@ -7,7 +7,9 @@ class_name SudokuCellTheme extends Resource
 @export var num_textures : Array[Texture2D] = [null, null, null, null]
 
 func get_index_texture(index: int ) -> Texture: 
-	if index == 0:
+	if index == Utilties.Sudoku_Cell_Alts.EMPTY:
+		return cell_blank
+	elif index < 1:
 		return cell_blank
 	index -= 1
 	assert(index < num_textures.size() )

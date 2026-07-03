@@ -51,7 +51,7 @@ func _try_place_bomb(cell: MinesweeperCellInfo) -> bool:
 
 func get_nine_grid_cells(center: MinesweeperCellInfo) -> Array[MinesweeperCellInfo]: 
 	var  _neighbors : Array[MinesweeperCellInfo] = []
-	for _point: Vector2i in get_nine_grid_vectors(center.get_pos()):
+	for _point: Vector2i in get_nine_grid_vectors(center.get_position()):
 			_neighbors.append(get_cell_from_pos(_point))
 	return _neighbors
 
@@ -84,11 +84,11 @@ func _get_results() -> Utilties.Results:
 				return Utilties.Results.INPROGRESS
 	return Utilties.Results.WIN
 
-func get_cell_from_pos(pos: Vector2i) -> MinesweeperCellInfo:
-	if pos.x < 0 or pos.y < 0:
-		return null
-	if pos.y >= _cells_grid.size():
-		return null
-	if pos.x >= _cells_grid[pos.y].size():
-		return null
-	return get_cells_grid()[pos.y][pos.x]
+#func get_cell_from_pos(pos: Vector2i) -> MinesweeperCellInfo:
+	#if pos.x < 0 or pos.y < 0:
+		#return null
+	#if pos.y >= _cells_grid.size():
+		#return null
+	#if pos.x >= _cells_grid[pos.y].size():
+		#return null
+	#return get_cells_grid()[pos.y][pos.x]

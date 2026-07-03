@@ -12,7 +12,8 @@ func send_press(pos: Vector2i, press: Utilties.MineSweeper_Cells_Alts) -> void:
 	_win_check()
 
 func send_wide_press(center: Vector2i) -> void:
-	var center_cell := get_cell_from_pos(center)
+	var center_cell = get_cell_from_pos(center) as MinesweeperCellInfo
+	
 	## Verify the center has a value to check
 	if !center_cell.is_pressed():
 		return

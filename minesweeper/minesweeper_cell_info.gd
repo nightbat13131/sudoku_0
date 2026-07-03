@@ -1,17 +1,13 @@
-class_name MinesweeperCellInfo extends Resource
-
+class_name MinesweeperCellInfo extends PuzzleCellInfo
 
 const GUESS_NONE = " "
-
 
 var _is_bomb := false
 var _is_flag := false
 var _is_pressed := false
 var _neighbor_bomb_count := 0
-var _pos : Vector2i
-var _game_over := false
 
-func _init(vector: Vector2i) -> void: _pos = vector
+var _game_over := false
 
 func get_show_text() -> String:
 	# No guess
@@ -47,7 +43,6 @@ func set_flag(is_flag) -> void:
 
 func is_flagged() -> bool: return _is_flag
 
-func get_pos() -> Vector2i: return _pos
 
 func is_pos(pos: Vector2i) -> bool: return pos == _pos
 

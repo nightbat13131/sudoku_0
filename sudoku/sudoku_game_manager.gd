@@ -11,9 +11,9 @@ class_name SudokuGame extends Control
 @onready var sudoku_game_grid: SudokuGrid = %SudokuGameGrid
 @onready var mouse_helper: SudokuMouseHelper = %MouseHelper
 @onready var selected_number: SpinBox = %SelectedNumber
-@onready var button_undo: ButtonEnhanced = %ButtonUndo
-@onready var button_redo: ButtonEnhanced = %ButtonRedo
-@onready var button_new: ButtonEnhanced = %ButtonNew
+@onready var button_undo: Button = %ButtonUndo
+@onready var button_redo: Button = %ButtonRedo
+@onready var button_new: Button= %ButtonNew
 
 static var _instance : SudokuGame
 var _puzzle_active := false

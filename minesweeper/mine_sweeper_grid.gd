@@ -28,7 +28,7 @@ func _apply_cell(pos, cell) -> void:
 		add_child(holder)
 	else:
 		holder = get_child(index)
-	holder.apply_cell(pos, cell)
+	holder.apply_cell(cell)
 
 func _pos_to_index(pos: Vector2i) -> int: return get_columns() * (pos.y) + pos.x
 

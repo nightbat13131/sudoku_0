@@ -6,8 +6,6 @@ var _sudoku_cell_theme : SudokuCellTheme
 @onready var cell_holder: GridContainer = %CellHolder
 @onready var background_texture_rect: TextureRect = %BackgroundTextureRect
 
-
-
 @export var _cell_holder : Control
 @export var _cell_scene : PackedScene
 
@@ -55,19 +53,14 @@ func set_sudoku_cell_theme(cell_theme: SudokuCellTheme) -> void:
 		if each_child is SudokuCell:
 			each_child.set_sudoku_cell_theme(_sudoku_cell_theme)
 
-func apply_cell(global_pos: Vector2i, num: int, do_lock := false) -> void: 
-	var index : int = _pos_to_index(global_pos)
+func add_cell(cell: SudokuCellInfo) -> void:
+	var index : int = _pos_to_index(cell.get_position())
 	assert(index < _get_cells().size())
 	var child = _get_cell(index) as SudokuCell
 	assert(child != null)
-	child.set_value(global_pos, num, do_lock)
-
-func apply_hint(global_pos: Vector2, hints: Array, shape: Vector2) -> void: 
-	var index : int = _pos_to_index(global_pos)
-	assert(index < _get_cells().size())
-	var child = _get_cell(index) as SudokuCell
-	assert(child != null)
-	child.set_hint(global_pos, hints, shape)
+	#child.set_value(global_pos, num, do_lock)
+	child.set_cell_info(cell)
+	pass
 
 func _pos_to_index(global_pos: Vector2i) -> int: 
 	var out_v: Vector2i = global_pos - _nw_zero
@@ -79,5 +72,3 @@ func _on_mouse_change(is_in: bool) -> void:
 		background_texture_rect.set_modulate(Utilties.COLOR_SUBGRID_HIGHLIGHT)
 	else:
 		background_texture_rect.set_modulate(Utilties.COLOR_SUBGRID_LOWLIGHT)
-	
-	

@@ -2,7 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="1_s1l4r"]
 [ext_resource type="Script" uid="uid://cx35ckyuyhnv4" path="res://minesweeper/mine_sweeper_cell.gd" id="2_arcj3"]
-[ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="3_oxcas"]
 
 [node name="MineSweeperCell" type="PanelContainer" unique_id=792062094]
 mouse_filter = 1
@@ -13,10 +12,8 @@ script = ExtResource("2_arcj3")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ButtonEnhanced" type="Button" parent="." unique_id=584449329]
+[node name="Button" type="Button" parent="." unique_id=568001448]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 button_mask = 3
-script = ExtResource("3_oxcas")
-metadata/_custom_type_script = "uid://dchtvrsl1jion"

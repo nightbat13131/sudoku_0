@@ -9,7 +9,7 @@ class_name _SudokuPuzzle extends PuzzleFoundation
 @warning_ignore("unused_private_class_variable")
 @export var _difficulty := Utilties.Difficulty.EASY
 var _initial_domain : Array # Range does not return a type array
-var _guess_grid : Array[Array]
+#var _guess_grid : Array[Array]
 
 ## Puzzle specific Generation
 func _new_puzzle() -> void:
@@ -23,17 +23,17 @@ func get_grid_size() -> Vector2i: return _grid_size
 func get_subgrid_size() -> Vector2: return _subgrid_size
 
 func _generate_professional_sudoku(min_clues := 30, symmetry := false) -> void:
-	_player_grid.clear()
-	_solution_grid.clear()
-	_guess_grid.clear()
+	_cells_grid.clear()
+	var cell : SudokuCellInfo
 	for y: int in range(_grid_size.y):
-		_solution_grid.append([])
-		_guess_grid.append([])
+		_cells_grid.append([])
 		for x: int in range(_grid_size.x):
-			_solution_grid[y].append(Utilties.Sudoku_Cell_Alts.EMPTY)
-			_guess_grid[y].append(Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED)
+			cell = SudokuCellInfo.new()
+			cell.set_position(Vector2i(x, y))
+			cell.set_subgrid_size(get_subgrid_size())
+			_cells_grid[y].append(cell)
 	_fill_solution()
-	_player_grid = _solution_grid.duplicate(true)
+	#_player_grid = _solution_grid.duplicate(true)
 
 	if symmetry:
 		_remove_numbers_with_symmetry(min_clues)
@@ -48,17 +48,24 @@ func _generate_professional_sudoku(min_clues := 30, symmetry := false) -> void:
 		# be higher when uniqueness-preserving removal cannot continue. Symmetric
 		# removal in particular often settles well above the target.
 
-func _solve(grid, count, cap) -> void:
+func _solve(grid: Array, count: Array, cap: int) -> void:
+	# count is a single int array so that the counter can incrament regardless of position in flow
+	#var focus_cell : SudokuCellInfo
 	if count[0] >= cap:
 		return
-	for irow in range(_grid_size.y):
-		for jcol in range(_grid_size.x):
-			if grid[irow][jcol] == 0:
+	for row: Array in grid:
+	#for irow : range in range(_grid_size.y):
+		for cell : SudokuCellInfo in row:
+		#for jcol in range(_grid_size.x):
+			if !cell.has_guess():
+			#if grid[irow][jcol] == 0:
 				for num in _initial_domain:
-					if _is_valid(grid, irow, jcol, num):
-						grid[irow][jcol] = num
-						self._solve(grid, count, cap)
-						grid[irow][jcol] = 0
+					#focus_cell = _cells_grid[irow][icol]
+					if _is_valid(grid, cell, num):
+						cell.set_guess_value(num)
+						#grid[irow][jcol] = num
+						_solve(grid, count, cap) ## This floating function and it's incramenting the count is what gets the multi solution magic 
+						cell.clear_guess() #  grid[irow][jcol] = 
 						if count[0] >= cap:
 							return
 				return
@@ -67,44 +74,53 @@ func _solve(grid, count, cap) -> void:
 ## Recursive backtracking to fill the grid
 func _fill_solution() -> bool:
 	var num_list : Array
-	for row: int in range(_grid_size.y):
-		for col: int in range(_grid_size.x):
-			if _solution_grid[row][col] == Utilties.Sudoku_Cell_Alts.EMPTY:
+	for row: Array in _cells_grid:
+		for cell: SudokuCellInfo in row:
+			if !cell.has_solution_value(): # _solution_grid[row][col] == Utilties.Sudoku_Cell_Alts.EMPTY:
 				num_list = _initial_domain.duplicate()
 				num_list.shuffle()
 				for num: int in num_list:
-					if _is_valid(_solution_grid, row, col, num):
-						_solution_grid[row][col] = num
+					#if _is_valid(_solution_grid, row, col, num):
+					if _is_valid(_cells_grid, cell, num):
+						cell.set_solution_value(num) # _solution_grid[row][col] = num
 						if _fill_solution():
 							return true
-						_solution_grid[row][col] = Utilties.Sudoku_Cell_Alts.EMPTY
+						cell.clear_solution_value() # _solution_grid[row][col] = Utilties.Sudoku_Cell_Alts.EMPTY
 				return false
 	return true
 
 ## Remove numbers to leave exactly num_clues in the grid
 func _remove_numbers_exact_clues(num_clues) -> void:
 	var cells_to_remove: int = _grid_size.x * _grid_size.y - num_clues  # We want to remove this many cells
+	#var focus_cell : SudokuCellInfo
 	var removed := 0
-	var all_cells : Array[Vector2i]
-	var backup: int
-	for _r in range(_grid_size.y):
-		for _c in range(_grid_size.x):
-			all_cells.append(Vector2i(_c, _r))
+	var all_cells : Array[SudokuCellInfo] # Array[Vector2i]
+	#var backup: int
+	for row : Array in _cells_grid:
+	#for _r in range(_grid_size.y):
+		for cell : SudokuCellInfo in row: 
+		#for _c in range(_grid_size.x):
+			#all_cells.append(Vector2i(_c, _r))
+			all_cells.append(cell)
 	all_cells.shuffle()
-	for pos in all_cells:
+	
+	for cell in all_cells:
 		if removed >= cells_to_remove:
 			break
-		backup = _player_grid[pos.y][pos.x]
-		if backup == Utilties.Sudoku_Cell_Alts.EMPTY:
+		#focus_cell = _cells_grid[pos.y][pos.x]
+		#backup = _player_grid[pos.y][pos.x]
+		if cell.is_player_cell(): # backup == Utilties.Sudoku_Cell_Alts.EMPTY:
 			continue
-		_player_grid[pos.y][pos.x] = Utilties.Sudoku_Cell_Alts.EMPTY
+		cell.set_is_player_cell(true)
+		#_player_grid[pos.y][pos.x] = Utilties.Sudoku_Cell_Alts.EMPTY
 
 		# Check if the puzzle still has a unique solution
-		if _has_unique_solution(_player_grid):
-			_guess_grid[pos.y][pos.x] = Utilties.Sudoku_Cell_Alts.EMPTY
+		if _has_unique_solution():
+			#_guess_grid[pos.y][pos.x] = Utilties.Sudoku_Cell_Alts.EMPTY
 			removed += 1  # Successful removal
 		else:
-			_player_grid[pos.y][pos.x] = backup  # Restore if removing breaks uniqueness
+			cell.set_is_player_cell(false)
+			#_player_grid[pos.y][pos.x] = backup  # Restore if removing breaks uniqueness
 
 ## Populate in blanks symetrically
 func _remove_numbers_with_symmetry(num_clues: int) -> void:
@@ -122,8 +138,10 @@ func _remove_numbers_with_symmetry(num_clues: int) -> void:
 				symmetric_pairs.append([r, c, max_r - r, max_c - c])
 	symmetric_pairs.shuffle()
 
-	var backup1 : int
-	var backup2 : int
+	#var backup1 : int
+	#var backup2 : int
+	var focus_1 : SudokuCellInfo
+	var focus_2 : SudokuCellInfo
 	for rcr_c_ in symmetric_pairs:
 		var r1 = rcr_c_[0]
 		var c1 = rcr_c_[1]
@@ -132,58 +150,85 @@ func _remove_numbers_with_symmetry(num_clues: int) -> void:
 		#for r1, c1, r2, c2 in symmetric_pairs:
 		if removed >= cells_to_remove:
 			break
-		backup1 = _player_grid[r1][c1]
-		backup2 = _player_grid[r2][c2]
-		if backup1 == Utilties.Sudoku_Cell_Alts.EMPTY or backup2 == Utilties.Sudoku_Cell_Alts.EMPTY:
+		focus_1 = _cells_grid[r1][c1]
+		focus_2 = _cells_grid[r2][c2]
+		#backup1 = _player_grid[r1][c1]
+		#backup2 = _player_grid[r2][c2]
+		#if backup1 == Utilties.Sudoku_Cell_Alts.EMPTY or backup2 == Utilties.Sudoku_Cell_Alts.EMPTY:
+		if focus_1.is_player_cell() or focus_2.is_player_cell():
 			continue # skip rest of THIS loop
-		_player_grid[r1][c1] = Utilties.Sudoku_Cell_Alts.EMPTY
-		_player_grid[r2][c2] = Utilties.Sudoku_Cell_Alts.EMPTY
-		if _has_unique_solution(_player_grid):
-			_guess_grid[r1][c1] = Utilties.Sudoku_Cell_Alts.EMPTY
-			_guess_grid[r2][c2] = Utilties.Sudoku_Cell_Alts.EMPTY
+		focus_1.set_is_player_cell(true)
+		focus_2.set_is_player_cell(true)
+		#_player_grid[r1][c1] = Utilties.Sudoku_Cell_Alts.EMPTY
+		#_player_grid[r2][c2] = Utilties.Sudoku_Cell_Alts.EMPTY
+		if _has_unique_solution():
+		#if _has_unique_solution(_player_grid):
+			#_guess_grid[r1][c1] = Utilties.Sudoku_Cell_Alts.EMPTY
+			#_guess_grid[r2][c2] = Utilties.Sudoku_Cell_Alts.EMPTY
 			if [[r1],[c1]] == [[r2],[c2]]:
 				removed += 1
 			else:
 				removed += 2
 		else:
-			_player_grid[r1][c1] = backup1
-			_player_grid[r2][c2] = backup2
+			focus_1.set_is_player_cell(false)
+			focus_2.set_is_player_cell(false)
+			#_player_grid[r1][c1] = backup1
+			#_player_grid[r2][c2] = backup2
 
-func _has_unique_solution(grid) -> bool: return _count_solutions(grid) == 1
+#func _has_unique_solution(grid) -> bool: return _count_solutions(grid) == 1
+func _has_unique_solution() -> bool: return _count_solutions() == 1
 
 ## Currently built assiming the "only 1 solution" algo is working. 
 func _get_results() -> Utilties.Results:
 	var _player: int
-	for row: int in _grid_size.y:
-		for col: int in _grid_size.x:
-			_player = _guess_grid[row][col]
-			if _player != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED:
-				if _player != _solution_grid[row][col]:
+	#for row: int in _grid_size.y:
+	for row : Array in _cells_grid:
+		#for col: int in _grid_size.x:
+		for cell : SudokuCellInfo in row: 
+			#_player = _guess_grid[row][col]
+			if cell.is_solved():
+			#if _player != Utilties.Sudoku_Cell_Alts.GUESS_BLOCKED:
+			#	if _player != _solution_grid[row][col]:
 					return Utilties.Results.INPROGRESS
 	puzzle_complete.emit(Utilties.Results.WIN)
 	return Utilties.Results.WIN
 
 ## "is this unique" helper
-func _count_solutions(grid, cap=2) -> int:
+func _count_solutions(cap=2) -> int:
+#func _count_solutions(grid, cap=2) -> int:
 	var count = [0]
-	_solve(grid.duplicate(true), count, cap)
+	_solve(_cells_grid.duplicate_deep(1), count, cap)
 	return count[0]
 
-## Helper to check whether a number can be placed in a given cell
-func _is_valid(board, row, col, num) -> bool:
-	for _col: int in range(board[0].size()):
-		if _col != col:
-			if board[row][_col] == num:
+
+## Helper to check whether a number can be placed in a given cell. 
+## Needs board flexablity for solution checker
+func _is_valid(board: Array[Array], cell: SudokuCellInfo, num: int) -> bool:
+#func _is_valid(board, row, col, num) -> bool:
+
+	var col_i: int = cell.get_position().x
+	var row_i: int = cell.get_position().y
+	var focus_cell : SudokuCellInfo
+	## check all cells left and right
+	for _col: int in range(board[row_i].size()):
+		if _col != col_i:
+			focus_cell = board[row_i][_col]
+			if focus_cell.get_solution_value() == num:
+			#if board[row][_col] == num:
 				return false
+	## check all cells up and down
 	for _row: int in range(board.size()):
-		if _row != row:
-			if board[_row][col] == num:
+		if _row != row_i:
+			focus_cell = board[_row][col_i]
+			#if _cells_grid[_row][col] == num:
+			if focus_cell.get_solution_value() == num:
 				return false
-	var box_row_start: int = row - row % _subgrid_size.y
-	var box_col_start: int = col - col % _subgrid_size.x
+	var box_row_start: int = row_i - (row_i % _subgrid_size.y)
+	var box_col_start: int = col_i - (col_i % _subgrid_size.x)
 	for __row in range(_subgrid_size.y):
 		for __col in range(_subgrid_size.x):
-			if board[__row + box_row_start][__col + box_col_start] == num:
+			focus_cell = board[__row + box_row_start][__col + box_col_start]
+			if focus_cell.get_solution_value() == num: #  board[__row + box_row_start][__col + box_col_start] == num:
 				return false
 	return true
 

@@ -7,9 +7,6 @@ signal cell_changed(pos: Vector2i, num: int)
 @warning_ignore("unused_signal")
 signal puzzle_complete(result: Utilties.Results)
 
-
-#var _solution_grid : Array[Array]
-#var _player_grid : Array[Array]
 var _cells_grid : Array[Array]
 
 
@@ -35,8 +32,11 @@ func new_puzzle() -> void:
 
 func get_cells_grid() -> Array[Array] : return _cells_grid
 
-
-
-#func get_solution_grid() -> Array[Array] : return _solution_grid
-
-#func get_player_grid() -> Array[Array]: return _player_grid
+func get_cell_from_pos(pos: Vector2i) -> PuzzleCellInfo:
+	if pos.x < 0 or pos.y < 0:
+		return null
+	if pos.y >= _cells_grid.size():
+		return null
+	if pos.x >= _cells_grid[pos.y].size():
+		return null
+	return get_cells_grid()[pos.y][pos.x]
