@@ -41,8 +41,6 @@ func set_flag(is_flag) -> void:
 
 func is_flagged() -> bool: return _is_flag
 
-func is_pos(pos: Vector2i) -> bool: return pos == _pos
-
 func set_is_bomb(is_bomb_: bool) -> void: _is_bomb = is_bomb_
 
 func is_bomb() -> bool: return _is_bomb

@@ -4,14 +4,10 @@ class_name MineSweeperCell extends PanelContainer
 @onready var button: Button = %Button
 var _resource : MinesweeperCellInfo
 
-# var _pos : Vector2i
-#var _text : String : set = _set_text
-
 func _ready() -> void:
 	button.pressed.connect(_on_button_press)
 	button.mouse_entered.connect(_on_mouse_in.bind(true))
 	button.mouse_exited.connect(_on_mouse_in.bind(false))
-	#_set_info(_resource)
 
 func _on_button_press() -> void: MineSweeperManager.cell_pressed(_resource.get_position())
 

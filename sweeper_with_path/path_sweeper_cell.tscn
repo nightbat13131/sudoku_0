@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dhdsydxkdo3u4"]
+
+[ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="1_blkwi"]
+[ext_resource type="Script" uid="uid://d1lqitk4rhxh8" path="res://sweeper_with_path/path_sweeper_cell.gd" id="2_n22g1"]
+
+[node name="PathSweeperCell" type="PanelContainer" unique_id=1983722122]
+mouse_filter = 1
+theme = ExtResource("1_blkwi")
+script = ExtResource("2_n22g1")
+
+[node name="BackTexture" type="TextureRect" parent="." unique_id=40822226]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" type="Button" parent="." unique_id=533664366]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+button_mask = 3

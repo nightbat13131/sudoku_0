@@ -4,6 +4,7 @@ class_name MineSweeper_Inner extends PuzzleFoundation
 @export var _grid_size : Vector2i : get = get_grid_size
 @export var _bomb_count: int = 10
 @export var _max_bomb_neighbors := 2
+
 var _bomb_cells : Array[MinesweeperCellInfo]
 
 var _first_cell : MinesweeperCellInfo 

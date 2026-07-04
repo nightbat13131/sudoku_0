@@ -3,11 +3,10 @@
 [ext_resource type="Script" uid="uid://b6mh8rkolb8po" path="res://minesweeper/mine_sweeper_manager.gd" id="1_iaifd"]
 [ext_resource type="Script" uid="uid://bbau84go6qqgr" path="res://minesweeper/mine_sweeper_grid.gd" id="1_oqqyb"]
 [ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="1_vy6pu"]
-[ext_resource type="Resource" uid="uid://c53yfb4uhqim" path="res://minesweeper/sizes/minesweep_10_10_m.tres" id="2_4fdyw"]
+[ext_resource type="Resource" uid="uid://bmoxxobt8ivmb" path="res://minesweeper/sizes/minesweep_10_10_e.tres" id="2_0sit7"]
 [ext_resource type="Resource" uid="uid://bnii8skw87r10" path="res://minesweeper/guide/minesweeper_context.tres" id="2_oidns"]
 [ext_resource type="Resource" uid="uid://cyr800n1svh2h" path="res://minesweeper/guide/single.tres" id="3_0sit7"]
 [ext_resource type="Resource" uid="uid://clg7dy3bvpgpk" path="res://minesweeper/guide/flag.tres" id="4_4fdyw"]
-[ext_resource type="Script" uid="uid://dchtvrsl1jion" path="res://architecture/button_enhanced.gd" id="4_ar2bo"]
 [ext_resource type="Resource" uid="uid://btgpr6q002ufw" path="res://minesweeper/guide/wide_start.tres" id="5_r03xs"]
 [ext_resource type="Resource" uid="uid://5i31u3wm6c81" path="res://minesweeper/guide/wide_end.tres" id="7_4fdyw"]
 [ext_resource type="PackedScene" uid="uid://cgjwfgc2yrek3" path="res://minesweeper/mine_sweeper_cell.tscn" id="9_0sit7"]
@@ -21,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_iaifd")
-_minesweeper = ExtResource("2_4fdyw")
+_minesweeper = ExtResource("2_0sit7")
 _puzzle_context = ExtResource("2_oidns")
 _action_single = ExtResource("3_0sit7")
 _action_flag = ExtResource("4_4fdyw")
@@ -63,19 +62,13 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "Undo"
-script = ExtResource("4_ar2bo")
-metadata/_custom_type_script = "uid://dchtvrsl1jion"
 
 [node name="ButtonRedo" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=623935183]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Redo"
-script = ExtResource("4_ar2bo")
-metadata/_custom_type_script = "uid://dchtvrsl1jion"
 
 [node name="ButtonNew" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=1432014774]
 unique_name_in_owner = true
 layout_mode = 2
 text = "New"
-script = ExtResource("4_ar2bo")
-metadata/_custom_type_script = "uid://dchtvrsl1jion"

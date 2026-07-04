@@ -3,9 +3,9 @@ class_name MineSweeperManager extends Control
 const NO_POS = Vector2i(-9, -7)
 
 @onready var mine_sweeper_grid: MineSweeperGrid = %MineSweeperGrid
-@onready var button_undo: ButtonEnhanced = %ButtonUndo
-@onready var button_redo: ButtonEnhanced = %ButtonRedo
-@onready var button_new: ButtonEnhanced = %ButtonNew
+@onready var button_undo: Button = %ButtonUndo
+@onready var button_redo: Button = %ButtonRedo
+@onready var button_new: Button = %ButtonNew
 
 @export var _minesweeper : MineSweeper
 

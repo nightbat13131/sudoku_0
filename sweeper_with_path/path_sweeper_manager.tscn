@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://dslha7ak2smw6"]
+
+[ext_resource type="Script" uid="uid://s4oiicecx5kk" path="res://sweeper_with_path/path_sweeper_manager.gd" id="1_sebmf"]
+[ext_resource type="Script" uid="uid://do225uhnv3rad" path="res://sweeper_with_path/path_sweeper.gd" id="2_c1ogm"]
+[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://pathsweeper_press_type_button_group.tres" id="3_52t7v"]
+[ext_resource type="Script" uid="uid://cpokyerp606cs" path="res://sweeper_with_path/path_sweeper_grid.gd" id="4_c1ogm"]
+[ext_resource type="PackedScene" uid="uid://dhdsydxkdo3u4" path="res://sweeper_with_path/path_sweeper_cell.tscn" id="5_c1ogm"]
+[ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="8_wv4kx"]
+
+[sub_resource type="Resource" id="Resource_52t7v"]
+script = ExtResource("2_c1ogm")
+_inner_grid_size = Vector2i(10, 10)
+_danger_count = 20
+_extra_wall_count = 15
+_danger_neighbors = 3
+metadata/_custom_type_script = "uid://do225uhnv3rad"
+
+[node name="PathSweeperManager" type="Control" unique_id=178976677]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_sebmf")
+_puzzle = SubResource("Resource_52t7v")
+press_type_button_group = ExtResource("3_52t7v")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1044073659]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -68.0
+offset_right = 45.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=592940936]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=671467787]
+layout_mode = 2
+
+[node name="ButtonWalk" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer2" unique_id=1723382481]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("3_52t7v")
+text = "Walk"
+
+[node name="ButtonFlag" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer2" unique_id=1309216118]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("3_52t7v")
+text = "Flag"
+
+[node name="ButtonSpray" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer2" unique_id=577162548]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("3_52t7v")
+text = "Spray"
+
+[node name="PathSweeperGrid" type="GridContainer" parent="CenterContainer/HBoxContainer" unique_id=1133889145]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("8_wv4kx")
+script = ExtResource("4_c1ogm")
+_cell_scene = ExtResource("5_c1ogm")
+
+[node name="PathSweeperCell" parent="CenterContainer/HBoxContainer/PathSweeperGrid" unique_id=1983722122 instance=ExtResource("5_c1ogm")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=147833717]
+layout_mode = 2
+
+[node name="ButtonUndo" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=588990739]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Undo"
+
+[node name="ButtonRedo" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=623935183]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Redo"
+
+[node name="ButtonNew" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer" unique_id=1432014774]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"

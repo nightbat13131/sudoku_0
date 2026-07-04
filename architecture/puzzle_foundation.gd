@@ -19,7 +19,6 @@ var _undo_redo : UndoRedo
 
 @abstract func _restart() -> void
 
-
 func request_undo() -> void: _undo_redo.undo()
 
 func request_redo() -> void: _undo_redo.redo()
