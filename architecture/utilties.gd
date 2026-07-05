@@ -18,7 +18,12 @@ enum SudokuMode {NUMBERS = 0, ICONS = 1}
 
 enum MineSweeper_Cells_Alts {EMPTY = 0, BOMB = -12, FLAG = -13, NO_GUESS = -14, PRESS = -15}
 
-enum PathSweeper_Alts {PRESS = 0, MOVE = 1, REPELL = 2}
+enum PathSweeper_Alts { MOVE = -1, REPELL = -2, FLAG0 = -3, FLAG1 = -4, # Used in UI, so don't change
+	NA = 0, 
+	BLOCKED  = 5, 
+	REPELL_SUCCESS = 6, DANGER0 = 7,
+	LOOT0 = 8
+	}
 
 ## Display the grid with row and column numbers.
 static func display_grid(grid : Array[Array], title="Grid"):

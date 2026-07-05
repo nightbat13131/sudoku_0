@@ -3,30 +3,71 @@ class_name PathSweeperCellInfo extends PuzzleCellInfo
 static var _start : PathSweeperCellInfo
 static var _end : PathSweeperCellInfo
 
-var _is_wall := false
-var _is_danger := false
-var _block_danger := false
-var _is_pressed := false
-var _is_flag := false
+var _is_wall := false : set = set_is_wall
+var _danger := Utilties.PathSweeper_Alts.NA
+#var _block_danger := false 
+var _is_pressed := false : set = _set_is_pressed
+var _flag := Utilties.PathSweeper_Alts.NA
+var _loot := Utilties.PathSweeper_Alts.NA
 
 # 8 grid of neighbors
 var _map_neighbors : Array[PathSweeperCellInfo] : get = get_map_neighbors
 
-func press(press_type: Utilties.PathSweeper_Alts, undo_redo: UndoRedo) -> void:
+func press(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> bool:
+	var result : bool = false
+	if has_loot():
+		return do_looting(puzzle)
 	match press_type:
 		Utilties.PathSweeper_Alts.MOVE:
-			_walk_into(undo_redo)
+			result = _walk_into(puzzle)
+		Utilties.PathSweeper_Alts.FLAG0 , Utilties.PathSweeper_Alts.FLAG1:
+			result = _toggle_flag(press_type, puzzle)
+		Utilties.PathSweeper_Alts.REPELL:
+			result = _try_use_repell(puzzle)
+	return result
 
-func _walk_into(undo_redo: UndoRedo) -> void:
-	if _is_flag:
-		return
-	# can I be walked to
+func _try_use_repell(puzzle: PathSweeper) -> bool:
+	var result := false
+	if puzzle.get_spray_count() <= 0:
+		return result
+	if !_can_walk_here():
+		return result
+	var undo : UndoRedo = puzzle.get_undo_redo()
+	if is_danger():
+		undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_SUCCESS))
+		undo.add_do_method(_set_loot.bind(Utilties.PathSweeper_Alts.LOOT0))
+		undo.add_undo_method(set_is_danger.bind(_danger))
+		undo.add_undo_method(_set_loot.bind(_loot))
+		result = true
+	undo.add_do_method(puzzle.set_spray_count.bind(puzzle.get_spray_count() - 1))
+	undo.add_undo_method(puzzle.set_spray_count.bind(puzzle.get_spray_count()))
+	undo.add_do_method(_set_is_pressed.bind(true))
+	undo.add_undo_method(_set_is_pressed.bind(false))
+	return result
+
+func _walk_into(puzzle: PathSweeper) -> bool:
+	if _can_walk_here():
+		puzzle.get_undo_redo().add_do_method(_set_is_pressed.bind(true))
+		puzzle.get_undo_redo().add_undo_method(_set_is_pressed.bind(false))
+		## Consider clearing flag
+		return true
+	return false
+
+func _toggle_flag(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> bool:
+	if _is_pressed:
+		return false
+	var next := press_type
+	if _flag == next:
+		next = Utilties.PathSweeper_Alts.NA
+	puzzle.get_undo_redo().add_do_method(_set_flag.bind(next))
+	puzzle.get_undo_redo().add_undo_method(_set_flag.bind(_flag))
+	return true
+
+func _can_walk_here() -> bool:
 	for each_n in get_path_neighors():
 		if each_n.is_pressed():
-			undo_redo.add_do_method(_set_is_pressed.bind(true))
-			undo_redo.add_do_method(_signal_group_change)
-			undo_redo.add_undo_method(_set_is_pressed.bind(false))
-			undo_redo.add_undo_method(_signal_group_change)
+			return true
+	return false
 
 func _signal_group_change() -> void:
 	changed.emit()
@@ -34,12 +75,33 @@ func _signal_group_change() -> void:
 		each_n.changed.emit()
 
 func get_button_text() -> String:
+	#var text := ""
+	#var d_count = get_danger_count()
+	#if d_count> 0:
+	#	text += str(d_count)
 	if is_pressed():
-	#if is_visable():
-		return str(self)
+		return str(get_danger_count())+str(self)
+	if _is_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG0:
+			return "A"
+		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
+			return "Z"
 	return " "
 
+func do_looting(puzzle: PathSweeper) -> bool:
+	var undo : UndoRedo = puzzle.get_undo_redo()
+	if !has_loot():
+		return false
+	undo.add_do_method(_set_loot.bind(Utilties.PathSweeper_Alts.NA))
+	undo.add_undo_method(_set_loot.bind(_loot))
+	undo.add_do_method(puzzle.set_loot_count.bind(puzzle.get_loot_count() + 1) )
+	undo.add_undo_method(puzzle.set_loot_count.bind(puzzle.get_loot_count()) )
+	
+	return true
+
 func is_button_disabled() -> bool:
+	if has_loot():
+		return false
 	if is_pressed():
 		return true
 	for each_n in get_map_neighbors():
@@ -50,6 +112,18 @@ func is_button_disabled() -> bool:
 		#return _is_wall
 	return true
 
+func _set_loot(loot: Utilties.PathSweeper_Alts) -> void:
+	assert([Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.LOOT0 ].has(loot))
+	_loot = loot
+	_signal_group_change()
+
+func has_loot() -> bool: return _loot != Utilties.PathSweeper_Alts.NA
+
+func _set_flag(value: Utilties.PathSweeper_Alts) -> void: 
+	_flag = value
+	_signal_group_change()
+
+func _is_flag() -> bool: return _flag != Utilties.PathSweeper_Alts.NA
 
 func set_is_wall(is_wall_: bool) -> void: _is_wall = is_wall_
 
@@ -67,13 +141,15 @@ func is_pressed() -> bool:
 		return true
 	return false
 
-func _set_is_pressed(value: bool) -> void: _is_pressed = value
+func _set_is_pressed(value: bool) -> void: 
+	_is_pressed = value
+	_signal_group_change()
 
-func block_danger() -> void: _block_danger = true
+#func block_danger() -> void: _block_danger = true
 
 func is_danger_blocked() -> bool:
-	if _block_danger:
-		return true
+	#if _block_danger:
+	#	return true
 	if is_door():
 		return true
 	if is_wall():
@@ -87,9 +163,17 @@ func is_danger_blocked() -> bool:
 				return true
 	return false
 
-func set_is_danger(is_danger_: bool) -> void: _is_danger = is_danger_
+func set_is_danger(danger: Utilties.PathSweeper_Alts) -> void: 
+	assert( [Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.REPELL_SUCCESS,
+	Utilties.PathSweeper_Alts.DANGER0,].has(danger) )
+	_danger = danger
+	_signal_group_change()
 
-func is_danger() -> bool: return _is_danger
+func is_danger() -> bool: 
+	match _danger:
+		Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.REPELL_SUCCESS:
+			return false
+	return true
 
 func get_danger_count() -> int:
 	var out := 0
@@ -112,9 +196,11 @@ func _to_string() -> String:
 		return "^"
 	if _is_wall:
 		return "#"
+	if has_loot():
+		return "@"
 	#if _is_protected_path:
 	#	return "_"
-	if _is_danger:
+	if is_danger():
 		return "x"
 	return str(get_danger_count())
 

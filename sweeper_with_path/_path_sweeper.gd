@@ -82,12 +82,12 @@ func _populate_danger() -> void:
 			_count += 1
 
 func __try_place_danger(cell: PathSweeperCellInfo) -> bool:
-	cell.set_is_danger(true)
+	cell.set_is_danger(Utilties.PathSweeper_Alts.DANGER0)
 	for each_n in cell.get_map_neighbors():
 		if each_n.get_danger_count() > _danger_neighbors:
-			cell.set_is_danger(false)
+			cell.set_is_danger(Utilties.PathSweeper_Alts.NA)
 			return false
 	if !PathSweeperCellInfo.has_valid_path():
-		cell.set_is_danger(false)
+		cell.set_is_danger(Utilties.PathSweeper_Alts.NA)
 		return false
 	return true

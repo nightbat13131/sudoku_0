@@ -35,7 +35,7 @@ func set_pressed(is_pressed_: bool) -> void:
 
 func is_pressed() -> bool: return _is_pressed
 
-func set_flag(is_flag) -> void: 
+func set_flag(is_flag: bool) -> void: 
 	_is_flag = is_flag
 	changed.emit()
 

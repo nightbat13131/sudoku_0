@@ -10,7 +10,7 @@ signal puzzle_complete(result: Utilties.Results)
 var _cells_grid : Array[Array]
 
 
-var _undo_redo : UndoRedo
+var _undo_redo : UndoRedo : get = get_undo_redo
 
 ## Puzzle specific Generation
 @abstract func _new_puzzle() -> void
@@ -19,15 +19,17 @@ var _undo_redo : UndoRedo
 
 @abstract func _restart() -> void
 
+func get_undo_redo() -> UndoRedo: 
+	if _undo_redo == null:
+		_undo_redo = UndoRedo.new()
+	return _undo_redo
+
 func request_undo() -> void: _undo_redo.undo()
 
 func request_redo() -> void: _undo_redo.redo()
 
 func new_puzzle() -> void:
-	if _undo_redo:
-		_undo_redo.clear_history()
-	else: 
-		_undo_redo = UndoRedo.new()
+	get_undo_redo().clear_history()
 	_new_puzzle()
 	puzzle_generated.emit()
 
