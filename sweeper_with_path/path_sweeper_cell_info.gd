@@ -1,116 +1,98 @@
 class_name PathSweeperCellInfo extends PuzzleCellInfo
 
+signal updated(cell_info: PathSweeperCellInfo)
+
+## dark, deep dark, no dark
+## Cave floor, cave wall (on a floor), 
+## danger number
+## loot, danger, 
+
+## Tile alternat ideas: Lava makes more visable around it like a big glow
+
 static var _start : PathSweeperCellInfo
 static var _end : PathSweeperCellInfo
 
-var _is_wall := false : set = set_is_wall
-var _danger := Utilties.PathSweeper_Alts.NA
+var _wall := Utilties.PathSweeper_Alts.NA : set = set_wall
+var _danger := Utilties.PathSweeper_Alts.NA : set = set_is_danger
 #var _block_danger := false 
 var _is_pressed := false : set = _set_is_pressed
 var _flag := Utilties.PathSweeper_Alts.NA
 var _loot := Utilties.PathSweeper_Alts.NA
 
-# 8 grid of neighbors
+# 8 grid of neighbors, self not included
 var _map_neighbors : Array[PathSweeperCellInfo] : get = get_map_neighbors
 
-func press(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> bool:
-	var result : bool = false
+#region Interactions from Controler
+
+func press(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> void:
 	if has_loot():
-		return do_looting(puzzle)
+		return _do_looting(puzzle)
 	match press_type:
 		Utilties.PathSweeper_Alts.MOVE:
-			result = _walk_into(puzzle)
+			_walk_into(puzzle)
 		Utilties.PathSweeper_Alts.FLAG0 , Utilties.PathSweeper_Alts.FLAG1:
-			result = _toggle_flag(press_type, puzzle)
+			_toggle_flag(press_type, puzzle)
 		Utilties.PathSweeper_Alts.REPELL:
-			result = _try_use_repell(puzzle)
-	return result
+			_try_use_repell(puzzle)
 
-func _try_use_repell(puzzle: PathSweeper) -> bool:
-	var result := false
+func _try_use_repell(puzzle: PathSweeper) -> void:
 	if puzzle.get_spray_count() <= 0:
-		return result
-	if !_can_walk_here():
-		return result
-	var undo : UndoRedo = puzzle.get_undo_redo()
+		return
+	if !_can_walk_to_here():
+		return 
+	var undo : UndoRedo = puzzle.create_undo_redo_action()
 	if is_danger():
 		undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_SUCCESS))
 		undo.add_do_method(_set_loot.bind(Utilties.PathSweeper_Alts.LOOT0))
 		undo.add_undo_method(set_is_danger.bind(_danger))
 		undo.add_undo_method(_set_loot.bind(_loot))
-		result = true
-	undo.add_do_method(puzzle.set_spray_count.bind(puzzle.get_spray_count() - 1))
-	undo.add_undo_method(puzzle.set_spray_count.bind(puzzle.get_spray_count()))
+	else: 
+		undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_WASTED))
+		undo.add_undo_method(set_is_danger.bind(_danger))
+	if _is_flag():
+		undo.add_do_method(_set_flag.bind(Utilties.PathSweeper_Alts.NA))
+		undo.add_undo_method(_set_flag.bind(_flag))
+	undo.add_do_method(puzzle.change_spray.bind(-1))
+	undo.add_undo_method(puzzle.change_spray.bind(1))
 	undo.add_do_method(_set_is_pressed.bind(true))
 	undo.add_undo_method(_set_is_pressed.bind(false))
-	return result
 
-func _walk_into(puzzle: PathSweeper) -> bool:
-	if _can_walk_here():
-		puzzle.get_undo_redo().add_do_method(_set_is_pressed.bind(true))
-		puzzle.get_undo_redo().add_undo_method(_set_is_pressed.bind(false))
-		## Consider clearing flag
-		return true
-	return false
 
-func _toggle_flag(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> bool:
-	if _is_pressed:
-		return false
+func _walk_into(puzzle: PathSweeper) -> void:
+	if !_can_walk_to_here():
+		return 
+	var undo : UndoRedo = puzzle.get_undo_redo()
+	if is_danger():
+		if is_pressed():
+			return 
+		puzzle.create_undo_redo_action()
+		undo.add_do_method(puzzle.change_health.bind(-1))
+		undo.add_undo_method(puzzle.change_health.bind(1))
+	if _is_flag():
+		puzzle.create_undo_redo_action()
+		undo.add_do_method(_set_flag.bind(Utilties.PathSweeper_Alts.NA))
+		undo.add_undo_method(_set_flag.bind(_flag))
+	puzzle.create_undo_redo_action()
+	undo.add_do_method(_set_is_pressed.bind(true))
+	undo.add_undo_method(_set_is_pressed.bind(false))
+
+func _toggle_flag(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> void:
+	if is_pressed():
+		return 
 	var next := press_type
 	if _flag == next:
 		next = Utilties.PathSweeper_Alts.NA
-	puzzle.get_undo_redo().add_do_method(_set_flag.bind(next))
-	puzzle.get_undo_redo().add_undo_method(_set_flag.bind(_flag))
-	return true
+	var undo : UndoRedo =puzzle.create_undo_redo_action()
+	undo.add_do_method(_set_flag.bind(next))
+	undo.add_undo_method(_set_flag.bind(_flag))
 
-func _can_walk_here() -> bool:
-	for each_n in get_path_neighors():
-		if each_n.is_pressed():
-			return true
-	return false
-
-func _signal_group_change() -> void:
-	changed.emit()
-	for each_n in get_map_neighbors():
-		each_n.changed.emit()
-
-func get_button_text() -> String:
-	#var text := ""
-	#var d_count = get_danger_count()
-	#if d_count> 0:
-	#	text += str(d_count)
-	if is_pressed():
-		return str(get_danger_count())+str(self)
-	if _is_flag():
-		if _flag == Utilties.PathSweeper_Alts.FLAG0:
-			return "A"
-		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
-			return "Z"
-	return " "
-
-func do_looting(puzzle: PathSweeper) -> bool:
-	var undo : UndoRedo = puzzle.get_undo_redo()
-	if !has_loot():
-		return false
+func _do_looting(puzzle: PathSweeper) -> void:
+	assert(has_loot())
+	var undo : UndoRedo =puzzle.create_undo_redo_action()
 	undo.add_do_method(_set_loot.bind(Utilties.PathSweeper_Alts.NA))
 	undo.add_undo_method(_set_loot.bind(_loot))
 	undo.add_do_method(puzzle.set_loot_count.bind(puzzle.get_loot_count() + 1) )
 	undo.add_undo_method(puzzle.set_loot_count.bind(puzzle.get_loot_count()) )
-	
-	return true
-
-func is_button_disabled() -> bool:
-	if has_loot():
-		return false
-	if is_pressed():
-		return true
-	for each_n in get_map_neighbors():
-	#for each_n in get_path_neighors():
-		if each_n.is_pressed():
-			return false
-	#if is_visable():
-		#return _is_wall
-	return true
 
 func _set_loot(loot: Utilties.PathSweeper_Alts) -> void:
 	assert([Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.LOOT0 ].has(loot))
@@ -119,18 +101,121 @@ func _set_loot(loot: Utilties.PathSweeper_Alts) -> void:
 
 func has_loot() -> bool: return _loot != Utilties.PathSweeper_Alts.NA
 
+func _signal_group_change() -> void:
+	updated.emit(self)
+	for each_n in get_map_neighbors():
+		each_n.updated.emit(each_n)
+
+func _can_walk_to_here() -> bool:
+	for each_n in get_path_neighors():
+		if each_n.is_pressed():
+			return true
+	return false
+
+#endregion
+
+#region Puzzle Generation 
+
+#endregion 
+
+#region TileMapLayer Display
+
+func get_darkness() -> Vector2i:
+	if is_pressed():
+		return PathSweeper_TileManager.BLANK
+	for each_n in get_map_neighbors():
+		if each_n.is_pressed():
+			return PathSweeper_TileManager.HALF_DARK
+	return PathSweeper_TileManager.FULL_DARK
+
+func get_number() -> Vector2i:
+	if is_pressed():
+		#if !is_wall():
+			var count := get_danger_count()
+			if count > 0:
+				return Vector2i(0,count)
+	return PathSweeper_TileManager.BLANK 
+
+func get_mid_item() -> Vector2i:
+	if is_pressed():
+		if is_door():
+				return PathSweeper_TileManager.DOOR_S
+		if is_wall():
+			if _wall == Utilties.PathSweeper_Alts.BOULDER:
+				return PathSweeper_TileManager.BOULDER
+			return PathSweeper_TileManager.WALL_SEW
+		elif has_loot():
+			return PathSweeper_TileManager.LOOT
+		elif is_danger():
+			return PathSweeper_TileManager.DANGER
+		elif _danger == Utilties.PathSweeper_Alts.REPELL_SUCCESS:
+			return PathSweeper_TileManager.REPELL_SUCCESS
+		elif _danger == Utilties.PathSweeper_Alts.REPELL_WASTED:
+			return PathSweeper_TileManager.REPELL_WASTED
+	if _is_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG0:
+			return PathSweeper_TileManager.FLAG_0
+		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
+			return PathSweeper_TileManager.FLAG_1
+	return PathSweeper_TileManager.BLANK 
+
+
+#endregion
+
+#region Button Display 
+
+func get_button_text() -> String:
+	if is_pressed():
+		var text := ""
+		var d_count := get_danger_count()
+		if d_count > 0:
+			text += str(d_count)
+		if is_wall():
+			if _wall == Utilties.PathSweeper_Alts.WALL:
+				return "#"
+			elif _wall == Utilties.PathSweeper_Alts.BOULDER:
+				return "%"
+		if has_loot():
+			text += "@"
+		if is_danger():
+			text += "X"
+		return text
+	if _is_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG0:
+			return "A"
+		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
+			return "Z"
+	return " "
+
+func is_button_disabled() -> bool:
+	if has_loot():
+		return false
+	if is_pressed():
+		if is_danger():
+			return false
+		return true
+	for each_n in get_map_neighbors():
+		if each_n.is_pressed():
+			return false
+	return true
+
+#endregion 
+
 func _set_flag(value: Utilties.PathSweeper_Alts) -> void: 
 	_flag = value
 	_signal_group_change()
 
 func _is_flag() -> bool: return _flag != Utilties.PathSweeper_Alts.NA
 
-func set_is_wall(is_wall_: bool) -> void: _is_wall = is_wall_
+func set_wall(wall_: Utilties.PathSweeper_Alts) -> void: 
+	assert( [Utilties.PathSweeper_Alts.NA, 
+	Utilties.PathSweeper_Alts.WALL, Utilties.PathSweeper_Alts.BOULDER].has(wall_) )
+	_wall = wall_
 
 func is_wall() -> bool:
 	if is_door():
 		return false
-	return _is_wall
+	return [Utilties.PathSweeper_Alts.WALL, Utilties.PathSweeper_Alts.BOULDER].has(_wall)
 
 func is_pressed() -> bool:
 	if _is_pressed:
@@ -144,8 +229,6 @@ func is_pressed() -> bool:
 func _set_is_pressed(value: bool) -> void: 
 	_is_pressed = value
 	_signal_group_change()
-
-#func block_danger() -> void: _block_danger = true
 
 func is_danger_blocked() -> bool:
 	#if _block_danger:
@@ -164,19 +247,22 @@ func is_danger_blocked() -> bool:
 	return false
 
 func set_is_danger(danger: Utilties.PathSweeper_Alts) -> void: 
-	assert( [Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.REPELL_SUCCESS,
+	assert( [Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.NA, 
+	Utilties.PathSweeper_Alts.REPELL_SUCCESS, Utilties.PathSweeper_Alts.REPELL_WASTED,
 	Utilties.PathSweeper_Alts.DANGER0,].has(danger) )
 	_danger = danger
 	_signal_group_change()
 
 func is_danger() -> bool: 
 	match _danger:
-		Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.REPELL_SUCCESS:
+		Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.REPELL_SUCCESS, Utilties.PathSweeper_Alts.REPELL_WASTED :
 			return false
 	return true
 
 func get_danger_count() -> int:
 	var out := 0
+	if is_danger():
+		out += 1
 	for each : PathSweeperCellInfo in get_map_neighbors():
 		if each.is_danger():
 			out += 1
@@ -187,15 +273,18 @@ func is_path() -> bool:
 		return true
 	if is_danger():
 		return false
-	return !_is_wall
+	return !is_wall()
 
 func is_door() -> bool: return _start == self or _end == self
 
 func _to_string() -> String:
 	if is_door(): # door first becuse it's external 
 		return "^"
-	if _is_wall:
-		return "#"
+	if is_wall():
+		if _wall == Utilties.PathSweeper_Alts.WALL:
+			return "#"
+		elif _wall == Utilties.PathSweeper_Alts.BOULDER:
+			return "%"
 	if has_loot():
 		return "@"
 	#if _is_protected_path:

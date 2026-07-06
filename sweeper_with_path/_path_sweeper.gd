@@ -38,7 +38,8 @@ func _clear_grids() -> void:
 				cell.add_map_neighbor(
 					get_cell_from_pos(position + direction)
 				)
-			cell.set_is_wall(r == 0 or r == size.y-1 or c == 0 or c == size.x-1)
+			if r == 0 or r == size.y-1 or c == 0 or c == size.x-1:
+				cell.set_wall(Utilties.PathSweeper_Alts.WALL)
 	var xs = range(1,get_grid_size().x - 2)
 	xs.shuffle()
 	PathSweeperCellInfo.set_end(get_cells_grid()[0][xs.pop_back()])
@@ -54,17 +55,17 @@ func _populate_extra_walls() -> void:
 	canidates.shuffle()
 	var _count := 0
 	while !canidates.is_empty() and _count < _extra_wall_count:
-		if __try_place_wall(canidates.pop_back()):
+		if __try_place_boulder(canidates.pop_back()):
 			_count += 1
 
-func __try_place_wall(cell: PathSweeperCellInfo) -> bool:
-	cell.set_is_wall(true)
+func __try_place_boulder(cell: PathSweeperCellInfo) -> bool:
+	cell.set_wall(Utilties.PathSweeper_Alts.BOULDER)
 	for each_n in cell.get_map_neighbors():
 		if each_n.get_danger_count() > _danger_neighbors:
-			cell.set_is_wall(false)
+			cell.set_wall(Utilties.PathSweeper_Alts.NA)
 			return false
 	if !PathSweeperCellInfo.has_valid_path():
-		cell.set_is_wall(false)
+		cell.set_wall(Utilties.PathSweeper_Alts.NA)
 		return false
 	return true
 

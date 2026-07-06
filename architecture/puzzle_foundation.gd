@@ -11,6 +11,8 @@ var _cells_grid : Array[Array]
 
 
 var _undo_redo : UndoRedo : get = get_undo_redo
+var _is_undo_redo_open := false
+
 
 ## Puzzle specific Generation
 @abstract func _new_puzzle() -> void
@@ -27,6 +29,18 @@ func get_undo_redo() -> UndoRedo:
 func request_undo() -> void: _undo_redo.undo()
 
 func request_redo() -> void: _undo_redo.redo()
+
+func create_undo_redo_action(title: String = "UndoRedo Title") -> UndoRedo:
+	if _is_undo_redo_open:
+		return
+	_undo_redo.create_action(title)
+	_is_undo_redo_open = true
+	return _undo_redo
+
+func commit_undo_redo_action() -> void: 
+	if _is_undo_redo_open:
+		_undo_redo.commit_action()
+		_is_undo_redo_open = false
 
 func new_puzzle() -> void:
 	get_undo_redo().clear_history()

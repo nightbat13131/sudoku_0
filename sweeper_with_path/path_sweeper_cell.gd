@@ -10,12 +10,13 @@ func _ready() -> void:
 
 func apply_cell(cell: PathSweeperCellInfo) -> void:
 	_info = cell
-	_info.changed.connect(_on_cell_change)
-	_on_cell_change()
+	#_info.changed.connect(_on_cell_change)
+	_info.updated.connect(_on_cell_change)
+	_on_cell_change(_info)
 
-func _on_cell_change() -> void:
-	button.set_text(_info.get_button_text())
-	button.set_disabled(_info.is_button_disabled())
+func _on_cell_change(cell: PathSweeperCellInfo) -> void:
+	button.set_text(cell.get_button_text())
+	button.set_disabled(cell.is_button_disabled())
 
 func get_cell_position() -> Vector2i:
 	if _info:

@@ -5,6 +5,7 @@ class_name PathSweeperManager extends Control
 @onready var button_new: Button = %ButtonNew
 @onready var path_sweeper_grid: PathSweeperGrid = %PathSweeperGrid
 @onready var label_status: Label = %LabelStatus
+@onready var tile_manager: PathSweeper_TileManager = %TileManager
 
 @export var _puzzle: PathSweeper
 @export var press_type_button_group : ButtonGroup
@@ -33,6 +34,8 @@ func _on_redo() -> void: if _puzzle: _puzzle.request_redo()
 
 func _on_puzzle_generated() -> void: 
 	path_sweeper_grid.populate_grid(_puzzle.get_cells_grid())
+	%ButtonWalk.set_pressed(true)
+	tile_manager.set_grid(_puzzle.get_cells_grid())
 	_on_puzzle_change()
 
 static func on_press(pos: Vector2i) -> void:

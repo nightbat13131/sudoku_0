@@ -1,20 +1,22 @@
 [gd_scene format=3 uid="uid://dslha7ak2smw6"]
 
+[ext_resource type="Theme" uid="uid://dn3yu2mjxgflx" path="res://sweeper_with_path/path_sweeper_theme.tres" id="1_rpm72"]
 [ext_resource type="Script" uid="uid://s4oiicecx5kk" path="res://sweeper_with_path/path_sweeper_manager.gd" id="1_sebmf"]
 [ext_resource type="Script" uid="uid://do225uhnv3rad" path="res://sweeper_with_path/path_sweeper.gd" id="2_c1ogm"]
 [ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://pathsweeper_press_type_button_group.tres" id="3_52t7v"]
 [ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="4_7v04l"]
 [ext_resource type="Script" uid="uid://cpokyerp606cs" path="res://sweeper_with_path/path_sweeper_grid.gd" id="4_c1ogm"]
 [ext_resource type="PackedScene" uid="uid://dhdsydxkdo3u4" path="res://sweeper_with_path/path_sweeper_cell.tscn" id="5_c1ogm"]
+[ext_resource type="Script" uid="uid://movvn0wcxtso" path="res://sweeper_with_path/path_sweeper_tiles_mouse.gd" id="5_fdiyk"]
+[ext_resource type="Script" uid="uid://c8yyq1is1bnyy" path="res://sweeper_with_path/pathsweeper_tile_manager.gd" id="5_pldbc"]
+[ext_resource type="TileSet" uid="uid://218dl3hhakq3" path="res://sweeper_with_path/path_sweeper_tile_set_0.tres" id="6_pldbc"]
 [ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="8_rpm72"]
-[ext_resource type="Theme" uid="uid://km4a3frifhxu" path="res://minesweeper/minesweeper_theme.tres" id="8_wv4kx"]
 
-[sub_resource type="Resource" id="Resource_52t7v"]
+[sub_resource type="Resource" id="Resource_tonru"]
 script = ExtResource("2_c1ogm")
-_inner_grid_size = Vector2i(10, 10)
-_danger_count = 20
-_extra_wall_count = 15
-_danger_neighbors = 3
+_inner_grid_size = Vector2i(20, 10)
+_danger_count = 50
+_extra_wall_count = 50
 metadata/_custom_type_script = "uid://do225uhnv3rad"
 
 [node name="PathSweeperManager" type="Control" unique_id=178976677]
@@ -25,9 +27,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+theme = ExtResource("1_rpm72")
 script = ExtResource("1_sebmf")
-_puzzle = SubResource("Resource_52t7v")
+_puzzle = SubResource("Resource_tonru")
 press_type_button_group = ExtResource("3_52t7v")
+
+[node name="TileManager" type="Node2D" parent="." unique_id=17021362 node_paths=PackedStringArray("_dark_layers", "_mid_layers", "_floor_layers", "_number_layers")]
+unique_name_in_owner = true
+script = ExtResource("5_pldbc")
+_tileset = ExtResource("6_pldbc")
+_dark_layers = NodePath("TileMapLayer_Darkness")
+_mid_layers = NodePath("TileMapLayer_Mids")
+_floor_layers = NodePath("TileMapLayer_Floor")
+_number_layers = NodePath("TileMapLayer_Number")
+
+[node name="TileMapLayer_Floor" type="TileMapLayer" parent="TileManager" unique_id=1987665307]
+tile_map_data = PackedByteArray(0, 0, 29, 0, 26, 0, 0, 0, 3, 0, 0, 0, 0, 0)
+tile_set = ExtResource("6_pldbc")
+
+[node name="TileMapLayer_Darkness" type="TileMapLayer" parent="TileManager" unique_id=1384941465]
+tile_set = ExtResource("6_pldbc")
+
+[node name="TileMapLayer_Mids" type="TileMapLayer" parent="TileManager" unique_id=1176639320]
+tile_set = ExtResource("6_pldbc")
+
+[node name="TileMapLayer_Number" type="TileMapLayer" parent="TileManager" unique_id=6553870]
+tile_set = ExtResource("6_pldbc")
+
+[node name="PathSweeperTilesMouse" type="Node2D" parent="." unique_id=1009434886 node_paths=PackedStringArray("_tile_reference")]
+script = ExtResource("5_fdiyk")
+_tile_reference = NodePath("../TileManager/TileMapLayer_Floor")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1044073659]
 layout_mode = 1
@@ -50,6 +79,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ButtonWalk" type="Button" parent="CenterContainer/HBoxContainer/HBoxContainer2" unique_id=1723382481]
+unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("3_52t7v")
@@ -86,11 +116,22 @@ layout_mode = 2
 [node name="PathSweeperGrid" type="GridContainer" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=1133889145]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("8_wv4kx")
 script = ExtResource("4_c1ogm")
 _cell_scene = ExtResource("5_c1ogm")
 
 [node name="PathSweeperCell" parent="CenterContainer/HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=1983722122 instance=ExtResource("5_c1ogm")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell2" parent="CenterContainer/HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=2105373614 instance=ExtResource("5_c1ogm")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell3" parent="CenterContainer/HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=81565687 instance=ExtResource("5_c1ogm")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell4" parent="CenterContainer/HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=1112654563 instance=ExtResource("5_c1ogm")]
 unique_name_in_owner = true
 layout_mode = 2
 

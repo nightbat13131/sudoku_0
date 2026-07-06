@@ -20,9 +20,10 @@ enum MineSweeper_Cells_Alts {EMPTY = 0, BOMB = -12, FLAG = -13, NO_GUESS = -14, 
 
 enum PathSweeper_Alts { MOVE = -1, REPELL = -2, FLAG0 = -3, FLAG1 = -4, # Used in UI, so don't change
 	NA = 0, 
-	BLOCKED  = 5, 
-	REPELL_SUCCESS = 6, DANGER0 = 7,
-	LOOT0 = 8
+	BLOCKED  = 5, REPELL_SUCCESS = 6, REPELL_WASTED = 7,
+	DANGER0 = 10,
+	LOOT0 = 20,
+	WALL = 30, BOULDER = 31
 	}
 
 ## Display the grid with row and column numbers.

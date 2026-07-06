@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PathSweeper" format=3 uid="uid://br5h65ncbmk1k"]
+
+[ext_resource type="Script" uid="uid://do225uhnv3rad" path="res://sweeper_with_path/path_sweeper.gd" id="1_nmi33"]
+
+[resource]
+script = ExtResource("1_nmi33")
+_inner_grid_size = Vector2i(10, 10)
+_danger_count = 20
+_extra_wall_count = 15
+_danger_neighbors = 3
+metadata/_custom_type_script = "uid://do225uhnv3rad"
