@@ -40,10 +40,30 @@ func _clear_grids() -> void:
 				)
 			if r == 0 or r == size.y-1 or c == 0 or c == size.x-1:
 				cell.set_wall(Utilties.PathSweeper_Alts.WALL)
-	var xs = range(1,get_grid_size().x - 2)
+	_place_doors()
+
+func _place_doors() -> void: 
+	## enter always from the bottom
+	var xs := range(1,get_grid_size().x - 2)
 	xs.shuffle()
-	PathSweeperCellInfo.set_end(get_cells_grid()[0][xs.pop_back()])
-	PathSweeperCellInfo.set_start(get_cells_grid()[get_grid_size().y-1][xs.pop_back()])
+	var start_x : int = xs.pop_back()
+	PathSweeperCellInfo.set_start(get_cells_grid()[get_grid_size().y-1][start_x])
+	var end := Vector2i.ONE
+	match [0,0,1,2].pick_random():
+		0: # back wall
+			PathSweeperCellInfo.set_end(get_cells_grid()[0][xs.pop_back()])
+			return
+		1: 
+			#if start_x > get_grid_size().x * .5:
+			end.x = 0
+		2: 
+			#else:
+			end.x = get_grid_size().x-1
+	end.y = range(1, get_grid_size().y/2).pick_random()
+	print(end)
+	
+	PathSweeperCellInfo.set_end(get_cells_grid()[end.y][end.x])
+
 
 func _populate_extra_walls() -> void:
 	var canidates : Array[PathSweeperCellInfo]

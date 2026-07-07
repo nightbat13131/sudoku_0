@@ -10,6 +10,10 @@ class_name PathSweeperManager extends Control
 @export var _puzzle: PathSweeper
 @export var press_type_button_group : ButtonGroup
 
+@export_category("G.U.I.D.E.")
+@export var _context : GUIDEMappingContext
+@export var _primary_action: GUIDEAction
+@export var _secondary_action: GUIDEAction
 
 @warning_ignore("unused_private_class_variable")
 @export var _theme : Variant
@@ -24,6 +28,12 @@ func _ready() -> void:
 	button_undo.pressed.connect(_on_undo)
 	button_redo.pressed.connect(_on_redo)
 	button_new.pressed.connect(_on_new)
+	if _context:
+		GUIDE.enable_mapping_context(_context)
+		if _primary_action:
+			_primary_action.triggered.connect(_on_primary_action)
+		if _secondary_action:
+			pass
 	_on_new()
 
 func _on_new() -> void: if _puzzle: _puzzle.new_puzzle()
@@ -38,8 +48,13 @@ func _on_puzzle_generated() -> void:
 	tile_manager.set_grid(_puzzle.get_cells_grid())
 	_on_puzzle_change()
 
+func _on_primary_action() -> void:
+	var pos = tile_manager.get_mouse_cell()
+	_instance._puzzle.send_press(pos, _instance._get_press_type())
+
 static func on_press(pos: Vector2i) -> void:
 	if _instance:
+		return
 		_instance._puzzle.send_press(pos, _instance._get_press_type())
 
 func _get_press_type() -> Utilties.PathSweeper_Alts:

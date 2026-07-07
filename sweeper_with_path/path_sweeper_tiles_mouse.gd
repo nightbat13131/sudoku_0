@@ -11,7 +11,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void: queue_redraw()
 
 func _get_ne() -> Vector2:
-	return get_global_mouse_position() - get_global_mouse_position().posmodv(_req_size)# .snapped(_req_size)
+	return get_global_mouse_position() - get_global_mouse_position().posmodv(_req_size)
 
 func _draw() -> void:
 	draw_circle(_get_ne(), 8, Color.BLACK, false, 2 ) #debug

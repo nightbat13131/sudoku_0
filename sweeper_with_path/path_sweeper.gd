@@ -6,6 +6,8 @@ var _lives := 0
 
 func send_press(pos: Vector2i, press_type: Utilties.PathSweeper_Alts) -> void:
 	var cell : PathSweeperCellInfo = get_cell_from_pos(pos)
+	if cell == null:
+		return
 	#_undo_redo.create_action("PathSweeperPress " + str(press_type)) # move to functions that start changes
 	if _get_results() == Utilties.Results.INPROGRESS:
 		cell.press(press_type, self)
