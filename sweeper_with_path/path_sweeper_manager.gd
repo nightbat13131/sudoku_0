@@ -9,6 +9,7 @@ class_name PathSweeperManager extends Control
 
 @export var _puzzle: PathSweeper
 @export var press_type_button_group : ButtonGroup
+@export var press_type_button_group_second : ButtonGroup
 
 @export_category("G.U.I.D.E.")
 @export var _context : GUIDEMappingContext
@@ -33,7 +34,7 @@ func _ready() -> void:
 		if _primary_action:
 			_primary_action.triggered.connect(_on_primary_action)
 		if _secondary_action:
-			pass
+			_secondary_action.triggered.connect(_on_secondary_action)
 	_on_new()
 
 func _on_new() -> void: if _puzzle: _puzzle.new_puzzle()
@@ -45,6 +46,7 @@ func _on_redo() -> void: if _puzzle: _puzzle.request_redo()
 func _on_puzzle_generated() -> void: 
 	path_sweeper_grid.populate_grid(_puzzle.get_cells_grid())
 	%ButtonWalk.set_pressed(true)
+	%ButtonFlag3.set_pressed(true)
 	tile_manager.set_grid(_puzzle.get_cells_grid())
 	_on_puzzle_change()
 
@@ -52,14 +54,25 @@ func _on_primary_action() -> void:
 	var pos = tile_manager.get_mouse_cell()
 	_instance._puzzle.send_press(pos, _instance._get_press_type())
 
-static func on_press(pos: Vector2i) -> void:
+func _on_secondary_action() -> void:
+	var pos = tile_manager.get_mouse_cell()
+	_instance._puzzle.send_press(pos, _instance._get_press_type_secondary())
+
+static func on_press(_pos: Vector2i) -> void:
 	if _instance:
 		return
-		_instance._puzzle.send_press(pos, _instance._get_press_type())
+		#_instance._puzzle.send_press(_pos, _instance._get_press_type())
 
 func _get_press_type() -> Utilties.PathSweeper_Alts:
 	if press_type_button_group:
 		var holder := press_type_button_group.get_pressed_button()
+		if holder is PressTypeButtonPathSwpeeper:
+			return holder.get_press_type()
+	return Utilties.PathSweeper_Alts.NA
+
+func _get_press_type_secondary() -> Utilties.PathSweeper_Alts:
+	if press_type_button_group_second:
+		var holder := press_type_button_group_second.get_pressed_button()
 		if holder is PressTypeButtonPathSwpeeper:
 			return holder.get_press_type()
 	return Utilties.PathSweeper_Alts.NA

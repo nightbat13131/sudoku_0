@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" format=3 uid="uid://218dl3hhakq3"]
 
-[ext_resource type="Texture2D" uid="uid://carp5vwkptumx" path="res://assets/images/copywrited_sprite.png" id="1_jtqhj"]
+[ext_resource type="Texture2D" uid="uid://dwsq4dji3yuf6" path="res://assets/images/sprite_tileset.png" id="1_jtqhj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pldbc"]
 texture = ExtResource("1_jtqhj")
@@ -29,6 +29,10 @@ texture_region_size = Vector2i(32, 32)
 7:1/0 = 0
 15:0/0 = 0
 16:0/0 = 0
+7:2/0 = 0
+7:3/0 = 0
+7:4/0 = 0
+7:5/0 = 0
 
 [resource]
 tile_size = Vector2i(32, 32)

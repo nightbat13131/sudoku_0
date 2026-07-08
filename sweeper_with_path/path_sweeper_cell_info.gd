@@ -30,35 +30,43 @@ func press(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> void:
 	match press_type:
 		Utilties.PathSweeper_Alts.MOVE:
 			_walk_into(puzzle)
-		Utilties.PathSweeper_Alts.FLAG0 , Utilties.PathSweeper_Alts.FLAG1:
+		Utilties.PathSweeper_Alts.FLAG_DANGER , Utilties.PathSweeper_Alts.FLAG_SAFE:
 			_toggle_flag(press_type, puzzle)
 		Utilties.PathSweeper_Alts.REPELL:
 			_try_use_repell(puzzle)
 
 func _try_use_repell(puzzle: PathSweeper) -> void:
+	if _flag == Utilties.PathSweeper_Alts.FLAG_SAFE:
+		return ## marked as not needing repell and safe to walk here. Maybe trigger walk instead? 
 	if puzzle.get_spray_count() <= 0:
 		return
-	if !_can_walk_to_here():
+	elif !_can_walk_to_here():
 		return 
+	
 	var undo : UndoRedo = puzzle.create_undo_redo_action()
 	if is_danger():
 		undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_SUCCESS))
 		undo.add_do_method(_set_loot.bind(Utilties.PathSweeper_Alts.LOOT0))
 		undo.add_undo_method(set_is_danger.bind(_danger))
 		undo.add_undo_method(_set_loot.bind(_loot))
+		if _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
+			undo.add_do_method(_set_flag.bind(Utilties.PathSweeper_Alts.NA))
+			undo.add_undo_method(_set_flag.bind(_flag))
 	else: 
-		undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_WASTED))
-		undo.add_undo_method(set_is_danger.bind(_danger))
-	if _is_flag():
-		undo.add_do_method(_set_flag.bind(Utilties.PathSweeper_Alts.NA))
-		undo.add_undo_method(_set_flag.bind(_flag))
+		if !is_pressed():
+			undo.add_do_method(set_is_danger.bind(Utilties.PathSweeper_Alts.REPELL_WASTED))
+			undo.add_undo_method(set_is_danger.bind(_danger))
+	if !is_pressed():
+		undo.add_do_method(_set_is_pressed.bind(true))
+		undo.add_undo_method(_set_is_pressed.bind(false))
 	undo.add_do_method(puzzle.change_spray.bind(-1))
 	undo.add_undo_method(puzzle.change_spray.bind(1))
-	undo.add_do_method(_set_is_pressed.bind(true))
-	undo.add_undo_method(_set_is_pressed.bind(false))
 
 
 func _walk_into(puzzle: PathSweeper) -> void:
+	if _has_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
+			return # this flag blocks walking here
 	if !_can_walk_to_here():
 		return 
 	var undo : UndoRedo = puzzle.get_undo_redo()
@@ -68,7 +76,7 @@ func _walk_into(puzzle: PathSweeper) -> void:
 		puzzle.create_undo_redo_action()
 		undo.add_do_method(puzzle.change_health.bind(-1))
 		undo.add_undo_method(puzzle.change_health.bind(1))
-	if _is_flag():
+	if _has_flag():
 		puzzle.create_undo_redo_action()
 		undo.add_do_method(_set_flag.bind(Utilties.PathSweeper_Alts.NA))
 		undo.add_undo_method(_set_flag.bind(_flag))
@@ -143,7 +151,7 @@ func get_mid_item() -> Vector2i:
 		if is_wall():
 			if _wall == Utilties.PathSweeper_Alts.BOULDER:
 				return PathSweeper_TileManager.BOULDER
-			return PathSweeper_TileManager.WALL_SEW
+			return _get_wall_type()
 		elif has_loot():
 			return PathSweeper_TileManager.LOOT
 		elif is_danger():
@@ -152,13 +160,23 @@ func get_mid_item() -> Vector2i:
 			return PathSweeper_TileManager.REPELL_SUCCESS
 		elif _danger == Utilties.PathSweeper_Alts.REPELL_WASTED:
 			return PathSweeper_TileManager.REPELL_WASTED
-	if _is_flag():
-		if _flag == Utilties.PathSweeper_Alts.FLAG0:
-			return PathSweeper_TileManager.FLAG_0
-		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
-			return PathSweeper_TileManager.FLAG_1
+	if _has_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG_SAFE:
+			return PathSweeper_TileManager.FLAG_SAFE
+		elif _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
+			return PathSweeper_TileManager.FLAG_DANGER
 	return PathSweeper_TileManager.BLANK 
 
+func _get_wall_type() -> Vector2i:
+	if get_map_neighbors().size() <= 3: # corners
+		return PathSweeper_TileManager.WALL_
+	elif _pos.x == 0:
+		return PathSweeper_TileManager.WALL_E
+	elif _pos.y == 0:
+		return PathSweeper_TileManager.WALL_S
+	elif _start.get_position().y == _pos.y: # while _start is always along the bottom 
+		return PathSweeper_TileManager.WALL_N
+	return PathSweeper_TileManager.WALL_W
 
 #endregion
 
@@ -180,11 +198,11 @@ func get_button_text() -> String:
 		if is_danger():
 			text += "X"
 		return text
-	if _is_flag():
-		if _flag == Utilties.PathSweeper_Alts.FLAG0:
-			return "A"
-		elif _flag == Utilties.PathSweeper_Alts.FLAG1:
-			return "Z"
+	if _has_flag():
+		if _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
+			return "d"
+		elif _flag == Utilties.PathSweeper_Alts.FLAG_SAFE:
+			return "_"
 	return " "
 
 func is_button_disabled() -> bool:
@@ -202,10 +220,11 @@ func is_button_disabled() -> bool:
 #endregion 
 
 func _set_flag(value: Utilties.PathSweeper_Alts) -> void: 
+	assert([Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.FLAG_DANGER, Utilties.PathSweeper_Alts.FLAG_SAFE].has(value))
 	_flag = value
 	_signal_group_change()
 
-func _is_flag() -> bool: return _flag != Utilties.PathSweeper_Alts.NA
+func _has_flag() -> bool: return _flag != Utilties.PathSweeper_Alts.NA
 
 func set_wall(wall_: Utilties.PathSweeper_Alts) -> void: 
 	assert( [Utilties.PathSweeper_Alts.NA, 
@@ -255,8 +274,11 @@ func set_is_danger(danger: Utilties.PathSweeper_Alts) -> void:
 
 func is_danger() -> bool: 
 	match _danger:
+		Utilties.PathSweeper_Alts.DANGER0:
+			return true
 		Utilties.PathSweeper_Alts.NA, Utilties.PathSweeper_Alts.BLOCKED, Utilties.PathSweeper_Alts.REPELL_SUCCESS, Utilties.PathSweeper_Alts.REPELL_WASTED :
 			return false
+	push_warning("No match for danger")
 	return true
 
 func get_danger_count() -> int:

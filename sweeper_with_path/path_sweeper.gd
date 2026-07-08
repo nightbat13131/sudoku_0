@@ -11,7 +11,7 @@ func send_press(pos: Vector2i, press_type: Utilties.PathSweeper_Alts) -> void:
 	#_undo_redo.create_action("PathSweeperPress " + str(press_type)) # move to functions that start changes
 	if _get_results() == Utilties.Results.INPROGRESS:
 		cell.press(press_type, self)
-		changed.emit.call_deferred()
+		# changed.emit.call_deferred() # needs calling by undo, so tucking in setters
 		commit_undo_redo_action()
 
 func _new_puzzle() -> void:
@@ -19,6 +19,7 @@ func _new_puzzle() -> void:
 	_spray_count = 5
 	_lives = 3
 	super._new_puzzle()
+	changed.emit()
 
 func get_status_text() -> String: 
 	var text := ""
@@ -36,13 +37,13 @@ func get_spray_count() -> int: return _spray_count
 
 func change_spray(delta: int) -> void: 
 	_spray_count += delta
-	#changed.emit()
+	changed.emit()
 
 func get_loot_count() -> int: return _loot_count
 
 func set_loot_count(value: int) -> void: 
 	_loot_count = value
-	#changed.emit()
+	changed.emit()
 
 func get_health() -> int: return _lives
 

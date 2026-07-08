@@ -1,5 +1,7 @@
 class_name PathSweeper_TileManager extends Node2D
 
+## orignal gameboy resolution: resolution of 160 pixels wide by 144 pixels high in a 10:9 aspect ratio.[28] 
+
 
 const BLANK := Vector2i(-1,-1)
 
@@ -9,15 +11,19 @@ const FULL_DARK  := Vector2i(2,0)
 const HALF_DARK := Vector2(3,0)
 
 const BOULDER := Vector2i(10,0)
-const WALL_SEW := Vector2i(7,1)
+const WALL_N := Vector2i(7,1)
+const WALL_E := Vector2i(7,2)
+const WALL_S := Vector2i(7,3)
+const WALL_W := Vector2i(7,4)
+const WALL_ := Vector2i(7,5)
 const DOOR_S := Vector2i(8,1)
 
 const LOOT := Vector2i(12,0)
 const DANGER := Vector2i(11,0)
 const REPELL_SUCCESS := Vector2i(15,0)
 const REPELL_WASTED := Vector2i(16,0)
-const FLAG_0 := Vector2i(14,0)
-const FLAG_1 := Vector2i(13,0)
+const FLAG_DANGER := Vector2i(14,0)
+const FLAG_SAFE := Vector2i(13,0)
 
 @export var _tileset : TileSet
 @export var _dark_layers : TileMapLayer
@@ -27,7 +33,7 @@ const FLAG_1 := Vector2i(13,0)
 
 #var _width :int
 var _cells : Array[Array]
-var _req_size := Vector2.ONE
+var _req_size := Vector2i.ONE
 
 func _ready() -> void:
 	set_z_index(100)
@@ -63,26 +69,66 @@ func _on_cell_update(cell: PathSweeperCellInfo) -> void:
 
 func get_mouse_cell() -> Vector2i: return _floor_layers.local_to_map(get_local_mouse_position())
 
-
-
 func _process(_delta: float) -> void: queue_redraw()
 
-func _get_ne() -> Vector2:
-	#print(_floor_layers.local_to_map(get_local_mouse_position()))
-	return get_mouse_cell() * Vector2i(_req_size) # get_global_mouse_position() - get_global_mouse_position().posmodv(_req_size)
+#func _get_ne() -> Vector2:
+	##print(_floor_layers.local_to_map(get_local_mouse_position()))
+	#return get_mouse_cell() * Vector2i(_req_size) # get_global_mouse_position() - get_global_mouse_position().posmodv(_req_size)
 
 func _draw() -> void:
-	draw_circle(_get_ne(), 8, Color.BLACK, false, 2 ) #debug
-	__draw_req( _get_ne() )# + (_req_size *.5 ))
-	pass
+	var cell := get_mouse_cell()
+	if !_cell_in_use( cell ):
+		return
 
-func __draw_req(nw: Vector2) -> void:
+	#draw_circle(cell * _req_size, 8, Color.BLACK, false, 2 ) #debug
+	__draw_req( cell )# + (_req_size *.5 ))
+	for direction in [Vector2i(-1,-1) , Vector2i(1,-1), Vector2i(1,1), Vector2i(-1,1), ]:
+		_draw_corner(cell + direction, direction)
+
+
+func __draw_req(cell: Vector2i) -> void:
+	if !_cell_in_use( cell ):
+		return
+	cell *= Vector2i(_req_size)
 	for pair in [
-		[Vector2.ZERO, Vector2.RIGHT],
-		[Vector2.ZERO, Vector2.DOWN],
-		[Vector2.RIGHT, Vector2.DOWN + Vector2.RIGHT],
-		[Vector2.DOWN, Vector2.DOWN + Vector2.RIGHT]
+			[Vector2i.ZERO, Vector2i.RIGHT],
+			[Vector2i.ZERO, Vector2i.DOWN],
+			[Vector2i.RIGHT, Vector2i.DOWN + Vector2i.RIGHT],
+			[Vector2i.DOWN, Vector2i.DOWN + Vector2i.RIGHT]
 			]:
-		draw_dashed_line(pair[0] * _req_size + nw, pair[1] *  _req_size + nw, Color.BLACK, 5)
+		draw_dashed_line(pair[0] * _req_size + cell, pair[1] *  _req_size + cell, Color.BLACK, 5)
+
+
+func _draw_corner(cell: Vector2i, direction: Vector2i) -> void: 
+	if !_cell_in_use(cell):
+		return
+	#draw_circle(cell * _req_size, 8, Color.ORANGE, false, 2 ) #debug
 	
-	pass
+	@warning_ignore("integer_division")
+	var center := ( cell * _req_size ) + (_req_size/2)
+	
+	#draw_circle(center, 8, Color.BLUE, false, 2 ) #debug
+	
+	@warning_ignore("integer_division")
+	var point_out := center + (direction * _req_size/2 )
+	
+	draw_line( point_out, Vector2i(point_out.x, center.y) , Color.WHITE, 2 )
+	draw_line( point_out, Vector2i(center.x, point_out.y),  Color.WHITE, 2 )
+	
+	#draw_line( point_a, point_b,   Color.WHITE, 2 )
+	#__draw_req(cell)
+	
+
+
+func _cell_in_use(cell: Vector2i) -> bool:
+	var point := _floor_layers.get_used_rect()
+	if cell.x < point.position.x:
+		return false
+	elif cell.x > point.end.x-1:
+		return false
+	elif cell.y < point.position.y:
+		return false
+	elif cell.y > point.end.y-1:
+		return false
+	return true
+	

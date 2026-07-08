@@ -3,8 +3,8 @@
 [ext_resource type="Theme" uid="uid://dn3yu2mjxgflx" path="res://sweeper_with_path/path_sweeper_theme.tres" id="1_rpm72"]
 [ext_resource type="Script" uid="uid://s4oiicecx5kk" path="res://sweeper_with_path/path_sweeper_manager.gd" id="1_sebmf"]
 [ext_resource type="Script" uid="uid://do225uhnv3rad" path="res://sweeper_with_path/path_sweeper.gd" id="2_c1ogm"]
-[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://pathsweeper_press_type_button_group.tres" id="3_52t7v"]
 [ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="4_7v04l"]
+[ext_resource type="ButtonGroup" uid="uid://si3w7s6g6bel" path="res://sweeper_with_path/pathsweeper_press_type_button_group_2.tres" id="4_awl1s"]
 [ext_resource type="Script" uid="uid://cpokyerp606cs" path="res://sweeper_with_path/path_sweeper_grid.gd" id="4_c1ogm"]
 [ext_resource type="Resource" uid="uid://cq22jlaqyr2a" path="res://sweeper_with_path/guide/path_sweeper_context.tres" id="5_awl1s"]
 [ext_resource type="PackedScene" uid="uid://dhdsydxkdo3u4" path="res://sweeper_with_path/path_sweeper_cell.tscn" id="5_c1ogm"]
@@ -13,6 +13,7 @@
 [ext_resource type="TileSet" uid="uid://218dl3hhakq3" path="res://sweeper_with_path/path_sweeper_tile_set_0.tres" id="6_pldbc"]
 [ext_resource type="Resource" uid="uid://crcu166hslp0a" path="res://sweeper_with_path/guide/secondary_action.tres" id="7_p0pf2"]
 [ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="8_rpm72"]
+[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="10_je411"]
 
 [sub_resource type="Resource" id="Resource_tonru"]
 script = ExtResource("2_c1ogm")
@@ -32,7 +33,8 @@ mouse_filter = 1
 theme = ExtResource("1_rpm72")
 script = ExtResource("1_sebmf")
 _puzzle = SubResource("Resource_tonru")
-press_type_button_group = ExtResource("3_52t7v")
+press_type_button_group = ExtResource("10_je411")
+press_type_button_group_second = ExtResource("4_awl1s")
 _context = ExtResource("5_awl1s")
 _primary_action = ExtResource("6_je411")
 _secondary_action = ExtResource("7_p0pf2")
@@ -81,18 +83,22 @@ grow_vertical = 2
 [node name="HBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=671467787]
 layout_mode = 2
 
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1183398824]
+layout_mode = 2
+text = "Primary"
+
 [node name="ButtonWalk" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1723382481]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
-button_group = ExtResource("3_52t7v")
+button_group = ExtResource("10_je411")
 text = "Walk"
 script = ExtResource("4_7v04l")
 
 [node name="ButtonSpray" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=577162548]
 layout_mode = 2
 toggle_mode = true
-button_group = ExtResource("3_52t7v")
+button_group = ExtResource("10_je411")
 text = "Spray"
 script = ExtResource("4_7v04l")
 _press_type = -2
@@ -100,16 +106,55 @@ _press_type = -2
 [node name="ButtonFlag" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1309216118]
 layout_mode = 2
 toggle_mode = true
-button_group = ExtResource("3_52t7v")
-text = "Flag A"
+button_group = ExtResource("10_je411")
+text = "Flag Dang"
 script = ExtResource("4_7v04l")
 _press_type = -3
 
 [node name="ButtonFlag2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=384584727]
 layout_mode = 2
 toggle_mode = true
-button_group = ExtResource("3_52t7v")
-text = "Flag Z"
+button_group = ExtResource("10_je411")
+text = "Flag Safe"
+script = ExtResource("4_7v04l")
+_press_type = -4
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=208547528]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1098845690]
+layout_mode = 2
+text = "Secondary"
+
+[node name="ButtonWalk2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1233944601]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("4_awl1s")
+text = "Walk"
+script = ExtResource("4_7v04l")
+
+[node name="ButtonSpray2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=738576701]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("4_awl1s")
+text = "Spray"
+script = ExtResource("4_7v04l")
+_press_type = -2
+
+[node name="ButtonFlag3" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1326150701]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("4_awl1s")
+text = "Flag Dang"
+script = ExtResource("4_7v04l")
+_press_type = -3
+
+[node name="ButtonFlag4" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=883869253]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("4_awl1s")
+text = "Flag Safe"
 script = ExtResource("4_7v04l")
 _press_type = -4
 
@@ -168,7 +213,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 script = ExtResource("8_rpm72")
-_button_group = ExtResource("3_52t7v")
+_button_group = ExtResource("4_awl1s")
 
 [node name="MouseLabel" type="Label" parent="PathSweeperMouseHelper" unique_id=546108757]
 unique_name_in_owner = true
