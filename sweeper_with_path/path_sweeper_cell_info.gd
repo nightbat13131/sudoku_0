@@ -38,6 +38,8 @@ func press(press_type: Utilties.PathSweeper_Alts, puzzle: PathSweeper) -> void:
 func _try_use_repell(puzzle: PathSweeper) -> void:
 	if _flag == Utilties.PathSweeper_Alts.FLAG_SAFE:
 		return ## marked as not needing repell and safe to walk here. Maybe trigger walk instead? 
+	if is_pressed() and !is_danger():
+		return
 	if puzzle.get_spray_count() <= 0:
 		return
 	elif !_can_walk_to_here():
@@ -137,6 +139,8 @@ func get_darkness() -> Vector2i:
 	return PathSweeper_TileManager.FULL_DARK
 
 func get_number() -> Vector2i:
+	if is_danger(): # enemies block view of numbers
+		return PathSweeper_TileManager.BLANK 
 	if is_pressed():
 		#if !is_wall():
 			var count := get_danger_count()
@@ -147,7 +151,7 @@ func get_number() -> Vector2i:
 func get_mid_item() -> Vector2i:
 	if is_pressed():
 		if is_door():
-				return PathSweeper_TileManager.DOOR_S
+				return _get_door_type()
 		if is_wall():
 			if _wall == Utilties.PathSweeper_Alts.BOULDER:
 				return PathSweeper_TileManager.BOULDER
@@ -166,6 +170,17 @@ func get_mid_item() -> Vector2i:
 		elif _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
 			return PathSweeper_TileManager.FLAG_DANGER
 	return PathSweeper_TileManager.BLANK 
+
+func _get_door_type() -> Vector2i:
+	var entrance : PuzzleCellInfo = get_path_neighors()[0]
+	match entrance.get_position() - self.get_position() : # direction 
+		Vector2i.UP:
+			return PathSweeper_TileManager.DOOR_N
+		Vector2i.LEFT:
+			return PathSweeper_TileManager.DOOR_W
+		Vector2i.RIGHT:
+			return PathSweeper_TileManager.DOOR_E
+	return PathSweeper_TileManager.DOOR_S
 
 func _get_wall_type() -> Vector2i:
 	if get_map_neighbors().size() <= 3: # corners

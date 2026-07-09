@@ -4,6 +4,7 @@ class_name PressTypeButtonPathSwpeeper extends ButtonEnhanced
 
 func _ready() -> void:
 	set_toggle_mode(true)
+	
 	set_pressed_no_signal(get_press_type() == Utilties.PathSweeper_Alts.MOVE)
 
 func get_press_type() -> Utilties.PathSweeper_Alts: return _press_type

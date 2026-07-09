@@ -6,6 +6,9 @@ const MINESWEEPER_POKE = &"MineSweeper"
 
 const COLOR_SUBGRID_HIGHLIGHT : Color = Color(1, 1, 1)
 const COLOR_SUBGRID_LOWLIGHT : Color = Color(.7, .7, .7,)
+const COLOR_PATH_OUTER_CELL := Color(0.9, 0.541, 0.369, 0.5)
+const COLOR_PATH_CENTER_CELL := COLOR_PATH_OUTER_CELL # Color(.3,.3,.3,.5)
+
 
 enum Difficulty {EASY = 0, MEDIUM = 1, HARD = 2, DEBUG = -1}
 

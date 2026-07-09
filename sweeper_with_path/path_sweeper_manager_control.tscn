@@ -1,0 +1,272 @@
+[gd_scene format=3 uid="uid://m735ih7cnuro"]
+
+[ext_resource type="Theme" uid="uid://dn3yu2mjxgflx" path="res://sweeper_with_path/path_sweeper_theme.tres" id="1_4soj6"]
+[ext_resource type="Script" uid="uid://s4oiicecx5kk" path="res://sweeper_with_path/path_sweeper_manager.gd" id="2_qv1x6"]
+[ext_resource type="Script" uid="uid://do225uhnv3rad" path="res://sweeper_with_path/path_sweeper.gd" id="3_7xs6x"]
+[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="4_ufe7l"]
+[ext_resource type="ButtonGroup" uid="uid://si3w7s6g6bel" path="res://sweeper_with_path/pathsweeper_press_type_button_group_2.tres" id="5_kq40e"]
+[ext_resource type="Resource" uid="uid://cq22jlaqyr2a" path="res://sweeper_with_path/guide/path_sweeper_context.tres" id="6_7ckg1"]
+[ext_resource type="Resource" uid="uid://bad1ibu637cwg" path="res://sweeper_with_path/guide/primary_action.tres" id="7_s77sg"]
+[ext_resource type="Resource" uid="uid://crcu166hslp0a" path="res://sweeper_with_path/guide/secondary_action.tres" id="8_i2cdw"]
+[ext_resource type="Script" uid="uid://c8yyq1is1bnyy" path="res://sweeper_with_path/pathsweeper_tile_manager.gd" id="9_gawp8"]
+[ext_resource type="TileSet" uid="uid://218dl3hhakq3" path="res://sweeper_with_path/path_sweeper_tile_set_0.tres" id="10_0eknk"]
+[ext_resource type="Texture2D" uid="uid://cyugiht3ojqp5" path="res://assets/images/kenney_mouse.png" id="11_wk73a"]
+[ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="12_sv7ul"]
+[ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="13_hmvnl"]
+[ext_resource type="Texture2D" uid="uid://dw036jufvu3hr" path="res://sweeper_with_path/ui/icon_repel.tres" id="14_brpsk"]
+[ext_resource type="Texture2D" uid="uid://blo1eey7am57o" path="res://sweeper_with_path/ui/icon_flag_danger.tres" id="15_8pwk6"]
+[ext_resource type="Texture2D" uid="uid://xqhbb8ap6ii1" path="res://sweeper_with_path/ui/icon_flag_safe.tres" id="16_4m5a3"]
+[ext_resource type="Script" uid="uid://cpokyerp606cs" path="res://sweeper_with_path/path_sweeper_grid.gd" id="17_srlqx"]
+[ext_resource type="PackedScene" uid="uid://dhdsydxkdo3u4" path="res://sweeper_with_path/path_sweeper_cell.tscn" id="18_vmctq"]
+[ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="19_wld3d"]
+
+[sub_resource type="Resource" id="Resource_tonru"]
+script = ExtResource("3_7xs6x")
+_inner_grid_size = Vector2i(16, 12)
+_danger_count = 50
+_extra_wall_count = 50
+metadata/_custom_type_script = "uid://do225uhnv3rad"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivpca"]
+atlas = ExtResource("11_wk73a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6xpkf"]
+load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppvb5"]
+atlas = SubResource("CompressedTexture2D_6xpkf")
+region = Rect2(32, 0, 32, 32)
+
+[node name="PathSweeperManager" type="Control" unique_id=178976677]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_4soj6")
+script = ExtResource("2_qv1x6")
+_puzzle = SubResource("Resource_tonru")
+press_type_button_group = ExtResource("4_ufe7l")
+press_type_button_group_second = ExtResource("5_kq40e")
+_context = ExtResource("6_7ckg1")
+_primary_action = ExtResource("7_s77sg")
+_secondary_action = ExtResource("8_i2cdw")
+
+[node name="TileManager" type="Node2D" parent="." unique_id=17021362 node_paths=PackedStringArray("_dark_layers", "_mid_layers", "_floor_layers", "_number_layers")]
+unique_name_in_owner = true
+z_index = 100
+z_as_relative = false
+position = Vector2(32, 0)
+script = ExtResource("9_gawp8")
+_tileset = ExtResource("10_0eknk")
+_dark_layers = NodePath("TileMapLayer_Darkness")
+_mid_layers = NodePath("TileMapLayer_Mids")
+_floor_layers = NodePath("TileMapLayer_Floor")
+_number_layers = NodePath("TileMapLayer_Number")
+
+[node name="TileMapLayer_Floor" type="TileMapLayer" parent="TileManager" unique_id=1987665307]
+z_index = -50
+z_as_relative = false
+tile_map_data = PackedByteArray(0, 0, 29, 0, 26, 0, 0, 0, 3, 0, 0, 0, 0, 0)
+tile_set = ExtResource("10_0eknk")
+
+[node name="TileMapLayer_Darkness" type="TileMapLayer" parent="TileManager" unique_id=1384941465]
+z_index = -50
+z_as_relative = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 2, 0, 0, 0, 0, 0, 18, 0, 14, 0, 0, 0, 2, 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("10_0eknk")
+
+[node name="TileMapLayer_Mids" type="TileMapLayer" parent="TileManager" unique_id=1176639320]
+z_index = -50
+z_as_relative = false
+tile_set = ExtResource("10_0eknk")
+
+[node name="TileMapLayer_Number" type="TileMapLayer" parent="TileManager" unique_id=6553870]
+z_index = -50
+z_as_relative = false
+tile_set = ExtResource("10_0eknk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=592940936]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 43.0
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=671467787]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1593568838]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("AtlasTexture_ivpca")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1183398824]
+visible = false
+layout_mode = 2
+text = "Primary"
+
+[node name="ButtonWalk" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1723382481]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_ufe7l")
+icon = ExtResource("12_sv7ul")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+
+[node name="ButtonSpray" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=577162548]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_ufe7l")
+icon = ExtResource("14_brpsk")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -2
+
+[node name="ButtonFlag" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1309216118]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_ufe7l")
+icon = ExtResource("15_8pwk6")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -3
+
+[node name="ButtonFlag2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=384584727]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_ufe7l")
+icon = ExtResource("16_4m5a3")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -4
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=208547528]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1228199926]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("AtlasTexture_ppvb5")
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1098845690]
+visible = false
+layout_mode = 2
+text = "Secondary"
+
+[node name="ButtonWalk2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1233944601]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("5_kq40e")
+icon = ExtResource("12_sv7ul")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+
+[node name="ButtonSpray2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=738576701]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("5_kq40e")
+icon = ExtResource("14_brpsk")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -2
+
+[node name="ButtonFlag3" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1326150701]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("5_kq40e")
+icon = ExtResource("15_8pwk6")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -3
+
+[node name="ButtonFlag4" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=883869253]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("5_kq40e")
+icon = ExtResource("16_4m5a3")
+icon_alignment = 1
+script = ExtResource("13_hmvnl")
+_press_type = -4
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=1163094714]
+layout_mode = 2
+
+[node name="ButtonNew" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1432014774]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=632038211]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PathSweeperGrid" type="GridContainer" parent="HBoxContainer/VBoxContainer" unique_id=1133889145]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("17_srlqx")
+_cell_scene = ExtResource("18_vmctq")
+
+[node name="PathSweeperCell" parent="HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=1983722122 instance=ExtResource("18_vmctq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell2" parent="HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=2105373614 instance=ExtResource("18_vmctq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell3" parent="HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=81565687 instance=ExtResource("18_vmctq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PathSweeperCell4" parent="HBoxContainer/VBoxContainer/PathSweeperGrid" unique_id=1112654563 instance=ExtResource("18_vmctq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2086898603]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=147833717]
+visible = false
+layout_mode = 2
+
+[node name="ButtonUndo" type="Button" parent="HBoxContainer/HBoxContainer" unique_id=588990739]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Undo"
+
+[node name="ButtonRedo" type="Button" parent="HBoxContainer/HBoxContainer" unique_id=623935183]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Redo"
+
+[node name="PathSweeperMouseHelper" type="Control" parent="." unique_id=453278315]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("19_wld3d")
+_button_group = ExtResource("5_kq40e")
+
+[node name="MouseLabel" type="Label" parent="PathSweeperMouseHelper" unique_id=546108757]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

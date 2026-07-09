@@ -1,8 +1,9 @@
-class_name PathSweeperManager extends Control
+class_name PathSweeperManager_Control extends Control
 
 @onready var button_undo: Button = %ButtonUndo
 @onready var button_redo: Button = %ButtonRedo
 @onready var button_new: Button = %ButtonNew
+@onready var path_sweeper_grid: PathSweeperGrid = %PathSweeperGrid
 @onready var label_status: Label = %LabelStatus
 @onready var tile_manager: PathSweeper_TileManager = %TileManager
 
@@ -18,7 +19,7 @@ class_name PathSweeperManager extends Control
 @warning_ignore("unused_private_class_variable")
 @export var _theme : Variant
 
-static var _instance : PathSweeperManager
+static var _instance : PathSweeperManager_Control
 
 func _ready() -> void:
 	_instance = self
@@ -43,6 +44,7 @@ func _on_undo() -> void: if _puzzle: _puzzle.request_undo()
 func _on_redo() -> void: if _puzzle: _puzzle.request_redo()
 
 func _on_puzzle_generated() -> void: 
+	path_sweeper_grid.populate_grid(_puzzle.get_cells_grid())
 	%ButtonWalk.set_pressed(true)
 	%ButtonFlag3.set_pressed(true)
 	tile_manager.set_grid(_puzzle.get_cells_grid())
@@ -55,6 +57,11 @@ func _on_primary_action() -> void:
 func _on_secondary_action() -> void:
 	var pos = tile_manager.get_mouse_cell()
 	_instance._puzzle.send_press(pos, _instance._get_press_type_secondary())
+
+static func on_press(_pos: Vector2i) -> void:
+	if _instance:
+		return
+		#_instance._puzzle.send_press(_pos, _instance._get_press_type())
 
 func _get_press_type() -> Utilties.PathSweeper_Alts:
 	if press_type_button_group:

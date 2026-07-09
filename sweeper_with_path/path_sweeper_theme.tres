@@ -1,5 +1,14 @@
 [gd_resource type="Theme" format=3 uid="uid://dn3yu2mjxgflx"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jif6"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72464263, 0.72464263, 0.7246424, 1)
+
 [resource]
+Button/styles/pressed = SubResource("StyleBoxFlat_6jif6")
 GridContainer/constants/h_separation = 0
 GridContainer/constants/v_separation = 0
