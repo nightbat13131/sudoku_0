@@ -66,6 +66,11 @@ func _try_use_repell(puzzle: PathSweeper) -> void:
 
 
 func _walk_into(puzzle: PathSweeper) -> void:
+	if is_pressed():
+		if _end == self:
+			puzzle.request_next_level()
+			return
+
 	if _has_flag():
 		if _flag == Utilties.PathSweeper_Alts.FLAG_DANGER:
 			return # this flag blocks walking here
@@ -130,8 +135,10 @@ func _can_walk_to_here() -> bool:
 
 #region TileMapLayer Display
 
-func get_darkness() -> Vector2i:
+func get_darkness() -> Vector2i: # over layer
 	if is_pressed():
+		if _end == self:
+			return Vector2i(16,0)
 		return PathSweeper_TileManager.BLANK
 	for each_n in get_map_neighbors():
 		if each_n.is_pressed():
@@ -151,7 +158,7 @@ func get_number() -> Vector2i:
 func get_mid_item() -> Vector2i:
 	if is_pressed():
 		if is_door():
-				return _get_door_type()
+			return _get_door_type()
 		if is_wall():
 			if _wall == Utilties.PathSweeper_Alts.BOULDER:
 				return PathSweeper_TileManager.BOULDER
@@ -171,9 +178,12 @@ func get_mid_item() -> Vector2i:
 			return PathSweeper_TileManager.FLAG_DANGER
 	return PathSweeper_TileManager.BLANK 
 
-func _get_door_type() -> Vector2i:
+func _get_door_direciton() -> Vector2i: 
 	var entrance : PuzzleCellInfo = get_path_neighors()[0]
-	match entrance.get_position() - self.get_position() : # direction 
+	return entrance.get_position() - self.get_position() # direction 
+
+func _get_door_type() -> Vector2i:
+	match _get_door_direciton():
 		Vector2i.UP:
 			return PathSweeper_TileManager.DOOR_N
 		Vector2i.LEFT:

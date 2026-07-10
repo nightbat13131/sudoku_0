@@ -6,8 +6,7 @@ class_name PathSweeper_Inner extends PuzzleFoundation
 @export var _extra_wall_count : int = 10
 @export var _danger_neighbors : int = 2
 
-func _get_results() -> Utilties.Results:
-	return Utilties.Results.INPROGRESS
+func _get_results() -> Utilties.Results: return Utilties.Results.INPROGRESS
 
 func request_restart() -> void: pass
 

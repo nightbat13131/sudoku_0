@@ -1,4 +1,4 @@
-class_name PathSweeperManager extends Control
+class_name PathSweeperManager extends Node
 
 @onready var button_undo: Button = %ButtonUndo
 @onready var button_redo: Button = %ButtonRedo
@@ -36,15 +36,16 @@ func _ready() -> void:
 			_secondary_action.triggered.connect(_on_secondary_action)
 	_on_new()
 
-func _on_new() -> void: if _puzzle: _puzzle.new_puzzle()
+func _on_new() -> void: if _puzzle: 
+	%ButtonWalk.set_pressed(true)
+	%ButtonFlag3.set_pressed(true)
+	_puzzle.new_game() #new_puzzle()
 
 func _on_undo() -> void: if _puzzle: _puzzle.request_undo()
 
 func _on_redo() -> void: if _puzzle: _puzzle.request_redo()
 
 func _on_puzzle_generated() -> void: 
-	%ButtonWalk.set_pressed(true)
-	%ButtonFlag3.set_pressed(true)
 	tile_manager.set_grid(_puzzle.get_cells_grid())
 	_on_puzzle_change()
 

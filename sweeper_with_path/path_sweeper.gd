@@ -3,6 +3,7 @@ class_name PathSweeper extends PathSweeper_Inner
 var _spray_count := 0
 var _loot_count := 0
 var _lives := 0
+var _depth := 0
 
 func send_press(pos: Vector2i, press_type: Utilties.PathSweeper_Alts) -> void:
 	var cell : PathSweeperCellInfo = get_cell_from_pos(pos)
@@ -14,11 +15,17 @@ func send_press(pos: Vector2i, press_type: Utilties.PathSweeper_Alts) -> void:
 		# changed.emit.call_deferred() # needs calling by undo, so tucking in setters
 		commit_undo_redo_action()
 
-func _new_puzzle() -> void:
+func new_game() -> void:
+	_depth = 1
 	_loot_count = 0
 	_spray_count = 5
 	_lives = 3
-	super._new_puzzle()
+	new_puzzle()
+	changed.emit()
+
+func request_next_level() -> void: 
+	new_puzzle()
+	_depth += 1
 	changed.emit()
 
 func get_status_text() -> String: 
@@ -28,8 +35,8 @@ func get_status_text() -> String:
 			text += "Win\n"
 		Utilties.Results.LOSS:
 			text += "Died\n"
-	text += "Lives: {} Loot: {} , Repells: {}.".format(
-		[_lives, _loot_count, _spray_count ],
+	text += "Lives: {} Loot: {} Repells: {} Depth: {}".format(
+		[_lives, _loot_count, _spray_count, _depth ],
 		 "{}")
 	return text
 
@@ -54,7 +61,7 @@ func change_health(delta: int) -> void:
 func _get_results() -> Utilties.Results:
 	if _lives < 0: # 0 can take one more hit
 		return Utilties.Results.LOSS
-	if PathSweeperCellInfo._end:
-		if PathSweeperCellInfo._end.is_pressed():
-			return Utilties.Results.WIN
+	#if PathSweeperCellInfo._end:
+	#	if PathSweeperCellInfo._end.is_pressed():
+	#		return Utilties.Results.WIN
 	return Utilties.Results.INPROGRESS
