@@ -13,6 +13,7 @@
 [ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="10_je411"]
 [ext_resource type="Script" uid="uid://ce0bgs76k2piy" path="res://sweeper_with_path/score_holderpathsweeper.gd" id="10_kc2h5"]
 [ext_resource type="Texture2D" uid="uid://cyugiht3ojqp5" path="res://assets/images/kenney_mouse.png" id="11_2otii"]
+[ext_resource type="Texture2D" uid="uid://cqxtirdg1tgf" path="res://sweeper_with_path/ui/icon_heart.tres" id="11_ivpca"]
 [ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="11_ng3e6"]
 [ext_resource type="Texture2D" uid="uid://dw036jufvu3hr" path="res://sweeper_with_path/ui/icon_repel.tres" id="13_2otii"]
 [ext_resource type="Texture2D" uid="uid://blo1eey7am57o" path="res://sweeper_with_path/ui/icon_flag_danger.tres" id="14_ivpca"]
@@ -88,35 +89,43 @@ unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("10_kc2h5")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1872364451]
+[node name="TextureRect_hp1" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1872364451]
+unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("14_ivpca")
+texture = ExtResource("11_ivpca")
 
-[node name="TextureRect7" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=384475036]
+[node name="TextureRect_hp2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=384475036]
+unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("14_ivpca")
+texture = ExtResource("11_ivpca")
 
-[node name="TextureRect8" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1514650160]
+[node name="TextureRect_hp3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1514650160]
+unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("14_ivpca")
+texture = ExtResource("11_ivpca")
 
-[node name="TextureRect6" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1662728412]
-layout_mode = 2
-texture = ExtResource("13_2otii")
-
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1241897510]
-layout_mode = 2
-texture = ExtResource("13_2otii")
-
-[node name="TextureRect3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1170755065]
+[node name="TextureRect_repel1" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1662728412]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect4" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=2098369210]
+[node name="TextureRect_repel2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1241897510]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect5" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=135735382]
+[node name="TextureRect_repel3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=247723793]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("13_2otii")
+
+[node name="TextureRect_repel4" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=568164545]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("13_2otii")
+
+[node name="TextureRect_repel5" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1958749608]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
@@ -125,8 +134,14 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Depth"
 
+[node name="LabelLoot" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1423696547]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Depth"
+
 [node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2086898603]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 2
 

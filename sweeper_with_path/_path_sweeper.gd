@@ -43,7 +43,7 @@ func _clear_grids() -> void:
 
 func _place_doors() -> void: 
 	## enter always from the bottom
-	var xs := range(1,get_grid_size().x - 2)
+	var xs := range(1,get_grid_size().x - 1)
 	xs.shuffle()
 	var start_x : int = xs.pop_back()
 	PathSweeperCellInfo.set_start(get_cells_grid()[get_grid_size().y-1][start_x])
