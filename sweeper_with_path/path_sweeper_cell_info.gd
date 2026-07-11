@@ -64,7 +64,6 @@ func _try_use_repell(puzzle: PathSweeper) -> void:
 	undo.add_do_method(puzzle.change_spray.bind(-1))
 	undo.add_undo_method(puzzle.change_spray.bind(1))
 
-
 func _walk_into(puzzle: PathSweeper) -> void:
 	if is_pressed():
 		if _end == self:
@@ -137,8 +136,6 @@ func _can_walk_to_here() -> bool:
 
 func get_darkness() -> Vector2i: # over layer
 	if is_pressed():
-		if _end == self:
-			return Vector2i(16,0)
 		return PathSweeper_TileManager.BLANK
 	for each_n in get_map_neighbors():
 		if each_n.is_pressed():
@@ -149,10 +146,11 @@ func get_number() -> Vector2i:
 	if is_danger(): # enemies block view of numbers
 		return PathSweeper_TileManager.BLANK 
 	if is_pressed():
-		#if !is_wall():
-			var count := get_danger_count()
-			if count > 0:
-				return Vector2i(0,count)
+		if _end == self:
+			return _get_arrow_type()
+		var count := get_danger_count()
+		if count > 0:
+			return Vector2i(0,count)
 	return PathSweeper_TileManager.BLANK 
 
 func get_mid_item() -> Vector2i:
@@ -181,6 +179,14 @@ func get_mid_item() -> Vector2i:
 func _get_door_direciton() -> Vector2i: 
 	var entrance : PuzzleCellInfo = get_path_neighors()[0]
 	return entrance.get_position() - self.get_position() # direction 
+
+func _get_arrow_type() -> Vector2i:
+	match _get_door_direciton():
+		Vector2i.LEFT:
+			return PathSweeper_TileManager.ARROW_E
+		Vector2i.RIGHT:
+			return PathSweeper_TileManager.ARROW_W
+	return PathSweeper_TileManager.ARROW_N
 
 func _get_door_type() -> Vector2i:
 	match _get_door_direciton():

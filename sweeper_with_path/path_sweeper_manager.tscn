@@ -56,6 +56,12 @@ z_as_relative = false
 tile_map_data = PackedByteArray(0, 0, 29, 0, 26, 0, 0, 0, 3, 0, 0, 0, 0, 0)
 tile_set = ExtResource("6_pldbc")
 
+[node name="TileMapLayer_Darkness" type="TileMapLayer" parent="TileManager" unique_id=1384941465]
+z_index = -50
+z_as_relative = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("6_pldbc")
+
 [node name="TileMapLayer_Mids" type="TileMapLayer" parent="TileManager" unique_id=1176639320]
 z_index = -50
 z_as_relative = false
@@ -64,12 +70,6 @@ tile_set = ExtResource("6_pldbc")
 [node name="TileMapLayer_Number" type="TileMapLayer" parent="TileManager" unique_id=6553870]
 z_index = -50
 z_as_relative = false
-tile_set = ExtResource("6_pldbc")
-
-[node name="TileMapLayer_Darkness" type="TileMapLayer" parent="TileManager" unique_id=1384941465]
-z_index = -50
-z_as_relative = false
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
 tile_set = ExtResource("6_pldbc")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=52223620]

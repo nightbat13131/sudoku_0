@@ -21,6 +21,10 @@ const DOOR_S := Vector2i(6,1)
 const DOOR_E := Vector2i(6,2)
 const DOOR_W := Vector2i(6,3)
 
+const ARROW_N := Vector2i(16,0)
+const ARROW_E := Vector2i(16,2)
+const ARROW_W := Vector2i(16,1)
+
 const LOOT := Vector2i(9,0)
 const DANGER := Vector2i(8,0)
 const REPELL_SUCCESS := Vector2i(14,1)
