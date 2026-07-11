@@ -5,6 +5,8 @@ class_name PathSweeperManager extends Node
 @onready var button_new: Button = %ButtonNew
 @onready var label_status: Label = %LabelStatus
 @onready var tile_manager: PathSweeper_TileManager = %TileManager
+@onready var score_holder: ScoreHolder_PathSweeper = %ScoreHolder
+
 
 @export var _puzzle: PathSweeper
 @export var press_type_button_group : ButtonGroup
@@ -24,7 +26,7 @@ func _ready() -> void:
 	_instance = self
 	assert(_puzzle)
 	_puzzle.puzzle_generated.connect(_on_puzzle_generated)
-	_puzzle.changed.connect(_on_puzzle_change)
+	score_holder.set_puzzle_info(_puzzle)
 	button_undo.pressed.connect(_on_undo)
 	button_redo.pressed.connect(_on_redo)
 	button_new.pressed.connect(_on_new)

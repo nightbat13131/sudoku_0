@@ -58,6 +58,8 @@ func change_health(delta: int) -> void:
 	_lives += delta
 	changed.emit()
 
+func get_depth() -> int: return _depth
+
 func _get_results() -> Utilties.Results:
 	if _lives < 0: # 0 can take one more hit
 		return Utilties.Results.LOSS

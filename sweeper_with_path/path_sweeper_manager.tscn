@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://crcu166hslp0a" path="res://sweeper_with_path/guide/secondary_action.tres" id="7_p0pf2"]
 [ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="8_rpm72"]
 [ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="10_je411"]
+[ext_resource type="Script" uid="uid://ce0bgs76k2piy" path="res://sweeper_with_path/score_holderpathsweeper.gd" id="10_kc2h5"]
 [ext_resource type="Texture2D" uid="uid://cyugiht3ojqp5" path="res://assets/images/kenney_mouse.png" id="11_2otii"]
 [ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="11_ng3e6"]
 [ext_resource type="Texture2D" uid="uid://dw036jufvu3hr" path="res://sweeper_with_path/ui/icon_repel.tres" id="13_2otii"]
@@ -82,43 +83,47 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=314231594]
+[node name="ScoreHolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=314231594]
+unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("10_kc2h5")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1245636909]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1872364451]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1872364451]
 layout_mode = 2
 texture = ExtResource("14_ivpca")
 
-[node name="TextureRect7" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=384475036]
+[node name="TextureRect7" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=384475036]
 layout_mode = 2
 texture = ExtResource("14_ivpca")
 
-[node name="TextureRect8" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1514650160]
+[node name="TextureRect8" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1514650160]
 layout_mode = 2
 texture = ExtResource("14_ivpca")
 
-[node name="TextureRect6" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1662728412]
+[node name="TextureRect6" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1662728412]
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1241897510]
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1241897510]
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect3" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1170755065]
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1170755065]
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect4" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2098369210]
+[node name="TextureRect4" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=2098369210]
 layout_mode = 2
 texture = ExtResource("13_2otii")
 
-[node name="TextureRect5" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=135735382]
+[node name="TextureRect5" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=135735382]
 layout_mode = 2
 texture = ExtResource("13_2otii")
+
+[node name="LabelDepth" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1245636909]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Depth"
 
 [node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2086898603]
 unique_name_in_owner = true
