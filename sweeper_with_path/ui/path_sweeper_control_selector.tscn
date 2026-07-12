@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://hrxddbbibipr"]
+
+[ext_resource type="Script" uid="uid://bhkb1tu6biwcd" path="res://sweeper_with_path/ui/path_sweeper_control_selector.gd" id="1_ggttl"]
+[ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="2_ucl1t"]
+[ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="3_qs2re"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_burod"]
+load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05s3y"]
+atlas = SubResource("CompressedTexture2D_burod")
+region = Rect2(2, 64, 12, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ggttl"]
+load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucl1t"]
+atlas = SubResource("CompressedTexture2D_ggttl")
+region = Rect2(34, 64, 12, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fkkbh"]
+load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v06pd"]
+atlas = SubResource("CompressedTexture2D_fkkbh")
+region = Rect2(18, 64, 12, 16)
+
+[node name="PathSweeperControlSelector" type="CenterContainer" unique_id=2058085671]
+custom_minimum_size = Vector2(64, 10)
+offset_right = 64.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_ggttl")
+
+[node name="Button" type="Button" parent="." unique_id=680398274]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+icon = ExtResource("2_ucl1t")
+icon_alignment = 1
+script = ExtResource("3_qs2re")
+_middle = true
+_right = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=284241097]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="TextureRect_Left" type="TextureRect" parent="HBoxContainer" unique_id=794293708]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_05s3y")
+stretch_mode = 4
+
+[node name="Control_mid2" type="Control" parent="HBoxContainer" unique_id=41810054]
+custom_minimum_size = Vector2(2, 48)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect_Mid" type="TextureRect" parent="HBoxContainer" unique_id=376168581]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+texture = SubResource("AtlasTexture_ucl1t")
+stretch_mode = 4
+
+[node name="Control_mid3" type="Control" parent="HBoxContainer" unique_id=1651149540]
+custom_minimum_size = Vector2(2, 48)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect_Right" type="TextureRect" parent="HBoxContainer" unique_id=1271293793]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_v06pd")
+stretch_mode = 4

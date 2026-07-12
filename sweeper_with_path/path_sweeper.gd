@@ -61,7 +61,7 @@ func change_health(delta: int) -> void:
 func get_depth() -> int: return _depth
 
 func _get_results() -> Utilties.Results:
-	if _lives < 0: # 0 can take one more hit
+	if _lives <= 0: # 0 can take one more hit
 		return Utilties.Results.LOSS
 	#if PathSweeperCellInfo._end:
 	#	if PathSweeperCellInfo._end.is_pressed():

@@ -2,13 +2,6 @@ class_name PathSweeperCellInfo extends PuzzleCellInfo
 
 signal updated(cell_info: PathSweeperCellInfo)
 
-## dark, deep dark, no dark
-## Cave floor, cave wall (on a floor), 
-## danger number
-## loot, danger, 
-
-## Tile alternat ideas: Lava makes more visable around it like a big glow
-
 static var _start : PathSweeperCellInfo
 static var _end : PathSweeperCellInfo
 
@@ -137,9 +130,12 @@ func _can_walk_to_here() -> bool:
 func get_darkness() -> Vector2i: # over layer
 	if is_pressed():
 		return PathSweeper_TileManager.BLANK
+	
+	if _can_walk_to_here():
+		return PathSweeper_TileManager.HALF_DARK
 	for each_n in get_map_neighbors():
 		if each_n.is_pressed():
-			return PathSweeper_TileManager.HALF_DARK
+			return PathSweeper_TileManager.MOSTLY_DARK
 	return PathSweeper_TileManager.FULL_DARK
 
 func get_number() -> Vector2i:

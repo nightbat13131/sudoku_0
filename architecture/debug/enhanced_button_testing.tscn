@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://yjjlt6rfgrcv"]
+
+[ext_resource type="Script" uid="uid://bs0vdiya86nsp" path="res://architecture/debug/testing_button.gd" id="1_evltl"]
+
+[node name="VBoxContainer" type="VBoxContainer" unique_id=1980320154]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Spacer5" type="Control" parent="." unique_id=1287386617]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="HBoxContainer" parent="." unique_id=2081908651]
+layout_mode = 2
+alignment = 1
+
+[node name="Spacer" type="Control" parent="Control" unique_id=309169451]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_left" type="Button" parent="Control" unique_id=1899849694]
+layout_mode = 2
+text = "Left"
+script = ExtResource("1_evltl")
+
+[node name="Spacer2" type="Control" parent="Control" unique_id=538177520]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_leftright" type="Button" parent="Control" unique_id=669899903]
+layout_mode = 2
+text = "Left Right"
+script = ExtResource("1_evltl")
+_right = true
+
+[node name="Spacer3" type="Control" parent="Control" unique_id=148345158]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_right" type="Button" parent="Control" unique_id=377336862]
+layout_mode = 2
+text = "Right"
+script = ExtResource("1_evltl")
+_left = false
+_right = true
+
+[node name="Spacer4" type="Control" parent="Control" unique_id=1122826836]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer6" type="Control" parent="." unique_id=1292145304]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="HBoxContainer" parent="." unique_id=903584792]
+layout_mode = 2
+alignment = 1
+
+[node name="Spacer" type="Control" parent="Control2" unique_id=1543306391]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_Middle" type="Button" parent="Control2" unique_id=1078089471]
+layout_mode = 2
+text = "Middle"
+script = ExtResource("1_evltl")
+_left = false
+_middle = true
+
+[node name="Spacer2" type="Control" parent="Control2" unique_id=1075123879]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_leftmide" type="Button" parent="Control2" unique_id=1073890800]
+layout_mode = 2
+text = "Left Middle"
+script = ExtResource("1_evltl")
+_middle = true
+
+[node name="Spacer3" type="Control" parent="Control2" unique_id=539412362]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestingButton_rightmid" type="Button" parent="Control2" unique_id=476407141]
+layout_mode = 2
+text = "all"
+script = ExtResource("1_evltl")
+_middle = true
+_right = true
+
+[node name="Spacer4" type="Control" parent="Control2" unique_id=955542523]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer7" type="Control" parent="." unique_id=1857032745]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

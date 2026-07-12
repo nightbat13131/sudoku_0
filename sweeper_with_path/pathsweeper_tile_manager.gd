@@ -6,6 +6,7 @@ const BLANK := Vector2i(-1,-1)
 const FLOOR_TILE := Vector2i(4,0)
 
 const FULL_DARK  := Vector2i(2,0)
+const MOSTLY_DARK := Vector2i(2,1)
 const HALF_DARK := Vector2(3,0)
 
 const BOULDER := Vector2i(7,0)

@@ -1,49 +1,38 @@
 [gd_scene format=3 uid="uid://dslha7ak2smw6"]
 
 [ext_resource type="Script" uid="uid://s4oiicecx5kk" path="res://sweeper_with_path/path_sweeper_manager.gd" id="1_sebmf"]
-[ext_resource type="Resource" uid="uid://crjwpnhnpf7hy" path="res://sweeper_with_path/layouts/small_debug.tres" id="2_nbagw"]
-[ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="4_7v04l"]
+[ext_resource type="Resource" uid="uid://c32qmyvvdf5jx" path="res://sweeper_with_path/layouts/narrow_top_bottom.tres" id="2_kc2h5"]
 [ext_resource type="ButtonGroup" uid="uid://si3w7s6g6bel" path="res://sweeper_with_path/pathsweeper_press_type_button_group_2.tres" id="4_awl1s"]
 [ext_resource type="Resource" uid="uid://cq22jlaqyr2a" path="res://sweeper_with_path/guide/path_sweeper_context.tres" id="5_awl1s"]
 [ext_resource type="Script" uid="uid://c8yyq1is1bnyy" path="res://sweeper_with_path/pathsweeper_tile_manager.gd" id="5_pldbc"]
+[ext_resource type="Resource" uid="uid://kp5wknawsykj" path="res://sweeper_with_path/guide/tertiary_action.tres" id="6_2otii"]
 [ext_resource type="Resource" uid="uid://bad1ibu637cwg" path="res://sweeper_with_path/guide/primary_action.tres" id="6_je411"]
 [ext_resource type="TileSet" uid="uid://218dl3hhakq3" path="res://sweeper_with_path/path_sweeper_tile_set_0.tres" id="6_pldbc"]
 [ext_resource type="Resource" uid="uid://crcu166hslp0a" path="res://sweeper_with_path/guide/secondary_action.tres" id="7_p0pf2"]
+[ext_resource type="Theme" uid="uid://dn3yu2mjxgflx" path="res://sweeper_with_path/path_sweeper_theme.tres" id="8_ng3e6"]
 [ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="8_rpm72"]
-[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="10_je411"]
 [ext_resource type="Script" uid="uid://ce0bgs76k2piy" path="res://sweeper_with_path/score_holderpathsweeper.gd" id="10_kc2h5"]
-[ext_resource type="Texture2D" uid="uid://cyugiht3ojqp5" path="res://assets/images/kenney_mouse.png" id="11_2otii"]
+[ext_resource type="PackedScene" uid="uid://hrxddbbibipr" path="res://sweeper_with_path/ui/path_sweeper_control_selector.tscn" id="11_6xpkf"]
 [ext_resource type="Texture2D" uid="uid://cqxtirdg1tgf" path="res://sweeper_with_path/ui/icon_heart.tres" id="11_ivpca"]
 [ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="11_ng3e6"]
+[ext_resource type="Script" uid="uid://bmekp6xix6xnb" path="res://sweeper_with_path/ui/path_sweeper_control_manager.gd" id="11_ppvb5"]
 [ext_resource type="Texture2D" uid="uid://dw036jufvu3hr" path="res://sweeper_with_path/ui/icon_repel.tres" id="13_2otii"]
 [ext_resource type="Texture2D" uid="uid://blo1eey7am57o" path="res://sweeper_with_path/ui/icon_flag_danger.tres" id="14_ivpca"]
 [ext_resource type="Texture2D" uid="uid://xqhbb8ap6ii1" path="res://sweeper_with_path/ui/icon_flag_safe.tres" id="15_6xpkf"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ivpca"]
-atlas = ExtResource("11_2otii")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6xpkf"]
-load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ppvb5"]
-atlas = SubResource("CompressedTexture2D_6xpkf")
-region = Rect2(32, 0, 32, 32)
-
 [node name="PathSweeperManager" type="Node" unique_id=68120097]
 script = ExtResource("1_sebmf")
-_puzzle = ExtResource("2_nbagw")
-press_type_button_group = ExtResource("10_je411")
-press_type_button_group_second = ExtResource("4_awl1s")
+_puzzle = ExtResource("2_kc2h5")
 _context = ExtResource("5_awl1s")
 _primary_action = ExtResource("6_je411")
 _secondary_action = ExtResource("7_p0pf2")
+_tertiary_action = ExtResource("6_2otii")
 
 [node name="TileManager" type="Node2D" parent="." unique_id=17021362 node_paths=PackedStringArray("_dark_layers", "_mid_layers", "_floor_layers", "_number_layers")]
 unique_name_in_owner = true
 z_index = 100
 z_as_relative = false
-position = Vector2(0, 32)
+position = Vector2(0, 40)
 script = ExtResource("5_pldbc")
 _tileset = ExtResource("6_pldbc")
 _dark_layers = NodePath("TileMapLayer_Darkness")
@@ -79,6 +68,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("8_ng3e6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=632038211]
 layout_mode = 2
@@ -87,7 +77,13 @@ size_flags_horizontal = 3
 [node name="ScoreHolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=314231594]
 unique_name_in_owner = true
 layout_mode = 2
+alignment = 1
 script = ExtResource("10_kc2h5")
+
+[node name="LabelLoot" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1423696547]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loot: 0"
 
 [node name="TextureRect_hp1" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1872364451]
 unique_name_in_owner = true
@@ -132,12 +128,7 @@ texture = ExtResource("13_2otii")
 [node name="LabelDepth" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1245636909]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Depth"
-
-[node name="LabelLoot" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1423696547]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Depth"
+text = "Depth: 0"
 
 [node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2086898603]
 unique_name_in_owner = true
@@ -172,113 +163,38 @@ size_flags_vertical = 8
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1593568838]
+[node name="PathSweeperControlManager" type="HBoxContainer" parent="HBoxContainer/HBoxContainer2" unique_id=615141864 node_paths=PackedStringArray("_active_primary", "_active_secondary", "_active_tertiary")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_ivpca")
-stretch_mode = 4
+alignment = 1
+script = ExtResource("11_ppvb5")
+_active_primary = NodePath("PathSweeperControlSelector")
+_active_secondary = NodePath("PathSweeperControlSelector3")
+_active_tertiary = NodePath("PathSweeperControlSelector2")
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1183398824]
+[node name="PathSweeperControlSelector" parent="HBoxContainer/HBoxContainer2/PathSweeperControlManager" unique_id=1630876070 instance=ExtResource("11_6xpkf")]
+layout_mode = 2
+_icon = ExtResource("11_ng3e6")
+
+[node name="PathSweeperControlSelector2" parent="HBoxContainer/HBoxContainer2/PathSweeperControlManager" unique_id=1137907689 instance=ExtResource("11_6xpkf")]
+layout_mode = 2
+_press_type = -2
+_icon = ExtResource("13_2otii")
+
+[node name="PathSweeperControlSelector3" parent="HBoxContainer/HBoxContainer2/PathSweeperControlManager" unique_id=1125346843 instance=ExtResource("11_6xpkf")]
+layout_mode = 2
+_press_type = -3
+_icon = ExtResource("14_ivpca")
+
+[node name="PathSweeperControlSelector4" parent="HBoxContainer/HBoxContainer2/PathSweeperControlManager" unique_id=1332477885 instance=ExtResource("11_6xpkf")]
 visible = false
 layout_mode = 2
-text = "Primary"
-
-[node name="ButtonWalk" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1723382481]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("10_je411")
-icon = ExtResource("11_ng3e6")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-
-[node name="ButtonSpray" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=577162548]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("10_je411")
-icon = ExtResource("13_2otii")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-_press_type = -2
-
-[node name="ButtonFlag" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1309216118]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("10_je411")
-icon = ExtResource("14_ivpca")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-_press_type = -3
-
-[node name="ButtonFlag2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=384584727]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("10_je411")
-icon = ExtResource("15_6xpkf")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
 _press_type = -4
-
-[node name="HSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=87176568]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1228199926]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_ppvb5")
-stretch_mode = 4
+_icon = ExtResource("15_6xpkf")
 
 [node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1098845690]
 visible = false
 layout_mode = 2
 text = "Secondary"
-
-[node name="ButtonWalk2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1233944601]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("4_awl1s")
-icon = ExtResource("11_ng3e6")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-
-[node name="ButtonSpray2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=738576701]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("4_awl1s")
-icon = ExtResource("13_2otii")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-_press_type = -2
-
-[node name="ButtonFlag3" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1326150701]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("4_awl1s")
-icon = ExtResource("14_ivpca")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-_press_type = -3
-
-[node name="ButtonFlag4" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=883869253]
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_group = ExtResource("4_awl1s")
-icon = ExtResource("15_6xpkf")
-icon_alignment = 1
-script = ExtResource("4_7v04l")
-_press_type = -4
 
 [node name="HSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=904180363]
 layout_mode = 2
@@ -290,6 +206,16 @@ layout_mode = 2
 text = "New"
 
 [node name="HSeparator4" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=589073276]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonNew2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1045663773]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "?"
+
+[node name="HSeparator5" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=713492852]
 layout_mode = 2
 size_flags_horizontal = 3
 

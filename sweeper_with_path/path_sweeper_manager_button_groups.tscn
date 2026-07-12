@@ -1,0 +1,309 @@
+[gd_scene format=3 uid="uid://bk1p8ihfi44oe"]
+
+[ext_resource type="Script" uid="uid://b5mmhrhue5eph" path="res://sweeper_with_path/path_sweeper_manager_button_groups.gd" id="1_skn70"]
+[ext_resource type="Resource" uid="uid://crjwpnhnpf7hy" path="res://sweeper_with_path/layouts/small_debug.tres" id="2_mr506"]
+[ext_resource type="ButtonGroup" uid="uid://fsfqrbqqhwda" path="res://sweeper_with_path/pathsweeper_press_type_button_group.tres" id="3_rlukv"]
+[ext_resource type="ButtonGroup" uid="uid://si3w7s6g6bel" path="res://sweeper_with_path/pathsweeper_press_type_button_group_2.tres" id="4_1be3m"]
+[ext_resource type="Resource" uid="uid://cq22jlaqyr2a" path="res://sweeper_with_path/guide/path_sweeper_context.tres" id="5_2dilk"]
+[ext_resource type="Resource" uid="uid://bad1ibu637cwg" path="res://sweeper_with_path/guide/primary_action.tres" id="6_garew"]
+[ext_resource type="Resource" uid="uid://crcu166hslp0a" path="res://sweeper_with_path/guide/secondary_action.tres" id="7_l4qk1"]
+[ext_resource type="Script" uid="uid://c8yyq1is1bnyy" path="res://sweeper_with_path/pathsweeper_tile_manager.gd" id="8_6nqca"]
+[ext_resource type="TileSet" uid="uid://218dl3hhakq3" path="res://sweeper_with_path/path_sweeper_tile_set_0.tres" id="9_ea6cn"]
+[ext_resource type="Script" uid="uid://ce0bgs76k2piy" path="res://sweeper_with_path/score_holderpathsweeper.gd" id="10_1th61"]
+[ext_resource type="Texture2D" uid="uid://cqxtirdg1tgf" path="res://sweeper_with_path/ui/icon_heart.tres" id="11_17o70"]
+[ext_resource type="Texture2D" uid="uid://dw036jufvu3hr" path="res://sweeper_with_path/ui/icon_repel.tres" id="12_mn6gi"]
+[ext_resource type="Texture2D" uid="uid://cyugiht3ojqp5" path="res://assets/images/kenney_mouse.png" id="13_b0ogq"]
+[ext_resource type="Texture2D" uid="uid://3gb35c42txoh" path="res://sweeper_with_path/ui/icon_walk.tres" id="14_q0ssu"]
+[ext_resource type="Script" uid="uid://ckqmclb5e41i" path="res://sweeper_with_path/path_sweeper_press_type_button.gd" id="15_vht3y"]
+[ext_resource type="Texture2D" uid="uid://blo1eey7am57o" path="res://sweeper_with_path/ui/icon_flag_danger.tres" id="16_id7st"]
+[ext_resource type="Texture2D" uid="uid://xqhbb8ap6ii1" path="res://sweeper_with_path/ui/icon_flag_safe.tres" id="17_iysw6"]
+[ext_resource type="Script" uid="uid://cxil5p7s8f0xt" path="res://sweeper_with_path/path_sweeper_mouse_helper.gd" id="18_0h4pw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivpca"]
+atlas = ExtResource("13_b0ogq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6xpkf"]
+load_path = "res://.godot/imported/kenney_mouse.png-3733a1bde08323c0b3635a125f646f47.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppvb5"]
+atlas = SubResource("CompressedTexture2D_6xpkf")
+region = Rect2(32, 0, 32, 32)
+
+[node name="PathSweeperManager" type="Node" unique_id=68120097]
+script = ExtResource("1_skn70")
+_puzzle = ExtResource("2_mr506")
+press_type_button_group = ExtResource("3_rlukv")
+press_type_button_group_second = ExtResource("4_1be3m")
+_context = ExtResource("5_2dilk")
+_primary_action = ExtResource("6_garew")
+_secondary_action = ExtResource("7_l4qk1")
+
+[node name="TileManager" type="Node2D" parent="." unique_id=17021362 node_paths=PackedStringArray("_dark_layers", "_mid_layers", "_floor_layers", "_number_layers")]
+unique_name_in_owner = true
+z_index = 100
+z_as_relative = false
+position = Vector2(0, 32)
+script = ExtResource("8_6nqca")
+_tileset = ExtResource("9_ea6cn")
+_dark_layers = NodePath("TileMapLayer_Darkness")
+_mid_layers = NodePath("TileMapLayer_Mids")
+_floor_layers = NodePath("TileMapLayer_Floor")
+_number_layers = NodePath("TileMapLayer_Number")
+
+[node name="TileMapLayer_Floor" type="TileMapLayer" parent="TileManager" unique_id=1987665307]
+z_index = -50
+z_as_relative = false
+tile_map_data = PackedByteArray(0, 0, 29, 0, 26, 0, 0, 0, 3, 0, 0, 0, 0, 0)
+tile_set = ExtResource("9_ea6cn")
+
+[node name="TileMapLayer_Darkness" type="TileMapLayer" parent="TileManager" unique_id=1384941465]
+z_index = -50
+z_as_relative = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 12, 0, 0, 0, 2, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("9_ea6cn")
+
+[node name="TileMapLayer_Mids" type="TileMapLayer" parent="TileManager" unique_id=1176639320]
+z_index = -50
+z_as_relative = false
+tile_set = ExtResource("9_ea6cn")
+
+[node name="TileMapLayer_Number" type="TileMapLayer" parent="TileManager" unique_id=6553870]
+z_index = -50
+z_as_relative = false
+tile_set = ExtResource("9_ea6cn")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=52223620]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=632038211]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScoreHolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=314231594]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("10_1th61")
+
+[node name="TextureRect_hp1" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1872364451]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("11_17o70")
+
+[node name="TextureRect_hp2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=384475036]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("11_17o70")
+
+[node name="TextureRect_hp3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1514650160]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("11_17o70")
+
+[node name="TextureRect_repel1" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1662728412]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("12_mn6gi")
+
+[node name="TextureRect_repel2" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1241897510]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("12_mn6gi")
+
+[node name="TextureRect_repel3" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=247723793]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("12_mn6gi")
+
+[node name="TextureRect_repel4" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=568164545]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("12_mn6gi")
+
+[node name="TextureRect_repel5" type="TextureRect" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1958749608]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("12_mn6gi")
+
+[node name="LabelDepth" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1245636909]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Depth"
+
+[node name="LabelLoot" type="Label" parent="HBoxContainer/VBoxContainer/ScoreHolder" unique_id=1423696547]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Depth"
+
+[node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2086898603]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=147833717]
+visible = false
+layout_mode = 2
+
+[node name="ButtonUndo" type="Button" parent="HBoxContainer/HBoxContainer" unique_id=588990739]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Undo"
+
+[node name="ButtonRedo" type="Button" parent="HBoxContainer/HBoxContainer" unique_id=623935183]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Redo"
+
+[node name="Spacer" type="Control" parent="HBoxContainer" unique_id=1260888444]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer" unique_id=420909133]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="HSeparator3" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=1891563644]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1593568838]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ivpca")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1183398824]
+visible = false
+layout_mode = 2
+text = "Primary"
+
+[node name="ButtonWalk" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1723382481]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("3_rlukv")
+icon = ExtResource("14_q0ssu")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+
+[node name="ButtonSpray" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=577162548]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("3_rlukv")
+icon = ExtResource("12_mn6gi")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -2
+
+[node name="ButtonFlag" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1309216118]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("3_rlukv")
+icon = ExtResource("16_id7st")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -3
+
+[node name="ButtonFlag2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=384584727]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("3_rlukv")
+icon = ExtResource("17_iysw6")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -4
+
+[node name="HSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=87176568]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/HBoxContainer2" unique_id=1228199926]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ppvb5")
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=1098845690]
+visible = false
+layout_mode = 2
+text = "Secondary"
+
+[node name="ButtonWalk2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1233944601]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_1be3m")
+icon = ExtResource("14_q0ssu")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+
+[node name="ButtonSpray2" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=738576701]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_1be3m")
+icon = ExtResource("12_mn6gi")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -2
+
+[node name="ButtonFlag3" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1326150701]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_1be3m")
+icon = ExtResource("16_id7st")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -3
+
+[node name="ButtonFlag4" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=883869253]
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+button_group = ExtResource("4_1be3m")
+icon = ExtResource("17_iysw6")
+icon_alignment = 1
+script = ExtResource("15_vht3y")
+_press_type = -4
+
+[node name="HSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=904180363]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonNew" type="Button" parent="HBoxContainer/HBoxContainer2" unique_id=1432014774]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"
+
+[node name="HSeparator4" type="VSeparator" parent="HBoxContainer/HBoxContainer2" unique_id=589073276]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PathSweeperMouseHelper" type="Control" parent="." unique_id=453278315]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("18_0h4pw")
+_button_group = ExtResource("4_1be3m")
+
+[node name="MouseLabel" type="Label" parent="PathSweeperMouseHelper" unique_id=546108757]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
